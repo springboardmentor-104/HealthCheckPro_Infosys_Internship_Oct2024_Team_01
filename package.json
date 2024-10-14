@@ -8,8 +8,8 @@
     "backend": "cd backend && yarn",
     "dev": "concurrently \"yarn backend dev\" \"yarn frontend dev\"",
     "install": "yarn frontend && yarn backend",
-    "start": "node backend/index.js",
-    "server": "nodemon backend/index.js",
+    "start": "node backend/server.js",
+    "server": "nodemon backend/server.js",
     "build": "npm install --legacy-peer-deps && npm install --legacy-peer-deps --prefix frontend && npm run build --prefix frontend"
 
   },
