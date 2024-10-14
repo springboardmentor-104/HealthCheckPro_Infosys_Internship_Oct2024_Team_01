@@ -7,9 +7,9 @@
    "frontend": "cd frontend && npm run",
     "backend": "cd backend && npm run",
     "dev": "concurrently \"npm run backend dev\" \"npm run frontend dev\"",
-    "install": "npm run frontend && npm run backend",
-    "start": "node backend/index.js",
-    "server": "nodemon backend/index.js",
+    "install": "npm run frontend install && npm run backend install",
+    "start": "concurrently \"npm run backend start\" \"npm run frontend build\"",
+    "server": "nodemon backend/server.js",
     "build": "npm install --legacy-peer-deps && npm install --legacy-peer-deps --prefix frontend && npm run build --prefix frontend"
 
   },
