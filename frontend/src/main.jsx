@@ -5,6 +5,7 @@ import { ChakraProvider, ColorModeScript } from '@chakra-ui/react'
 import theme from '../theme.js'
 import { createBrowserRouter, RouterProvider } from 'react-router-dom'
 import { Home,Login, Register,Features,Contact,About } from './pages'
+import  GlobalProvider  from './context/GlobalProvider'
 
 
 const router = createBrowserRouter([
@@ -46,7 +47,9 @@ createRoot(document.getElementById('root')).render(
   <StrictMode>
     <ColorModeScript initialColorMode={theme.config.initialColorMode} />
     <ChakraProvider>
-      <RouterProvider router={router} />
+      <GlobalProvider>
+        <RouterProvider router={router} />
+      </GlobalProvider>
     </ChakraProvider>
   </StrictMode>,
 )

@@ -1,11 +1,14 @@
-import { Heading, Flex, HStack, Divider, Button } from "@chakra-ui/react";
-import { Link, useLocation } from "react-router-dom";
+import { Heading, Flex, HStack, Divider, Button, Avatar,Menu,MenuList,MenuItem,MenuButton } from "@chakra-ui/react";
+import { Link, useLocation,useNavigate } from "react-router-dom";
 import Language from "./Language";
+import useGlobalState from "../hooks/useGlobalState";
+import Profile from "./Profile";
 
 
 const Navbar = () => {
     const location = useLocation();
-
+    const navigate = useNavigate();
+    const { user,setUser } = useGlobalState();
 
     return (
         <>
@@ -28,8 +31,28 @@ const Navbar = () => {
                         <span style={{ textDecoration: 'underline', textDecorationColor: location.pathname === '/about' ? 'blue' : 'transparent', textUnderlineOffset: '4px', transition: 'text-decoration-color 0.3s', fontWeight: location.pathname === '/about' ? 'bold' : 'normal' }} onMouseEnter={(e) => e.target.style.textDecorationColor = 'blue'} onMouseLeave={(e) => e.target.style.textDecorationColor = location.pathname === '/about' ? 'blue' : 'transparent'}>About</span>
                     </Link>
                     <Language />
-                    <Button colorScheme="blue" variant="link" as={Link} to="/login">Login</Button>
-                    <Button colorScheme="blue" as={Link} to="/register">Register</Button>
+                    {!user ? (
+                        <>
+                            <Button colorScheme="blue" variant="link" as={Link} to="/login">Login</Button>
+                            <Button colorScheme="blue" as={Link} to="/register">Register</Button>
+                        </>
+                    ) : (
+                        <Menu>
+                            <MenuButton as={Button} variant="outline" rounded="full" colorScheme="blue" p={0} m={0}>
+                                <Avatar size="sm" name={user?.username} />
+                            </MenuButton>
+                            <MenuList p={3}>
+                                <MenuItem as={Button} >
+                                <Profile userInfo={user}/>
+                                </MenuItem>
+                                <MenuItem as={Button} onClick={() => {
+                                    localStorage.removeItem('user');
+                                    setUser(null);
+                                    navigate('/login');
+                                }}>Logout</MenuItem>
+                            </MenuList>
+                        </Menu>
+                    )}
                 </HStack>
             </Flex>
             <Divider />
