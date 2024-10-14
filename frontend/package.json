@@ -1,4 +1,5 @@
 {
+
   "name": "frontend",
   "private": true,
   "version": "0.0.0",
@@ -8,10 +9,19 @@
     "build": "vite build",
     "lint": "eslint .",
     "preview": "vite preview"
+
   },
   "dependencies": {
+    "@chakra-ui/icons": "^2.2.4",
+    "@chakra-ui/react": "^2.10.2",
+    "@emotion/react": "^11.13.3",
+    "@emotion/styled": "^11.13.0",
+    "framer-motion": "^11.11.8",
     "react": "^18.3.1",
-    "react-dom": "^18.3.1"
+    "react-dom": "^18.3.1",
+    "react-multi-carousel": "^2.8.5",
+    "react-router-dom": "^6.27.0",
+    "swiper": "^11.1.14"
   },
   "devDependencies": {
     "@eslint/js": "^9.11.1",
