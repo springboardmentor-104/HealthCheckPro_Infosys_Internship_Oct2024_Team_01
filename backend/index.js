@@ -44,7 +44,7 @@ app.listen(process.env.PORT, () => {
 });
 
 // Connect to the database
-console.log('=== process.env.MONGO_URI server.js [43] ===', process.env.MONGO_URI);
+
 mongoose.connect(process.env.MONGO_URI)
     .then(() => {
         console.log('=== Mongodb Connected ===');
