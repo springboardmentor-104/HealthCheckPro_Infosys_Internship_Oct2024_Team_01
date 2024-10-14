@@ -17,8 +17,8 @@ const Carousel = ({ slides, settings,sliderContainerStyle }) => {
 
 
     const slidesArr = slides.map(slide => (
-        <SwiperSlide key={slide.id} >
-            <VStack textAlign="center" justify="center"  backgroundImage={`url(${slide.image})`} style={sliderContainerStyle} backgroundSize="cover" backgroundPosition="center">
+        <SwiperSlide key={slide.id}>
+            <VStack maxWidth="100%" textAlign="center" justify="center"  backgroundImage={`url(${slide.image})`} style={sliderContainerStyle} backgroundSize="cover" backgroundPosition="center">
                 <Heading fontSize="xl">{slide.title}</Heading>
                 <Text>{slide.description}</Text>
             </VStack>

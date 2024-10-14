@@ -41,6 +41,7 @@ const router = createBrowserRouter([
 ])
 
 
+
 createRoot(document.getElementById('root')).render(
   <StrictMode>
     <ColorModeScript initialColorMode={theme.config.initialColorMode} />

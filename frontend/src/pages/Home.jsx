@@ -118,12 +118,9 @@ const Home = () => {
 
     return (
         <>
-
-
             <Carousel  {...slidesShow1} />
             <Carousel {...slidesShow2} />
             <Sponsers/>
-
         </>
     )
 }

@@ -1,23 +1,35 @@
-import { Box ,Flex,HStack,Divider,Button} from "@chakra-ui/react";
-import { Link } from "react-router-dom";
+import { Heading, Flex, HStack, Divider, Button } from "@chakra-ui/react";
+import { Link, useLocation } from "react-router-dom";
+import Language from "./Language";
 
 
-const Navbar = () =>{
+const Navbar = () => {
+    const location = useLocation();
+
+
     return (
         <>
-            <Flex py={3} px={10} justify="space-between" align="center">
-                <Box>
+            <Flex py={3} px={10} justify="space-between" align="center" position="relative">
+                <Heading size={"md"} color={"blue.600"}>
                     HealthCheckPro
-                </Box>
-                <HStack gap={10} ml={3}>
-                    <Link to="/">Home</Link>
-                    <Link to="/features">Features</Link>
-                    <Link to="/contact">Contact</Link>
-                    <Link to="/about">About</Link>
-                </HStack>
-                <HStack gap={5}>
-                    <Box as={Link} to="/login">Login</Box>
-                    <Button as={Link} to="/register">Register</Button>
+                </Heading>
+                <HStack gap={10} >
+                    <Link to="/" style={{ textDecoration: 'none' }}>
+                        <span style={{ textDecoration: 'underline', textDecorationColor: location.pathname === '/' ? 'blue' : 'transparent', textUnderlineOffset: '4px', transition: 'text-decoration-color 0.3s', fontWeight: location.pathname === '/' ? 'bold' : 'normal' }} onMouseEnter={(e) => e.target.style.textDecorationColor = 'blue'} onMouseLeave={(e) => e.target.style.textDecorationColor = location.pathname === '/' ? 'blue' : 'transparent'}>Home</span>
+                    </Link>
+
+                    <Link to="/features" style={{ textDecoration: 'none' }}>
+                        <span style={{ textDecoration: 'underline', textDecorationColor: location.pathname === '/features' ? 'blue' : 'transparent', textUnderlineOffset: '4px', transition: 'text-decoration-color 0.3s', fontWeight: location.pathname === '/features' ? 'bold' : 'normal' }} onMouseEnter={(e) => e.target.style.textDecorationColor = 'blue'} onMouseLeave={(e) => e.target.style.textDecorationColor = location.pathname === '/features' ? 'blue' : 'transparent'}>Features</span>
+                    </Link>
+                    <Link to="/contact" style={{ textDecoration: 'none' }}>
+                        <span style={{ textDecoration: 'underline', textDecorationColor: location.pathname === '/contact' ? 'blue' : 'transparent', textUnderlineOffset: '4px', transition: 'text-decoration-color 0.3s', fontWeight: location.pathname === '/contact' ? 'bold' : 'normal' }} onMouseEnter={(e) => e.target.style.textDecorationColor = 'blue'} onMouseLeave={(e) => e.target.style.textDecorationColor = location.pathname === '/contact' ? 'blue' : 'transparent'}>Contact</span>
+                    </Link>
+                    <Link to="/about" style={{ textDecoration: 'none' }}>
+                        <span style={{ textDecoration: 'underline', textDecorationColor: location.pathname === '/about' ? 'blue' : 'transparent', textUnderlineOffset: '4px', transition: 'text-decoration-color 0.3s', fontWeight: location.pathname === '/about' ? 'bold' : 'normal' }} onMouseEnter={(e) => e.target.style.textDecorationColor = 'blue'} onMouseLeave={(e) => e.target.style.textDecorationColor = location.pathname === '/about' ? 'blue' : 'transparent'}>About</span>
+                    </Link>
+                    <Language />
+                    <Button colorScheme="blue" variant="link" as={Link} to="/login">Login</Button>
+                    <Button colorScheme="blue" as={Link} to="/register">Register</Button>
                 </HStack>
             </Flex>
             <Divider />
