@@ -4,13 +4,13 @@
   "description": "Health Check Pro is a user-friendly health website built using the MERN stack",
   "main": "index.js",
   "scripts": {
-   "frontend": "cd frontend && npm run",
-    "backend": "cd backend && npm run",
-    "dev": "concurrently \"npm run backend dev\" \"npm run frontend dev\"",
-    "install": "npm run frontend install && npm run backend install",
-    "start": "concurrently \"npm run backend start\" \"npm run frontend build\"",
+   "frontend": "cd frontend && yarn",
+    "backend": "cd backend && yarn",
+    "dev": "concurrently \"yarn backend dev\" \"yarn frontend dev\"",
+    "install": "yarn frontend && yarn backend",
+    "start": "concurrently \"yarn backend start\" \"yarn frontend build\"",
     "server": "nodemon backend/server.js",
-    "build": "npm install --legacy-peer-deps && npm install --legacy-peer-deps --prefix frontend && npm run build --prefix frontend"
+    "build": "yarn add --legacy-peer-deps && yarn add --legacy-peer-deps --prefix frontend && yarn build --prefix frontend"
 
   },
   "keywords": [],
