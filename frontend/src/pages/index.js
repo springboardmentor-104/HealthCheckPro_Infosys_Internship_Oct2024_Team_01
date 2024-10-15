@@ -1,9 +1,10 @@
-import Login from "./Login";
-import Register from "./Register";
-import Home from "./Home";
-import Features from "./Features";
 import About from "./About";
 import Contact from "./Contact";
+import Features from "./Features";
+import Home from "./Home";
+import Login from "./Login";
+import Register from "./Register";
 import ResetPassword from "./ResetPassword";
 
-export { Login, Register, Home, Features, About, Contact,ResetPassword };
+export { About, Contact, Features, Home, Login, Register, ResetPassword };
+
