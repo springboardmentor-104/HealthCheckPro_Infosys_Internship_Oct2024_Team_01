@@ -2,8 +2,10 @@
 import Carousel from "../components/Carousel";
 import {  Pagination,Autoplay } from 'swiper/modules';
 import Sponsers from "../components/Sponsers";
+import { Box } from "@chakra-ui/react";
 
 const Home = () => {
+    // Main Carousel
     const slidesShow1 = {
         slides: [
             {
@@ -39,8 +41,7 @@ const Home = () => {
             scrollbar: {
                 draggable: true
             },
-            onSwiper: (swiper) => console.log(swiper),
-            onSlideChange: () => console.log('slide change')
+
         },
         sliderContainerStyle: {
             width: "100%",
@@ -49,6 +50,7 @@ const Home = () => {
         }
     }
 
+    // Adjacent Sub Carousel
     const slidesShow2 = {
         slides: [
             {
@@ -104,8 +106,6 @@ const Home = () => {
             scrollbar: {
                 draggable: true
             },
-            onSwiper: (swiper) => console.log(swiper),
-            onSlideChange: () => console.log('slide change')
 
         },
         sliderContainerStyle: {
@@ -117,11 +117,11 @@ const Home = () => {
     }
 
     return (
-        <>
+        <Box p="20px">
             <Carousel  {...slidesShow1} />
             <Carousel {...slidesShow2} />
             <Sponsers/>
-        </>
+        </Box>
     )
 }
 

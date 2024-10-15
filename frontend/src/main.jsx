@@ -4,7 +4,7 @@ import App from './App.jsx'
 import { ChakraProvider, ColorModeScript } from '@chakra-ui/react'
 import theme from '../theme.js'
 import { createBrowserRouter, RouterProvider } from 'react-router-dom'
-import { Home,Login, Register,Features,Contact,About } from './pages'
+import { Home,Login, Register,Features,Contact,About,ResetPassword } from './pages'
 import  GlobalProvider  from './context/GlobalProvider'
 
 
@@ -38,6 +38,10 @@ const router = createBrowserRouter([
   {
     path: '/register',
     element: <Register />,
+  },
+  {
+    path: '/reset-pass',
+    element: <ResetPassword />,
   }
 ])
 
