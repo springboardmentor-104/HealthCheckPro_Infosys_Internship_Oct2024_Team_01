@@ -1,3 +1,9 @@
+// Desc: Custom hook to handle user signup
+// Usage: Import this hook in the component where you want to use signup functionality
+// And call the signup function with username, email, password, confirmPassword and avatarUrl
+// Don't change this file unless you know what you are doing
+
+
 import { useState } from "react";
 import axios from "axios";
 import { useToast } from "@chakra-ui/react";

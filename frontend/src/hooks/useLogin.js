@@ -1,3 +1,8 @@
+// Desc: Custom hook to handle login requests
+// Usage: Import this hook in the component where you want to use login functionality
+// And call the login function with email and password
+// Don't change this file unless you know what you are doing
+
 import { useState } from 'react';
 import axios from 'axios';
 import { useToast } from '@chakra-ui/react';

@@ -1,15 +1,24 @@
+// Usage: Carousel Component for displaying slides
+// Ref: https://swiperjs.com/react
+
+// Important: Don't change unless you know what you are doing
+
+// For Type Checking
+import PropTypes from 'prop-types';
 
 import { Heading, Text, VStack } from "@chakra-ui/react";
-import PropTypes from 'prop-types';
-// Import Swiper React components
+
+
 // Import Swiper styles
 import 'swiper/css';
-// Import Swiper React components
-import { Swiper, SwiperSlide } from 'swiper/react';
 import 'swiper/css';
 import 'swiper/css/navigation';
 import 'swiper/css/pagination';
 import 'swiper/css/autoplay';
+
+// Import Swiper React components
+import { Swiper, SwiperSlide } from 'swiper/react';
+
 
 
 
@@ -17,6 +26,7 @@ const Carousel = ({ slides, settings,sliderContainerStyle }) => {
 
 
     const slidesArr = slides.map(slide => (
+        // SwiperSlide is a wrapper for slide container
         <SwiperSlide key={slide.id}>
             <VStack maxWidth="100%" textAlign="center" justify="center"  backgroundImage={`url(${slide.image})`} style={sliderContainerStyle} backgroundSize="cover" backgroundPosition="center">
                 <Heading fontSize="xl">{slide.title}</Heading>
@@ -27,7 +37,7 @@ const Carousel = ({ slides, settings,sliderContainerStyle }) => {
 
 
     return (
-
+        // Swiper is the main container for slides and settings
         <Swiper {...settings}>
             {slidesArr}
         </Swiper>

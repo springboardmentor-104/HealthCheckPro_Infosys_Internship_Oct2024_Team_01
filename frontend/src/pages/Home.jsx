@@ -1,10 +1,18 @@
+// Desc: Home page component
+// Usage: This component is rendered when the user visits the application
+
 
 import Carousel from "../components/Carousel";
-import {  Pagination,Autoplay } from 'swiper/modules';
+import { Pagination, Autoplay } from 'swiper/modules';
 import Sponsers from "../components/Sponsers";
 import { Box } from "@chakra-ui/react";
 
 const Home = () => {
+
+    // Note: Only change the slides array to change the slides
+    // You can also change the settings object to change the carousel settings
+    // But do it with knowledge of SwiperJS
+
     // Main Carousel
     const slidesShow1 = {
         slides: [
@@ -28,7 +36,7 @@ const Home = () => {
             }
         ],
         settings: {
-            modules: [Pagination,Autoplay],
+            modules: [Pagination, Autoplay],
             slidesPerView: 1,
             loop: true,
             autoplay: {
@@ -91,7 +99,7 @@ const Home = () => {
             }
         ],
         settings: {
-            modules: [Pagination,Autoplay],
+            modules: [Pagination, Autoplay],
             slidesPerView: 3,
             slidesPerGroup: 3,
             spaceBetween: "20px",
@@ -120,7 +128,7 @@ const Home = () => {
         <Box p="20px">
             <Carousel  {...slidesShow1} />
             <Carousel {...slidesShow2} />
-            <Sponsers/>
+            <Sponsers />
         </Box>
     )
 }

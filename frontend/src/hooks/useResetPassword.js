@@ -1,6 +1,10 @@
+// Desc: Custom hook to reset password
+// Usage: Import this hook in the component where you want to use reset password functionality
+// And call the resetPassword function with email, password and confirmPassword
+// Don't change this file unless you know what you are doing
+
 import { useState } from "react";
 import { useToast } from "@chakra-ui/react";
-
 import axios from "axios";
 
 const useResetPassword = () => {

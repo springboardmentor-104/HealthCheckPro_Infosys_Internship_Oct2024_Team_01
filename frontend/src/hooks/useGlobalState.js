@@ -1,3 +1,7 @@
+// Desc: Custom hook to use the global state
+// Don't forget to import this hook in the components where you want to use the global state
+// And don't change this file unless you know what you are doing
+
 import { useContext } from "react";
 import { GlobalContext } from "../context/GlobalProvider";
 

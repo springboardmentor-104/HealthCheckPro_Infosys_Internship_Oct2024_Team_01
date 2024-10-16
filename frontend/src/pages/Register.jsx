@@ -1,14 +1,25 @@
-import { useState } from 'react';
+// Desc: Register page for new users
+// Note: Do not change this file unless you know what you are doing
+
 import {
-    Box, Text, Stack, FormControl, Heading, FormLabel, Input
-    , HStack, Button, IconButton, VStack, Image
+    Box,
+    Button,
+    FormControl,
+    FormLabel,
+    Heading,
+    Image,
+    Input,
+    Stack,
+    Text,
+    VStack
 } from '@chakra-ui/react';
-import { FcGoogle } from "react-icons/fc";
-import { FaFacebook, FaApple } from "react-icons/fa";
+import { useState } from 'react';
+import { FcGoogle,FcSms } from "react-icons/fc";
 import { Link as NLink, useNavigate } from 'react-router-dom';
-import useSignup from '../hooks/useSignup';
 import useGlobalState from '../hooks/useGlobalState';
+import useSignup from '../hooks/useSignup';
 import authbg from '/authbg.png';
+import useCustomTheme from '../hooks/useCustomTheme';
 
 const Register = () => {
     const [email, setEmail] = useState('');
@@ -16,6 +27,7 @@ const Register = () => {
     const [password, setPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
     const { setUser } = useGlobalState();
+    const { bodyBg, inputBg, authBg } = useCustomTheme();
 
     const { signup, loading, error } = useSignup();
     const navigate = useNavigate();
@@ -39,11 +51,11 @@ const Register = () => {
         <Box
             display="flex"
             flexDirection={{ base: "column", md: "row" }}
-            height={{"md":"100svh"}}
+            height={{ "md": "100svh" }}
             width="100%"
             alignItems="center"
             justifyContent="center"
-            backgroundColor="#f0f4ff"
+            backgroundColor={bodyBg}
             position="relative"
             overflowX="hidden"
         >
@@ -98,19 +110,19 @@ const Register = () => {
             <Image src={authbg} position="fixed" width="60%" objectFit="cover" opacity={0.1} zIndex={0} minW="500px" />
             {/* Right side */}
             <Box
-                width={{md:"30%"}}
+                width={{ md: "30%" }}
                 minWidth="400px"
                 p={{ base: 4, md: 10 }}
                 borderRadius="md"
             >
 
-                <Stack maxWidth="100%" minWidth="200px" spacing={4} border="2px" borderColor="gray.200" p={3} rounded="md" bgColor="white">
+                <Stack maxWidth="100%" minWidth="200px" spacing={4} p={3} rounded="md" bgColor={authBg}>
                     <FormControl id="email" isInvalid={!email && error}>
                         <FormLabel>Email</FormLabel>
                         <Input
                             width="full"
                             minW="150px"
-                            bgColor={{ base: "transparent", md: "gray.50" }}
+                            bgColor={{ base: "transparent", md: inputBg }}
                             backdropFilter={{ base: "blur(5px)", md: "none" }}
                             type="email"
                             placeholder="Enter Email"
@@ -124,7 +136,7 @@ const Register = () => {
                         <Input
                             width="full"
                             minW="150px"
-                            bgColor={{ base: "transparent", md: "gray.50" }}
+                            bgColor={{ base: "transparent", md: inputBg }}
                             backdropFilter={{ base: "blur(10px)", md: "none" }}
 
                             placeholder="Username"
@@ -138,7 +150,7 @@ const Register = () => {
                         <Input
                             width="full"
                             minW="150px"
-                            bgColor={{ base: "transparent", md: "gray.50" }}
+                            bgColor={{ base: "transparent", md: inputBg }}
                             backdropFilter={{ base: "blur(10px)", md: "none" }}
                             type="password"
                             placeholder="********"
@@ -152,7 +164,7 @@ const Register = () => {
                         <Input
                             width="full"
                             minW="150px"
-                            bgColor={{ base: "transparent", md: "gray.50" }}
+                            bgColor={{ base: "transparent", md: inputBg }}
                             backdropFilter={{ base: "blur(10px)", md: "none" }}
                             type="password"
                             placeholder="********"
@@ -174,36 +186,9 @@ const Register = () => {
                     Or continue with
                 </Text>
 
-                <HStack display={{
-                    base: "none",
-                    md: "flex"
-                }} justifyContent="center" spacing={4} mt={4}>
-                    <IconButton
-                        icon={<FcGoogle size={30} />}
-                        variant="ghost"
-                        aria-label="Continue with Google"
-                    />
-                    <IconButton
-                        icon={<FaFacebook size={30} />}
-                        variant="ghost"
-                        aria-label="Continue with Facebook"
-                        colorScheme='blue'
-                    />
-                    <IconButton
-                        icon={<FaApple size={30} />}
-                        variant="ghost"
-                        aria-label="Continue with Apple"
-                    />
-                </HStack>
-                <VStack gap={3} p={3}
-                    display={{
-                        base: "flex",
-                        md: "none"
-                    }}
-                >
+                <VStack gap={3} p={3} >
                     <Button width="50%" variant="outline" colorScheme='red' leftIcon={<FcGoogle size={25} />}>Google</Button>
-                    <Button width="50%" variant="outline" colorScheme='blue' leftIcon={<FaFacebook size={25} />}>Facebook</Button>
-                    <Button width="50%" variant="outline" colorScheme='black' leftIcon={<FaApple size={25} />}>Apple</Button>
+                    <Button width="50%" variant="outline" colorScheme='teal' leftIcon={<FcSms size={25} />}>Phone</Button>
                 </VStack>
             </Box>
         </Box>

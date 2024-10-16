@@ -1,3 +1,5 @@
+// Desc: Profile component to display user information
+// Reference: https://v2.chakra-ui.com/docs/overlay/modal
 
 import PropTypes from 'prop-types';
 import {

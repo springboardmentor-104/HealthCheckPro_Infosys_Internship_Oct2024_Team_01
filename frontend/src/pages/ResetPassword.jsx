@@ -1,12 +1,25 @@
-import { useState } from 'react';
+// Desc: Reset Password Page
+// Note: Don't change this file unless you know what you are doing
+
+import { ExternalLinkIcon } from '@chakra-ui/icons';
 import {
-    Box, Text, Stack, FormControl, Heading, FormLabel, Input,
-    Button ,VStack, Image,Flex
+    Box,
+    Button,
+    Flex,
+    FormControl,
+    FormLabel,
+    Heading,
+    Image,
+    Input,
+    Stack,
+    Text,
+    VStack
 } from '@chakra-ui/react';
-import { Link as NLink,useNavigate } from 'react-router-dom';
+import { useState } from 'react';
+import { Link as NLink, useNavigate } from 'react-router-dom';
 import useResetPassword from '../hooks/useResetPassword';
 import authbg from '/authbg.png';
-import { ExternalLinkIcon } from '@chakra-ui/icons';
+import useCustomTheme from '../hooks/useCustomTheme';
 
 const ResetPassword = () => {
     const [email, setEmail] = useState('');
@@ -14,6 +27,8 @@ const ResetPassword = () => {
     const [confirmPassword, setConfirmPassword] = useState('');
     const navigate = useNavigate();
     const { error, isLoading, resetPassword } = useResetPassword();
+
+    const { bodyBg, inputBg, authBg } = useCustomTheme();
 
     const handleSubmit = async () => {
         await resetPassword(email, password, confirmPassword)
@@ -37,7 +52,7 @@ const ResetPassword = () => {
             width="100%"
             alignItems="center"
             justifyContent="center"
-            backgroundColor="#f0f4ff"
+            backgroundColor={bodyBg}
             position="relative"
             overflowX="hidden"
         >
@@ -48,7 +63,7 @@ const ResetPassword = () => {
                 </Box>
             </Box>
 
-            
+
             <Flex
                 width={{ base: "100%", md: "fit-content" }}
                 p={{ base: 4, md: 10 }}
@@ -86,16 +101,17 @@ const ResetPassword = () => {
                 minWidth="400px"
                 p={{ base: 4, md: 10 }}
                 borderRadius="md"
+                zIndex={3}
             >
-                <Stack maxWidth="100%" minWidth="200px" spacing={4} border="2px" borderColor="gray.200" p={3} rounded="md" bgColor={{
-                    base: "white",
-                }}  backdropFilter="blur(10px)">
+                <Stack maxWidth="100%" minWidth="200px" spacing={4}  p={3} rounded="md" bgColor={{
+                    base: `${authBg}80`,
+                }}>
                     <FormControl id="email" isInvalid={!email && error}>
                         <FormLabel>Email</FormLabel>
                         <Input
                             width="full"
                             minW="150px"
-                            bgColor={{ base: "gray.100", md: "gray.50" }}
+                            bgColor={{ base: "transparent", md: inputBg }}
                             backdropFilter={{ base: "blur(5px)", md: "none" }}
                             type="email"
                             placeholder="Enter Email"
@@ -108,7 +124,7 @@ const ResetPassword = () => {
                         <Input
                             width="full"
                             minW="150px"
-                            bgColor={{ base: "gray.100", md: "gray.50" }}
+                            bgColor={{ base: "transparent", md: inputBg }}
                             backdropFilter={{ base: "blur(10px)", md: "none" }}
                             type="password"
                             placeholder="********"
@@ -121,7 +137,7 @@ const ResetPassword = () => {
                         <Input
                             width="full"
                             minW="150px"
-                            bgColor={{ base: "gray.100", md: "gray.50" }}
+                            bgColor={{ base: "transparent", md: inputBg }}
                             backdropFilter={{ base: "blur(10px)", md: "none" }}
                             type="password"
                             placeholder="********"
@@ -133,10 +149,7 @@ const ResetPassword = () => {
                         Reset Password
                     </Button>
                 </Stack>
-                <Box mt={5} display={{
-                    base: "block",
-                    md: "none"
-                }} textAlign="center">Remember your password? <Button fontSize="lg" variant="link" width="100%" as={NLink} to="/login" colorScheme="blue" >Login from here!</Button></Box>
+
 
             </Box>
         </Box>

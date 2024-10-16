@@ -1,11 +1,15 @@
-import { Box, Button, FormControl, FormLabel, HStack, Heading, IconButton, Image, Input, Stack, Text, VStack } from "@chakra-ui/react";
+// Desc: Login page for the user to login to the application
+// Note: Do not change this file unless you know what you are doing
+
+import { Box, Button, FormControl, FormLabel,  Heading,  Image, Input, Stack, Text, VStack } from "@chakra-ui/react";
 import { useState } from "react";
-import { FaApple, FaFacebook } from "react-icons/fa";
-import { FcGoogle } from "react-icons/fc";
+import { FcGoogle,FcSms } from "react-icons/fc";
 import { Link as NLink, useNavigate } from "react-router-dom";
 import useGlobalState from "../hooks/useGlobalState";
 import useLogin from "../hooks/useLogin";
 import authbg from "/authbg.png";
+import useCustomTheme from "../hooks/useCustomTheme";
+
 
 const Login = () => {
   const [email, setEmail] = useState("");
@@ -13,6 +17,7 @@ const Login = () => {
   const { loading, error, login } = useLogin();
   const navigate = useNavigate();
   const { setUser } = useGlobalState();
+  const {bodyBg,inputBg,authBg} = useCustomTheme();
 
   const handleSubmit = async () => {
     await login(email, password).then((data) => {
@@ -34,7 +39,7 @@ const Login = () => {
       width="100%"
       alignItems="center"
       justifyContent="center"
-      backgroundColor="#f0f4ff"
+      backgroundColor={bodyBg}
       position="relative"
       overflowX="hidden"
     >
@@ -43,7 +48,7 @@ const Login = () => {
         <Box position={"fixed"}bottom={0} right={0}  as='span' width="1px" height="1px" rounded={"full"} boxShadow={"-200px -150px 60px 80px rgb(0,0,255,.075),-50px 0px 100px 120px rgb(0,0,255,.2)"} zIndex={0}></Box>
       </Box>
 
-      <Box p={4} display={{ base: "block", md: "none" }}>
+      <Box p={4} display={{ base: "block", md: "none" }} zIndex={3}>
         <Text fontWeight="bold">Hi! Welcome back to</Text>
         <Heading as={NLink} to="/" color="blue.600">HealthCheckPro</Heading>
         <Text>Sign In to continue!</Text>
@@ -79,13 +84,13 @@ const Login = () => {
         p={{ base: 4, md: 10 }}
         borderRadius="md"
       >
-        <Stack maxWidth="100%" minWidth="200px" spacing={4} border="2px" borderColor="gray.200" p={3} rounded="md" bgColor="white">
+        <Stack maxWidth="100%" minWidth="200px" spacing={4}  p={3} rounded="md" bgColor={authBg}>
           <FormControl id="email" isInvalid={!email && error}>
             <FormLabel>Email</FormLabel>
             <Input
               width="full"
               minW="150px"
-              bgColor={{ base: "transparent", md: "gray.50" }}
+              bgColor={{ base: "transparent", md: inputBg }}
               backdropFilter={{ base: "blur(5px)", md: "none" }}
               type="email"
               placeholder="Enter Email"
@@ -98,7 +103,7 @@ const Login = () => {
             <Input
               width="full"
               minW="150px"
-              bgColor={{ base: "transparent", md: "gray.50" }}
+              bgColor={{ base: "transparent", md: inputBg }}
               backdropFilter={{ base: "blur(10px)", md: "none" }}
               type="password"
               placeholder="********"
@@ -120,16 +125,10 @@ const Login = () => {
 
         <Text textAlign="center" mt={4}>Or continue with</Text>
 
-        <HStack display={{ base: "none", md: "flex" }} justifyContent="center" spacing={4} mt={4}>
-          <IconButton icon={<FcGoogle size={30} />} variant="ghost" aria-label="Continue with Google" />
-          <IconButton icon={<FaFacebook size={30} />} variant="ghost" aria-label="Continue with Facebook" colorScheme='blue' />
-          <IconButton icon={<FaApple size={30} />} variant="ghost" aria-label="Continue with Apple" />
-        </HStack>
 
-        <VStack gap={3} p={3} display={{ base: "flex", md: "none" }}>
+        <VStack gap={3} p={3} >
           <Button width="50%" variant="outline" colorScheme='red' leftIcon={<FcGoogle size={25} />}>Google</Button>
-          <Button width="50%" variant="outline" colorScheme='blue' leftIcon={<FaFacebook size={25} />}>Facebook</Button>
-          <Button width="50%" variant="outline" colorScheme='black' leftIcon={<FaApple size={25} />}>Apple</Button>
+          <Button width="50%" variant="outline" colorScheme='teal' leftIcon={<FcSms size={25} />}>Phone</Button>
         </VStack>
       </Box>
     </Box>

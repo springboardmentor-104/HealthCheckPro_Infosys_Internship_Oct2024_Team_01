@@ -1,3 +1,8 @@
+// Desc: Navbar component for the application
+// Reference: https://v2.chakra-ui.com/docs/layout/
+// Reference for Link,useLocation and useNavigate: https://reactrouter.com/en/main
+
+
 import { Heading, Flex, HStack, Divider, Button, Avatar,Menu,MenuList,MenuItem,MenuButton } from "@chakra-ui/react";
 import { Link, useLocation,useNavigate } from "react-router-dom";
 import Language from "./Language";

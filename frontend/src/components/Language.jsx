@@ -1,6 +1,9 @@
 
 import { Select } from '@chakra-ui/react';
 
+// Language component to select the language of the application
+// Add Logic for this application using any library you are good at
+
 const Language = () => {
     return (
         <Select defaultValue={"en"} maxWidth="100px">
