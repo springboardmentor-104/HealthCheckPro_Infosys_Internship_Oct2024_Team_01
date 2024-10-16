@@ -9,7 +9,7 @@ the page that is visible for all when new user enter in our page
 ## Setup
 
 1. Clone the repository
-2. Add a `.env` file in the root directory with the following variables:
+2. Add a `.env` file in the backend directory with the following variables:
    - `MONGO_URI`: MongoDB connection string
    - `JWT_SECRET_KEY`: Secret
    - `NODE_ENV`: development or production
