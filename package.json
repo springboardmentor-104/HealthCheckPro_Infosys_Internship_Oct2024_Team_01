@@ -7,7 +7,7 @@
     "frontend": "cd frontend && yarn",
     "backend": "cd backend && yarn",
     "dev": "concurrently \"yarn backend dev\" \"yarn frontend dev\"",
-    "install": "concurrently \"yarn backend\" \"yarn frontend add vite && yarn frontend build\"",
+    "install": "concurrently \"yarn backend\" \"yarn frontend && yarn frontend build\"",
     "start": "yarn backend start",
     "server": "nodemon backend/index.js"
 
