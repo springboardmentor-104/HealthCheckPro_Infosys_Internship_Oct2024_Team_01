@@ -14,7 +14,6 @@ import {
     VStack
 } from '@chakra-ui/react';
 import { useState } from 'react';
-import { FcGoogle,FcSms } from "react-icons/fc";
 import { Link as NLink, useNavigate } from 'react-router-dom';
 import useGlobalState from '../hooks/useGlobalState';
 import useSignup from '../hooks/useSignup';
@@ -182,14 +181,8 @@ const Register = () => {
                     base: "block",
                     md: "none"
                 }} textAlign="center">Already have an account? <Button fontSize="lg" variant="link" as={NLink} to="/login" colorScheme="blue" >Login from here!</Button></Box>
-                <Text textAlign="center" mt={4}>
-                    Or continue with
-                </Text>
 
-                <VStack gap={3} p={3} >
-                    <Button width="50%" variant="outline" colorScheme='red' leftIcon={<FcGoogle size={25} />}>Google</Button>
-                    <Button width="50%" variant="outline" colorScheme='teal' leftIcon={<FcSms size={25} />}>Phone</Button>
-                </VStack>
+
             </Box>
         </Box>
     );

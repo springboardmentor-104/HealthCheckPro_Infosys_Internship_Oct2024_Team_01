@@ -3,7 +3,6 @@
 
 import { Box, Button, FormControl, FormLabel,  Heading,  Image, Input, Stack, Text, VStack } from "@chakra-ui/react";
 import { useState } from "react";
-import { FcGoogle,FcSms } from "react-icons/fc";
 import { Link as NLink, useNavigate } from "react-router-dom";
 import useGlobalState from "../hooks/useGlobalState";
 import useLogin from "../hooks/useLogin";
@@ -18,6 +17,7 @@ const Login = () => {
   const navigate = useNavigate();
   const { setUser } = useGlobalState();
   const {bodyBg,inputBg,authBg} = useCustomTheme();
+
 
   const handleSubmit = async () => {
     await login(email, password).then((data) => {
@@ -122,14 +122,6 @@ const Login = () => {
         <Box mt={5} display={{ base: "block", md: "none" }} textAlign="center">
           Don&apos;t have an account? <Button fontSize="lg" variant="link" as={NLink} to="/register" colorScheme="blue">Register from here!</Button>
         </Box>
-
-        <Text textAlign="center" mt={4}>Or continue with</Text>
-
-
-        <VStack gap={3} p={3} >
-          <Button width="50%" variant="outline" colorScheme='red' leftIcon={<FcGoogle size={25} />}>Google</Button>
-          <Button width="50%" variant="outline" colorScheme='teal' leftIcon={<FcSms size={25} />}>Phone</Button>
-        </VStack>
       </Box>
     </Box>
   );

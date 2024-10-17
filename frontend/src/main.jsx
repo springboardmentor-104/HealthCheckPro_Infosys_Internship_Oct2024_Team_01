@@ -46,6 +46,10 @@ const router = createBrowserRouter([
   {
     path: '/reset-pass',
     element: <ResetPassword />,
+  },
+  {
+    path:'/dashboard',
+    
   }
 ])
 

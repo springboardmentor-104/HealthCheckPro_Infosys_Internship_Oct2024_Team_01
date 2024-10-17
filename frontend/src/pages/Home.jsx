@@ -126,7 +126,7 @@ const Home = () => {
 
     return (
         <Box p="20px">
-            <Carousel  {...slidesShow1} />
+            <Carousel {...slidesShow1} />
             <Carousel {...slidesShow2} />
             <Sponsers />
         </Box>
