@@ -183,12 +183,20 @@ userSchema.statics.verifyOTP = async (email, otp) => {
   }
 
   if (!user.otp) {
-    throw Error("No was OTP sent to this user");
+    throw Error("No OTP was sent to this user");
+  }
+
+  if (Date.now() > user.otpExpiry) {
+    throw Error("OTP has expired");
   }
 
   const match = await bcrypt.compare(otp, user.otp);
 
   if (match) {
+    // Clear OTP and expiry after successful verification
+    user.otp = null;
+    user.otpExpiry = null;
+    await user.save();
     return user;
   } else {
     throw Error("Wrong OTP");
