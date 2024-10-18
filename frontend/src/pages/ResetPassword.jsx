@@ -1,6 +1,3 @@
-// Desc: Reset Password Page
-// Note: Don't change this file unless you know what you are doing
-
 import { ExternalLinkIcon } from '@chakra-ui/icons';
 import {
     Box,
@@ -13,35 +10,35 @@ import {
     Input,
     Stack,
     Text,
-    VStack
+    VStack,
+    HStack,
+    PinInput,
+    PinInputField,
+
 } from '@chakra-ui/react';
 import { useState } from 'react';
-import { Link as NLink, useNavigate } from 'react-router-dom';
-import useResetPassword from '../hooks/useResetPassword';
+import { Link as NLink, useParams } from 'react-router-dom';
 import authbg from '/authbg.png';
 import useCustomTheme from '../hooks/useCustomTheme';
+import useAuth from '../hooks/useAuth';
+
 
 const ResetPassword = () => {
-    const [email, setEmail] = useState('');
+    const [otp, setOTP] = useState('');
     const [password, setPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
-    const navigate = useNavigate();
-    const { error, isLoading, resetPassword } = useResetPassword();
 
     const { bodyBg, inputBg, authBg } = useCustomTheme();
+    const { email: emailParam } = useParams();
+    const { resetPassword,resetState } = useAuth();
+
+
 
     const handleSubmit = async () => {
-        await resetPassword(email, password, confirmPassword)
-            .then(() => {
-                setEmail('');
-                setPassword('');
-                setConfirmPassword('');
-                if(error)
-                navigate('/login');
-            })
-            .catch((error) => {
-                console.log(error);
-            });
+        await resetPassword(emailParam, otp, password, confirmPassword)
+        .catch((error) => {
+            console.log(error);
+        });
     };
 
     return (
@@ -63,7 +60,6 @@ const ResetPassword = () => {
                 </Box>
             </Box>
 
-
             <Flex
                 width={{ base: "100%", md: "fit-content" }}
                 p={{ base: 4, md: 10 }}
@@ -71,55 +67,56 @@ const ResetPassword = () => {
                 align="center"
                 justify={"center"}
                 zIndex={2}
-
                 flexDirection={{
                     base: "column",
                     md: "row"
                 }}
             >
-                    <VStack  spacing={4}>
-                        <Heading color="blue.600" size="xl">
-                            Reset Your Password
-                        </Heading>
-                        <Text fontSize="lg" fontWeight="bold">
-                            Or
-                        </Text>
-                        <Button backdropFilter="blur(10px)" leftIcon={<ExternalLinkIcon/>} variant="outline" w="100%" width="100%" as={NLink} to="/login" colorScheme="blue">
-                            Go Back to Login Page
-                        </Button>
-                        <Button backdropFilter="blur(10px)" leftIcon={<ExternalLinkIcon/>} variant="outline" w="100%" width="100%" as={NLink} to="/register" colorScheme="green">
-                            Go to Signup Page
-                        </Button>
-                        <Button backdropFilter="blur(10px)" leftIcon={<ExternalLinkIcon/>} variant="outline" w="100%" width="100%" as={NLink} to="/" colorScheme="teal">
-                            Go to Home Page
-                        </Button>
-                    </VStack>
+                <VStack spacing={4}>
+                    <Heading color="blue.600" size="xl">
+                        Reset Your Password
+                    </Heading>
+                    <Text fontSize="lg" fontWeight="bold">
+                        Or
+                    </Text>
+                    <Button backdropFilter="blur(10px)" leftIcon={<ExternalLinkIcon />} variant="outline" w="100%" width="100%" as={NLink} to="/login" colorScheme="blue">
+                        Go Back to Login Page
+                    </Button>
+                    <Button backdropFilter="blur(10px)" leftIcon={<ExternalLinkIcon />} variant="outline" w="100%" width="100%" as={NLink} to="/register" colorScheme="green">
+                        Go to Signup Page
+                    </Button>
+                    <Button backdropFilter="blur(10px)" leftIcon={<ExternalLinkIcon />} variant="outline" w="100%" width="100%" as={NLink} to="/" colorScheme="teal">
+                        Go to Home Page
+                    </Button>
+                </VStack>
             </Flex>
             <Image src={authbg} position="fixed" width="60%" objectFit="cover" opacity={0.1} zIndex={0} minW="500px" />
             <Box
-                width={{md:"30%"}}
+                width={{ md: "30%" }}
                 minWidth="400px"
                 p={{ base: 4, md: 10 }}
                 borderRadius="md"
                 zIndex={3}
             >
-                <Stack maxWidth="100%" minWidth="200px" spacing={4}  p={3} rounded="md" bgColor={{
+                <Stack maxWidth="100%" minWidth="200px" spacing={4} p={3} rounded="md" bgColor={{
                     base: `${authBg}80`,
                 }}>
-                    <FormControl id="email" isInvalid={!email && error}>
-                        <FormLabel>Email</FormLabel>
-                        <Input
-                            width="full"
-                            minW="150px"
-                            bgColor={{ base: "transparent", md: inputBg }}
-                            backdropFilter={{ base: "blur(5px)", md: "none" }}
-                            type="email"
-                            placeholder="Enter Email"
-                            value={email}
-                            onChange={(e) => setEmail(e.target.value)}
-                        />
+                    <FormControl>
+                        <FormLabel>Enter OTP send to your email</FormLabel>
+                        <HStack m="auto" bgColor={inputBg} p={2} rounded="md" justify="center">
+                            <PinInput onChange={(value) => setOTP(
+                                value
+                            )}>
+                                <PinInputField />
+                                <PinInputField />
+                                <PinInputField />
+                                <PinInputField />
+                                <PinInputField />
+                                <PinInputField />
+                            </PinInput>
+                        </HStack>
                     </FormControl>
-                    <FormControl id="password" isInvalid={!password && error}>
+                    <FormControl id="password" isInvalid={!password && resetState.error}>
                         <FormLabel>Password</FormLabel>
                         <Input
                             width="full"
@@ -132,7 +129,7 @@ const ResetPassword = () => {
                             onChange={(e) => setPassword(e.target.value)}
                         />
                     </FormControl>
-                    <FormControl id="confirmPassword" isInvalid={!confirmPassword && error}>
+                    <FormControl id="confirmPassword" isInvalid={!confirmPassword && resetState.error}>
                         <FormLabel>Confirm Password</FormLabel>
                         <Input
                             width="full"
@@ -145,12 +142,10 @@ const ResetPassword = () => {
                             onChange={(e) => setConfirmPassword(e.target.value)}
                         />
                     </FormControl>
-                    <Button colorScheme="blue" width="full" mt={4} onClick={handleSubmit} isLoading={isLoading}>
+                    <Button colorScheme="blue" width="full" mt={4} onClick={handleSubmit} isLoading={resetState.loading}>
                         Reset Password
                     </Button>
                 </Stack>
-
-
             </Box>
         </Box>
     );

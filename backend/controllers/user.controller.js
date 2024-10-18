@@ -1,5 +1,7 @@
 import User from "../models/user.model.js";
 import jwt from "jsonwebtoken";
+import nodemailer from "nodemailer";
+import crypto from "crypto";
 
 const createToken = (id) => {
   // JWTSKND (JWT Secret Key Not Defined)
@@ -11,11 +13,14 @@ const createToken = (id) => {
   });
 };
 
+
+
+
 const createAccount = async (req, res) => {
   try {
-    const { email, password,username, confirmPassword } = req.body;
+    const { email, password, username, confirmPassword } = req.body;
 
-    const user = await User.signup(email,username, password, confirmPassword);
+    const user = await User.signup(email, username, password, confirmPassword);
 
     const token = createToken(user._id);
     res.status(201).json({
@@ -58,8 +63,41 @@ const resetPassword = async (req, res) => {
   }
 };
 
+const sendOTP = async (req, res) => {
+  try {
+    const { email } = req.body;
+    await User.sendOTP(email)
+      .then(() => {
+        res.status(201).json({ message: "OTP sent successfully" });
+      }
+      )
+      .catch((err) => {
+        res.status(400).json({ message: err.message });
+      }
+      );
+
+
+  } catch (err) {
+    res.status(400).json({ message: err.message });
+  }
+};
+
+const verifyOTP = async (req, res) => {
+  try {
+    const { email, otp } = req.body;
+    const user = await User.verifyOTP(email, otp);
+    if (user) {
+      res.status(201).json({ message: "OTP verified successfully" });
+    }
+  } catch (err) {
+    res.status(400).json({ message: err.message });
+  }
+}
+
 export {
   createAccount,
   loginUser,
   resetPassword,
+  sendOTP,
+  verifyOTP
 };

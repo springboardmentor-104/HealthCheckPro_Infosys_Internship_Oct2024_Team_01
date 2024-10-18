@@ -1,31 +1,42 @@
-// Desc: Login page for the user to login to the application
-// Note: Do not change this file unless you know what you are doing
-
-import { Box, Button, FormControl, FormLabel,  Heading,  Image, Input, Stack, Text, VStack } from "@chakra-ui/react";
+import {
+  Box, Button, FormControl, FormLabel, Heading, Image, Input, Stack, Text, VStack,
+  Popover,
+  PopoverTrigger,
+  PopoverContent,
+  PopoverHeader,
+  PopoverBody,
+  PopoverArrow,
+  PopoverCloseButton,
+  FormHelperText,
+  useDisclosure
+} from "@chakra-ui/react";
 import { useState } from "react";
 import { Link as NLink, useNavigate } from "react-router-dom";
-import useGlobalState from "../hooks/useGlobalState";
+
 import useLogin from "../hooks/useLogin";
 import authbg from "/authbg.png";
 import useCustomTheme from "../hooks/useCustomTheme";
-
+import useAuth from "../hooks/useAuth";
 
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const { loading, error, login } = useLogin();
   const navigate = useNavigate();
-  const { setUser } = useGlobalState();
-  const {bodyBg,inputBg,authBg} = useCustomTheme();
 
+  const { bodyBg, inputBg, authBg } = useCustomTheme();
+  const { sendOTPAction, sendOTPLoading } = useAuth();
+  const { isOpen, onOpen, onClose } = useDisclosure();
 
   const handleSubmit = async () => {
-    await login(email, password).then((data) => {
-      if (data) {
-        setUser(data);
-        localStorage.setItem("user", JSON.stringify(data));
-        navigate("/");
-      }
+    await login(email, password).catch((error) => {
+      console.log(error);
+    });
+  };
+
+  const handleSendOTP = async () => {
+    await sendOTPAction(email).then(() => {
+      navigate("/reset-pass/" + email);
     }).catch((error) => {
       console.log(error);
     });
@@ -45,7 +56,7 @@ const Login = () => {
     >
       <Box position="fixed" w="100svw" h="100svh" display={{ base: "block", md: "none" }}>
         <Box position={"fixed"} as='span' width="1px" height="1px" rounded={"full"} boxShadow={"200px 150px 60px 80px rgb(0,0,255,.075),0px 0px 100px 120px rgb(0,0,255,.2)"} zIndex={0}></Box>
-        <Box position={"fixed"}bottom={0} right={0}  as='span' width="1px" height="1px" rounded={"full"} boxShadow={"-200px -150px 60px 80px rgb(0,0,255,.075),-50px 0px 100px 120px rgb(0,0,255,.2)"} zIndex={0}></Box>
+        <Box position={"fixed"} bottom={0} right={0} as='span' width="1px" height="1px" rounded={"full"} boxShadow={"-200px -150px 60px 80px rgb(0,0,255,.075),-50px 0px 100px 120px rgb(0,0,255,.2)"} zIndex={0}></Box>
       </Box>
 
       <Box p={4} display={{ base: "block", md: "none" }} zIndex={3}>
@@ -84,7 +95,7 @@ const Login = () => {
         p={{ base: 4, md: 10 }}
         borderRadius="md"
       >
-        <Stack maxWidth="100%" minWidth="200px" spacing={4}  p={3} rounded="md" bgColor={authBg}>
+        <Stack maxWidth="100%" minWidth="200px" spacing={4} p={3} rounded="md" bgColor={authBg}>
           <FormControl id="email" isInvalid={!email && error}>
             <FormLabel>Email</FormLabel>
             <Input
@@ -112,7 +123,26 @@ const Login = () => {
             />
           </FormControl>
 
-          <Button variant="link" colorScheme="blue" w="fit-content" h="fit-content" as={NLink} to="/reset-pass">Forgot Password?</Button>
+          <Popover isOpen={isOpen} onOpen={onOpen} onClose={onClose} closeOnBlur={false}>
+            <PopoverTrigger>
+              <Button marginLeft="auto" variant="link" w="fit-content" h="fit-content">Forgot Password?</Button>
+            </PopoverTrigger>
+            <PopoverContent>
+              <PopoverArrow />
+              <PopoverCloseButton />
+              <PopoverHeader>Reset Your Password!</PopoverHeader>
+              <PopoverBody>
+                <FormControl isInvalid={!email && error}>
+                  <Input mt={3} type="email" placeholder="Enter Email"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                  />
+                  <FormHelperText my={3} textAlign="center">OTP will be sent on your mail to verify you.</FormHelperText>
+                </FormControl>
+                <Button w="100%" colorScheme="blue" onClick={handleSendOTP} isLoading={sendOTPLoading}>Send OTP</Button>
+              </PopoverBody>
+            </PopoverContent>
+          </Popover>
 
           <Button colorScheme="blue" width="full" mt={4} isLoading={loading} onClick={handleSubmit}>
             Sign In

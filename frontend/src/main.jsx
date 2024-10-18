@@ -44,12 +44,12 @@ const router = createBrowserRouter([
     element: <Register />,
   },
   {
-    path: '/reset-pass',
+    path: '/reset-pass/:email',
     element: <ResetPassword />,
   },
   {
     path:'/dashboard',
-    
+
   }
 ])
 

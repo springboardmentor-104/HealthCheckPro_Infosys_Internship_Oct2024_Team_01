@@ -1,6 +1,7 @@
 import mongoose from "mongoose";
 import bcrypt from "bcryptjs";
 import validator from "validator";
+import nodemailer from "nodemailer";
 
 const { Schema } = mongoose;
 
@@ -24,10 +25,12 @@ const userSchema = new Schema({
     type: String,
     default: "",
   },
+  otp: { type: String, trim: true },
+  otpExpiry: { type: Date },
 
 });
 
-userSchema.statics.signup = async (email,username, password, confirmPassword) => {
+userSchema.statics.signup = async (email, username, password, confirmPassword) => {
   if (!email || !password) {
     throw Error("Please fill all the fields");
   }
@@ -84,6 +87,59 @@ userSchema.statics.login = async (email, password) => {
   }
 };
 
+userSchema.statics.sendOTP = async (email) => {
+  if (!email) {
+    throw Error("Please fill all the fields");
+  }
+
+  if (!validator.isEmail(email)) {
+    throw Error("Email is not valid. Please enter a valid email");
+  }
+
+  const user = await User.findOne({ email });
+  if (!user) {
+    throw Error("User does not exist");
+  }
+
+  // Send an email with the OTP code
+  const transporter = nodemailer.createTransport({
+    service: "gmail",
+    auth: {
+      // Your email
+      user: process.env.EMAIL,
+      // If you are use 2FA, you need to generate an app password
+      // Go to google account settings -> Security -> App Passwords
+      pass: process.env.EMAIL_PASSWORD,
+    },
+  });
+
+
+  // Generates a 6-digit OTP
+  const otp = Math.floor(100000 + Math.random() * 900000).toString();
+  const hashOTP = await bcrypt.hash(otp, 10);
+
+  // Save the hashed OTP and the expiry time in the database
+
+  const mailOptions = {
+    from: process.env.EMAIL,
+    to: email,
+    subject: "Your OTP Code",
+    text: `Your OTP code is ${otp}`,
+  };
+
+  const res = await transporter.sendMail(mailOptions);
+
+  if (res) {
+    user.otp = hashOTP;
+    // Date + 10 minutes in milliseconds (10 * 60s * 1000ms)
+    user.otpExpiry = Date.now() + 10 * 60 * 1000;
+    await user.save();
+    return true
+  }
+
+  return false;
+}
+
 userSchema.statics.resetPassword = async (email, password, confirmPassword) => {
   if (!email || !password || !confirmPassword) {
     throw Error("Please fill all the fields");
@@ -111,6 +167,33 @@ userSchema.statics.resetPassword = async (email, password, confirmPassword) => {
   await user.save();
   return user;
 };
+
+userSchema.statics.verifyOTP = async (email, otp) => {
+  if (!email || !otp) {
+    throw Error("Please fill all the fields");
+  }
+
+  if (!validator.isEmail(email)) {
+    throw Error("Email is not valid. Please enter a valid email");
+  }
+
+  const user = await User.findOne({ email });
+  if (!user) {
+    throw Error("User does not exist");
+  }
+
+  if (!user.otp) {
+    throw Error("No was OTP sent to this user");
+  }
+
+  const match = await bcrypt.compare(otp, user.otp);
+
+  if (match) {
+    return user;
+  } else {
+    throw Error("Wrong OTP");
+  }
+}
 
 const User = mongoose.model("users", userSchema);
 

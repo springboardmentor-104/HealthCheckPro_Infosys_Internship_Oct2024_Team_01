@@ -6,11 +6,15 @@
 import { useState } from 'react';
 import axios from 'axios';
 import { useToast } from '@chakra-ui/react';
+import { useNavigate } from 'react-router-dom';
+import useGlobalState from './useGlobalState';
 
 const useLogin = () => {
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(false);
     const toast = useToast();
+    const navigate = useNavigate();
+    const { setUser } = useGlobalState();
 
     const login = async (email, password) => {
         if (toast.isActive("toast")) toast.closeAll();
@@ -18,13 +22,19 @@ const useLogin = () => {
         setError(false);
         try {
             const response = await axios.post('api/user/login', { email, password });
-            setLoading(false);
-            toast({
-                id: "toast",
-                title: "Login successful",
-                status: "success",
-            });
-            return response.data;
+            if (response) {
+                setLoading(false);
+                toast({
+                    id: "toast",
+                    title: "Login successful",
+                    status: "success",
+                });
+                localStorage.setItem('user', JSON.stringify(response.data));
+                setUser(response.data);
+                navigate('/');
+
+                return response.data;
+            }
         } catch (error) {
             console.log('=== error useLogin.js [21] ===', error);
             setLoading(false);
