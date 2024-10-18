@@ -11,7 +11,7 @@ import {
   useDisclosure
 } from "@chakra-ui/react";
 import { useState } from "react";
-import { Link as NLink, useNavigate } from "react-router-dom";
+import { Link as NLink } from "react-router-dom";
 
 import useLogin from "../hooks/useLogin";
 import authbg from "/authbg.png";
@@ -22,7 +22,7 @@ const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const { loading, error, login } = useLogin();
-  const navigate = useNavigate();
+
 
   const { bodyBg, inputBg, authBg } = useCustomTheme();
   const { sendOTPAction, sendOTPLoading } = useAuth();
@@ -35,9 +35,7 @@ const Login = () => {
   };
 
   const handleSendOTP = async () => {
-    await sendOTPAction(email).then(() => {
-      navigate("/reset-pass/" + email);
-    }).catch((error) => {
+    await sendOTPAction(email).catch((error) => {
       console.log(error);
     });
   };

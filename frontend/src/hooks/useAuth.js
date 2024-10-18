@@ -15,7 +15,7 @@ const useAuth = () => {
     const sendOTPAction = async (email) => {
         setSendOTPLoading(true);
         await axios.post("/api/user/send-otp", { email })
-            .then((res) => {
+            .then(() => {
                 toast({
                     title: "OTP Sent",
                     description: "OTP has been sent to your email.",
@@ -24,7 +24,7 @@ const useAuth = () => {
                     isClosable: true,
                 });
                 setSendOTPLoading(false);
-                return res.data;
+                navigate("/reset-pass/" + email);
             })
             .catch((error) => {
                 toast({
@@ -35,7 +35,7 @@ const useAuth = () => {
                     isClosable: true,
                 });
                 setSendOTPLoading(false);
-                return error.response.data;
+                return null
             });
     };
 
@@ -52,6 +52,7 @@ const useAuth = () => {
                         duration: 5000,
                         isClosable: true,
                     });
+
                     axios.post("/api/user/reset-password", { email, password, confirmPassword })
                         .then((res) => {
                             if (res) {

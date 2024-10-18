@@ -134,10 +134,11 @@ userSchema.statics.sendOTP = async (email) => {
     // Date + 10 minutes in milliseconds (10 * 60s * 1000ms)
     user.otpExpiry = Date.now() + 10 * 60 * 1000;
     await user.save();
-    return true
+    return;
   }
 
-  return false;
+  
+
 }
 
 userSchema.statics.resetPassword = async (email, password, confirmPassword) => {
