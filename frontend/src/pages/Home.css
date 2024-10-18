@@ -1,0 +1,14 @@
+/* Home.css */
+
+.carousel-image {
+    width: 100%; /* Ensures the image takes the full width of its container */
+    height: auto; /* Maintains aspect ratio */
+    border-radius: 15px; /* Adjust the value for more or less rounded corners */
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3); /* Creates a 3D shadow effect */
+    transition: transform 0.3s ease; /* Smooth transition for hover effect */
+}
+
+.carousel-image:hover {
+    transform: scale(1.05); /* Slightly scales the image on hover */
+}
+

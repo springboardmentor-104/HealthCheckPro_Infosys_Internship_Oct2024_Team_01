@@ -1,0 +1,16 @@
+/* Carousel.css */
+.carousel-slide {
+    position: relative; /* Ensure the image is positioned correctly */
+}
+
+.carousel-image {
+    width: 100%; /* Makes the image responsive */
+    height: auto; /* Maintain aspect ratio */
+    border-radius: 15px; /* Rounded corners */
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3); /* Shadow for 3D effect */
+    transition: transform 0.3s ease; /* Transition for hover effect */
+}
+
+.carousel-image:hover {
+    transform: scale(1.05); /* Slightly enlarge on hover */
+}
