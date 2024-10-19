@@ -18,12 +18,13 @@ import 'swiper/css/autoplay';
 
 // Import Swiper React components
 import { Swiper, SwiperSlide } from 'swiper/react';
-
+import { useColorMode } from '@chakra-ui/react';
 
 
 
 const Carousel = ({ slides, settings,sliderContainerStyle }) => {
 
+    const { colorMode } = useColorMode();
 
     const slidesArr = slides.map(slide => (
         // SwiperSlide is a wrapper for slide container
@@ -32,7 +33,11 @@ const Carousel = ({ slides, settings,sliderContainerStyle }) => {
                 maxWidth="100%"
                 textAlign="center"
                 justify="center"
-                backgroundImage={`linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url(${slide.image})`}
+                backgroundImage={
+                    colorMode === 'light'
+                        ? `url(${slide.image})`
+                        : `linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)),url(${slide.image})`
+                }
                 style={sliderContainerStyle}
                 backgroundSize="cover"
                 backgroundPosition="center"
