@@ -1,3 +1,6 @@
+// Add Sponsers if needed or remove this component
+
+
 const Sponsers = () =>{
     return (
         <>

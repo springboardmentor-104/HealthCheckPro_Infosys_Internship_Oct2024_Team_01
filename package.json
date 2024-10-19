@@ -1,0 +1,21 @@
+{
+  "name": "healthcheckpro_infosys",
+  "version": "1.0.0",
+  "description": "Health Check Pro is a user-friendly health website built using the MERN stack",
+  "main": "index.js",
+  "scripts": {
+    "frontend": "cd frontend && yarn",
+    "backend": "cd backend && yarn",
+    "dev": "concurrently \"yarn backend dev\" \"yarn frontend dev\"",
+    "install": "concurrently \"yarn backend\" \"yarn frontend && yarn frontend build\"",
+    "start": "yarn backend start",
+    "server": "nodemon backend/index.js"
+
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "concurrently": "^9.0.1"
+  }
+}

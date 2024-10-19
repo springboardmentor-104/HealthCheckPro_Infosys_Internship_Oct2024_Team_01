@@ -1,3 +1,6 @@
+// Desc: About page component
+
+
 const About = () =>{
     return (
         <>
