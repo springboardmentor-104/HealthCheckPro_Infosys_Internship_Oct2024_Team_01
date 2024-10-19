@@ -28,9 +28,17 @@ const Carousel = ({ slides, settings,sliderContainerStyle }) => {
     const slidesArr = slides.map(slide => (
         // SwiperSlide is a wrapper for slide container
         <SwiperSlide key={slide.id}>
-            <VStack maxWidth="100%" textAlign="center" justify="center"  backgroundImage={`url(${slide.image})`} style={sliderContainerStyle} backgroundSize="cover" backgroundPosition="center">
-                <Heading fontSize="xl">{slide.title}</Heading>
-                <Text>{slide.description}</Text>
+            <VStack
+                maxWidth="100%"
+                textAlign="center"
+                justify="center"
+                backgroundImage={`linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url(${slide.image})`}
+                style={sliderContainerStyle}
+                backgroundSize="cover"
+                backgroundPosition="center"
+            >
+                <Heading fontSize="2xl" textShadow="2px 2px 4px rgba(0, 0, 0, 0.5)">{slide.title}</Heading>
+                <Text fontSize="lg" textShadow="2px 2px 4px rgba(0, 0, 0, 0.5)">{slide.description}</Text>
             </VStack>
         </SwiperSlide>
     ));

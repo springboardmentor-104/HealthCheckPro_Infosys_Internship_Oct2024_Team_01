@@ -31,15 +31,15 @@ const ResetPassword = () => {
 
     const { bodyBg, inputBg, authBg } = useCustomTheme();
     const { email: emailParam } = useParams();
-    const { resetPassword,resetState } = useAuth();
+    const { resetPassword, resetState } = useAuth();
 
 
 
     const handleSubmit = async () => {
         await resetPassword(emailParam, otp, password, confirmPassword)
-        .catch((error) => {
-            console.log(error);
-        });
+            .catch((error) => {
+                console.log(error);
+            });
     };
 
     return (
@@ -100,7 +100,7 @@ const ResetPassword = () => {
                 zIndex={3}
             >
                 <Stack maxWidth="100%" minWidth="200px" spacing={4} p={3} rounded="md" bgColor={{
-                    base: `${authBg}80`,
+                    base: "transparent", md: `${authBg}80`
                 }}>
                     <FormControl>
                         <FormLabel>Enter OTP send to your email</FormLabel>

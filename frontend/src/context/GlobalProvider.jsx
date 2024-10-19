@@ -16,11 +16,13 @@ const GlobalProvider = ({ children }) => {
     const [user, setUser] = useState(
         localStorage.getItem('user') ? JSON.parse(localStorage.getItem('user')) : null
     );
-    
 
     useEffect(() => {
-         setUser(JSON.parse(localStorage.getItem('user')));
-    }, [user]);
+        console.log('=== user GlobalProvider.jsx [21] ===', user);
+        localStorage.setItem('user', JSON.stringify(user));
+    }
+    , [user]);
+
 
     return (
         <GlobalContext.Provider value={{ user, setUser }}>

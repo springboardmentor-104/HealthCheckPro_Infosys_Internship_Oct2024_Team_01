@@ -93,7 +93,9 @@ const Login = () => {
         p={{ base: 4, md: 10 }}
         borderRadius="md"
       >
-        <Stack maxWidth="100%" minWidth="200px" spacing={4} p={3} rounded="md" bgColor={authBg}>
+        <Stack maxWidth="100%" minWidth="200px" spacing={4} p={3} rounded="md" bgColor={{
+          base: "transparent", md: authBg
+        }}>
           <FormControl id="email" isInvalid={!email && error}>
             <FormLabel>Email</FormLabel>
             <Input

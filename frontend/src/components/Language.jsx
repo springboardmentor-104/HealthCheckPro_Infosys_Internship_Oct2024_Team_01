@@ -6,7 +6,11 @@ import { Select } from '@chakra-ui/react';
 
 const Language = () => {
     return (
-        <Select defaultValue={"en"} maxWidth="100px">
+        <Select defaultValue={"en"} w={{
+            base: "full", md: "100px"
+        }}
+            colorScheme='blue'
+        >
             <option value="en">English</option>
             <option value="es">Spanish</option>
             <option value="fr">French</option>

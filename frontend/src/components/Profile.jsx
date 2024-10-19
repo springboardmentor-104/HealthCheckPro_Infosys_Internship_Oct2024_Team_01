@@ -18,11 +18,12 @@ import {
 
 const Profile = ({userInfo}) => {
     const { isOpen, onOpen, onClose } = useDisclosure();
-    const { username, email } = userInfo;
+    console.log('=== userInfo Profile.jsx [21] ===', userInfo);
+
 
     return (
         <>
-            <Button onClick={onOpen} variant="none">Open Profile</Button>
+            <Button onClick={onOpen} variant="unstyled"  >Profile</Button>
 
             <Modal isOpen={isOpen} onClose={onClose}>
                 <ModalOverlay />
@@ -30,9 +31,9 @@ const Profile = ({userInfo}) => {
                     <ModalHeader>Profile</ModalHeader>
                     <ModalCloseButton />
                     <ModalBody>
-                        <Avatar name={username} src="https://bit.ly/broken-link" />
-                        <Text mt={4}>Username: {username}</Text>
-                        <Text>Email: {email}</Text>
+                        <Avatar name={userInfo.username} />
+                        <Text mt={4}>Username: {userInfo.username}</Text>
+                        <Text>Email: {userInfo.email}</Text>
                     </ModalBody>
 
                     <ModalFooter>
