@@ -39,7 +39,7 @@ const Features = () => {
       </Flex>
 
       {/* Features */}
-      <Flex gap={5} p={{
+      <Flex gap={5} flexWrap={{base:"wrap",lg:"nowrap"}} p={{
         base: 5,
         md: ""
       }} w={{ base: "100%", md: "60%" }} overflowX={{

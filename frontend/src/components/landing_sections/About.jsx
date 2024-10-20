@@ -45,7 +45,7 @@ const About = () => {
                 </Grid>
             </Flex>
             <HStack py={10}>
-                <SimpleGrid mx="auto" w={{md:"80%"}} columns={{ base: 1, md: 2 }} spacing={5} p={{md:10}}>
+                <SimpleGrid mx="auto" w={{md:"80%"}} columns={{ base: 1, md: 1,lg:2 }} spacing={5} p={{md:10}}>
                     {sections.map((section, index) => (
                         <Box  key={index} boxShadow="xl" borderRadius="lg" overflow="hidden" p={10} backgroundColor="white">
                             <Heading as="h2" size="md"  fontSize={{ base: "2xl", md: "2xl" }} fontWeight="bold" color="blue.500">
@@ -57,7 +57,7 @@ const About = () => {
                         </Box>
                     ))}
                 </SimpleGrid>
-                    <Image display={{base:"none",md:"block"}} src={landingBg}/>
+                    <Image display={{base:"none",md:"block"}}  width="50%" src={landingBg}/>
             </HStack>
         </Box>
     );

@@ -114,8 +114,8 @@ const Navbar = () => {
                         </HStack>
                         <AccordionIcon ml="auto"/>
                     </AccordionButton>
-                    <AccordionPanel px={3} as={VStack}>
-                        <HStack display="flex" flex={1} w="100%">
+                    <AccordionPanel px={3} as={VStack} flex={1} w="100%">
+                        <HStack display="flex" >
                             <Button as={ScrollLink} colorScheme="blue" variant="outline" to="home" smooth={true} duration={500} style={{ textDecoration: 'none' }} >Home</Button>
                             <Button as={ScrollLink} colorScheme="blue" variant="outline" to="about" smooth={true} duration={500} style={{ textDecoration: 'none' }} >About</Button>
                             <Button as={ScrollLink} colorScheme="blue" variant="outline" to="features" smooth={true} duration={500} style={{ textDecoration: 'none' }} >Features</Button>
