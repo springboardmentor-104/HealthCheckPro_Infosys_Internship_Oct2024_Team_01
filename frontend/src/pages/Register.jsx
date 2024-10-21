@@ -1,6 +1,3 @@
-// Desc: Register page for new users
-// Note: Do not change this file unless you know what you are doing
-
 import {
     Box,
     Button,
@@ -11,7 +8,18 @@ import {
     Input,
     Stack,
     Text,
-    VStack
+    VStack,
+    HStack,
+    Select,
+    Modal,
+    ModalOverlay,
+    ModalContent,
+    ModalHeader,
+    ModalFooter,
+    ModalBody,
+    ModalCloseButton,
+    useDisclosure,
+    useToast
 } from '@chakra-ui/react';
 import { useState } from 'react';
 import { Link as NLink, useNavigate } from 'react-router-dom';
@@ -19,21 +27,49 @@ import useGlobalState from '../hooks/useGlobalState';
 import useSignup from '../hooks/useSignup';
 import authbg from '/authbg.png';
 import useCustomTheme from '../hooks/useCustomTheme';
+import VerifyOTP from '../components/VerifyOTP';
+import useAuth from '../hooks/useAuth';
+
 
 const Register = () => {
     const [email, setEmail] = useState('');
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
+    const [age, setAge] = useState('');
+    const [gender, setGender] = useState('');
+    const [otp, setOTP] = useState('');
     const { setUser } = useGlobalState();
     const { bodyBg, inputBg, authBg } = useCustomTheme();
-
+    const { isOpen, onOpen, onClose } = useDisclosure();
+    const { sendOTPAction, sendOTPLoading } = useAuth();
+    const toast = useToast();
     const { signup, loading, error } = useSignup();
     const navigate = useNavigate();
 
-    const handleRegister = async () => {
-        ;
-        await signup(username, email, password, confirmPassword)
+
+
+    const handleOTPSubmit = async () => {
+        console.log('=== email Register.jsx [53] ===', email);
+        await sendOTPAction(email)
+            .then(() => {
+                onOpen();
+            })
+            .catch((error) => {
+                toast({
+                    title: "Error",
+                    description: error.response.data.message,
+                    status: "error",
+                    duration: 5000,
+                    isClosable: true,
+                });
+            });
+    };
+
+
+
+    const handleVerficationRegistration = async () => {
+        await signup(otp, email, username, age, gender, password, confirmPassword)
             .then((response) => {
                 if (response) {
                     setUser(response);
@@ -45,6 +81,8 @@ const Register = () => {
                 console.log(error);
             });
     };
+
+
 
     return (
         <Box
@@ -116,8 +154,8 @@ const Register = () => {
             >
 
                 <Stack maxWidth="100%" minWidth="200px" spacing={4} p={3} rounded="md" bgColor={{
-          base: "transparent", md: authBg
-        }}>
+                    base: "transparent", md: authBg
+                }}>
                     <FormControl id="email" isInvalid={!email && error}>
                         <FormLabel>Email</FormLabel>
                         <Input
@@ -144,8 +182,37 @@ const Register = () => {
                             value={username}
                             onChange={(e) => setUsername(e.target.value)}
                         />
-
                     </FormControl>
+                    <HStack>
+                        <FormControl id="age" isInvalid={!age && error}>
+                            <FormLabel>Age</FormLabel>
+                            <Input
+                                width="full"
+                                minW="150px"
+                                bgColor={{ base: "transparent", md: inputBg }}
+                                backdropFilter={{ base: "blur(10px)", md: "none" }}
+                                type="number"
+                                placeholder="Enter Age"
+                                value={age}
+                                onChange={(e) => setAge(e.target.value)}
+                            />
+                        </FormControl>
+                        <FormControl id="gender" isInvalid={!gender && error}>
+                            <FormLabel>Gender</FormLabel>
+                            <Select
+                                width="full"
+                                minW="150px"
+                                bgColor={{ base: "transparent", md: inputBg }}
+                                backdropFilter={{ base: "blur(10px)", md: "none" }}
+                                placeholder="Select Gender"
+                                value={gender}
+                                onChange={(e) => setGender(e.target.value)}
+                            >
+                                <option value="Male">Male</option>
+                                <option value="Female">Female</option>
+                            </Select>
+                        </FormControl>
+                    </HStack>
                     <FormControl id="password" isInvalid={!password && error}>
                         <FormLabel>Password</FormLabel>
                         <Input
@@ -174,8 +241,9 @@ const Register = () => {
                         />
 
                     </FormControl>
-                    <Button colorScheme="blue" width="full" mt={4} onClick={handleRegister} isLoading={loading}>
-                        Register
+
+                    <Button colorScheme="blue" width="full" mt={4} onClick={handleOTPSubmit} isLoading={sendOTPLoading}>
+                        Verify Email
                     </Button>
                 </Stack>
 
@@ -186,6 +254,22 @@ const Register = () => {
 
 
             </Box>
+
+            <Modal isOpen={isOpen} onClose={onClose}>
+                <ModalOverlay />
+                <ModalContent>
+                    <ModalHeader>Verify your Email</ModalHeader>
+                    <ModalCloseButton />
+                    <ModalBody>
+                        <VerifyOTP setOTP={setOTP} />
+                    </ModalBody>
+                    <ModalFooter >
+                        <Button colorScheme="blue" mr={3} onClick={handleVerficationRegistration} isLoading={loading}>
+                            Verify & Regsiter
+                        </Button>
+                    </ModalFooter>
+                </ModalContent>
+            </Modal>
         </Box>
     );
 }

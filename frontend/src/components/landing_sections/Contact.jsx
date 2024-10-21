@@ -1,10 +1,12 @@
 
 import { Box, Flex, Heading, Text, Link, VStack, HStack, Icon } from '@chakra-ui/react';
 import { FaFacebook, FaTwitter, FaInstagram, FaLinkedin, FaYoutube } from 'react-icons/fa';
+import useCustomTheme from '../../hooks/useCustomTheme';
 
 const Contact = () => {
+    const {footerBg} = useCustomTheme();
     return (
-        <Box bg="gray.900" color="white" p={{ base: 5, md: 10 }} id="contact">
+        <Box bg={footerBg} borderTop="2px"  p={{ base: 5, md: 10 }} id="contact">
             <HStack justify="space-between">
                 <VStack width="40%" align="center" gap={5} display={{
                     base: "none", md: "flex"
