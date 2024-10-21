@@ -39,8 +39,8 @@ const Login = () => {
   const handleSendOTP = async () => {
     await sendOTPAction(email).
     then((res) => {
-      onClose();
-      res && navigate(`/reset-pass/${email}`);
+      console.log('=== res Login.jsx [42] ===', res);
+      navigate(`/reset-pass/${email}`);
     }).
     catch((error) => {
       console.log(error);
