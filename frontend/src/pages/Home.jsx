@@ -137,8 +137,9 @@ const Home = () => {
 
     return (
         <Box >
-            <Box id='home'>
+            <Box id='home' p={3}>
                 <Carousel {...slidesShow1} />
+                <Box my={3}></Box>
                 <Carousel {...slidesShow2} />
             </Box>
             <Sponsers />

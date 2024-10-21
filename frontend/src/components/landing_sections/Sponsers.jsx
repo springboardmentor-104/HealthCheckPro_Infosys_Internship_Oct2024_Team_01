@@ -7,6 +7,7 @@ import logo3 from '../../assets/logo3.png';
 import logo4 from '../../assets/logo4.svg';
 import logo5 from '../../assets/logo5.svg';
 import logo6 from '../../assets/logo6.svg';
+import useCustomTheme from "../../hooks/useCustomTheme";
 
 // Create an array of objects containing the logo links and alt text
 const logos = [
@@ -19,8 +20,9 @@ const logos = [
 ];
 
 const Sponsers = () => {
+    const {sponsersBg} = useCustomTheme();
     return (
-        <Box bg="gray.100" py={10} px={6} id="sponsers">
+        <Box bg={sponsersBg} py={10} px={6} id="sponsers">
             {/* Heading */}
             <Flex justify="center" mb={6}>
                 <Text fontSize={{ base: "lg", md: "xl" }} fontWeight="bold" color="gray.700">

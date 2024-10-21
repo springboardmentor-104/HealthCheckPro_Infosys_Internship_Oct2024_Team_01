@@ -13,6 +13,12 @@ const ThemeProvider = ({ children }) => {
         bodyBg: useColorModeValue('#f0f4ff', '#1a202c'),
         authBg: useColorModeValue('#FFFFFF', '#121212'),
         inputBg: useColorModeValue('#ffffff', '#2d3748'),
+        navBg: useColorModeValue('#ffffff', '#1a202c'),
+        sponsersBg: useColorModeValue('gray.100', 'gray.500'),
+        aboutBg: useColorModeValue('blue.50', 'gray.900'),
+        featuresBg: useColorModeValue('gray.50', '#1a202c'),
+        footerBg: useColorModeValue('#f0f4ff', '#1a202c'),
+        cardBg: useColorModeValue('white', '#2d3748'),
     };
 
 

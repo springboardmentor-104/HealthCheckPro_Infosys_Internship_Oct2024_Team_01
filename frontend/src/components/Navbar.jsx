@@ -1,16 +1,20 @@
-import { useToast, Heading, Flex, HStack, Divider, Button, VStack, Accordion, AccordionItem, Avatar, AccordionButton, AccordionPanel, AccordionIcon, Menu, MenuButton, MenuItem, MenuList, Box } from "@chakra-ui/react";
-import { useLocation, useNavigate, Link } from "react-router-dom";
+import { useToast, Heading, Flex, HStack, Divider, Button, VStack, Accordion, AccordionItem, Avatar, AccordionButton, AccordionPanel, AccordionIcon, Menu, MenuButton, MenuItem, MenuList } from "@chakra-ui/react";
+import { useNavigate, Link } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { Link as ScrollLink } from 'react-scroll';
 import useGlobalState from "../hooks/useGlobalState";
 import Profile from "./Profile";
+import ChangeTheme from "./ChangeTheme";
+import useCustomTheme from "../hooks/useCustomTheme";
 
 const Navbar = () => {
-    const location = useLocation();
+
     const navigate = useNavigate();
     const { user, setUser } = useGlobalState();
     const toast = useToast();
     const [activeSection, setActiveSection] = useState('');
+    const { navBg } = useCustomTheme();
+
 
     const handleLogout = () => {
         setUser(null);
@@ -51,7 +55,9 @@ const Navbar = () => {
         <>
             <Flex display={{
                 base: "none", md: "flex"
-            }} py={3} px={10} justify="space-between" align="center" position="fixed" zIndex={5} bg="white" left={0} right={0}>
+            }} py={3} px={10} justify="space-between" align="center" position="fixed" zIndex={5} bg={
+                navBg
+            } left={0} right={0}>
                 <Heading size={"md"} color={"blue.600"}>
                     HealthCheckPro
                 </Heading>
@@ -88,6 +94,7 @@ const Navbar = () => {
                             <Button colorScheme="blue" as={Link} to="/register">Register</Button>
                         </HStack>
                     )}
+                    <ChangeTheme />
                 </HStack>
             </Flex>
 
@@ -112,7 +119,7 @@ const Navbar = () => {
                                 HealthCheckPro
                             </Heading>
                         </HStack>
-                        <AccordionIcon ml="auto"/>
+                        <AccordionIcon ml="auto" />
                     </AccordionButton>
                     <AccordionPanel px={3} as={VStack} flex={1} w="100%">
                         <HStack display="flex" >

@@ -10,17 +10,15 @@ import {
     Input,
     Stack,
     Text,
-    VStack,
-    HStack,
-    PinInput,
-    PinInputField,
-
+    VStack
 } from '@chakra-ui/react';
 import { useState } from 'react';
 import { Link as NLink, useParams } from 'react-router-dom';
-import authbg from '/authbg.png';
+import VerifyOTP from '../components/VerifyOTP';
+
 import useCustomTheme from '../hooks/useCustomTheme';
-import useAuth from '../hooks/useAuth';
+import authbg from '/authbg.png';
+import useResetPassword from '../hooks/useResetPassword';
 
 
 
@@ -30,13 +28,13 @@ const ResetPassword = () => {
     const [confirmPassword, setConfirmPassword] = useState('');
 
     const { bodyBg, inputBg, authBg } = useCustomTheme();
-    const { email: emailParam } = useParams();
-    const { resetPassword, resetState } = useAuth();
+    const { email } = useParams();
+    const { resetPassword, error,loading } = useResetPassword();
 
 
 
     const handleSubmit = async () => {
-        await resetPassword(emailParam, otp, password, confirmPassword)
+        await resetPassword(otp,email, password, confirmPassword)
             .catch((error) => {
                 console.log(error);
             });
@@ -102,22 +100,8 @@ const ResetPassword = () => {
                 <Stack maxWidth="100%" minWidth="200px" spacing={4} p={3} rounded="md" bgColor={{
                     base: "transparent", md: `${authBg}80`
                 }}>
-                    <FormControl>
-                        <FormLabel>Enter OTP send to your email</FormLabel>
-                        <HStack m="auto" bgColor={inputBg} p={2} rounded="md" justify="center">
-                            <PinInput onChange={(value) => setOTP(
-                                value
-                            )}>
-                                <PinInputField />
-                                <PinInputField />
-                                <PinInputField />
-                                <PinInputField />
-                                <PinInputField />
-                                <PinInputField />
-                            </PinInput>
-                        </HStack>
-                    </FormControl>
-                    <FormControl id="password" isInvalid={!password && resetState.error}>
+                    <VerifyOTP setOTP={setOTP}/>
+                    <FormControl id="password" isInvalid={!password && error}>
                         <FormLabel>Password</FormLabel>
                         <Input
                             width="full"
@@ -130,7 +114,7 @@ const ResetPassword = () => {
                             onChange={(e) => setPassword(e.target.value)}
                         />
                     </FormControl>
-                    <FormControl id="confirmPassword" isInvalid={!confirmPassword && resetState.error}>
+                    <FormControl id="confirmPassword" isInvalid={!confirmPassword && error}>
                         <FormLabel>Confirm Password</FormLabel>
                         <Input
                             width="full"
@@ -143,7 +127,7 @@ const ResetPassword = () => {
                             onChange={(e) => setConfirmPassword(e.target.value)}
                         />
                     </FormControl>
-                    <Button colorScheme="blue" width="full" mt={4} onClick={handleSubmit} isLoading={resetState.loading}>
+                    <Button colorScheme="blue" width="full" mt={4} onClick={handleSubmit} isLoading={loading}>
                         Reset Password
                     </Button>
                 </Stack>
