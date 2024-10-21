@@ -23,7 +23,7 @@ const Profile = ({userInfo}) => {
 
     return (
         <>
-            <Button onClick={onOpen} variant="unstyled"  >Profile</Button>
+            <Button onClick={onOpen} w="full" h="full" variant="unstyled"  >Profile</Button>
 
             <Modal isOpen={isOpen} onClose={onClose}>
                 <ModalOverlay />

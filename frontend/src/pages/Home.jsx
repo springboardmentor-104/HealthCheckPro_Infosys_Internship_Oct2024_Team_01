@@ -2,11 +2,10 @@
 // Usage: This component is rendered when the user visits the application
 
 
-import Carousel from "../components/Carousel";
-import { Pagination, Autoplay } from 'swiper/modules';
-import Sponsers from "../components/Sponsers";
-import { Box } from "@chakra-ui/react";
 
+import { Pagination, Autoplay } from 'swiper/modules';
+
+import { Box } from "@chakra-ui/react";
 import image1 from '../assets/image1.jpg';
 import image2 from '../assets/image2.jpg';
 import image3 from '../assets/image3.jpg';
@@ -17,8 +16,9 @@ import image5 from '../assets/image5.jpg';
 import img1 from '../assets/img1.jpg';
 import img2 from '../assets/img2.jpg';
 import img3 from '../assets/img3.jpg';
-import img4 from '../assets/img4.jpg';
 
+import { About, Features,Sponsers,Contact } from '../components/landing_sections';
+import Carousel from '../components/Carousel';
 
 const Home = () => {
 
@@ -80,7 +80,8 @@ const Home = () => {
         sliderContainerStyle: {
             width: "100%",
             height: "400px",
-            margin: "0 auto"
+            margin: "0 auto",
+            marginTop:"50px"
         }
     };
 
@@ -130,15 +131,20 @@ const Home = () => {
             width: "100%",
             height: "300px",
             margin: "0 auto",
-            marginTop: "20px",
+
         }
     };
 
     return (
-        <Box p="20px">
-            <Carousel {...slidesShow1} />
-            <Carousel {...slidesShow2} />
+        <Box >
+            <Box id='home'>
+                <Carousel {...slidesShow1} />
+                <Carousel {...slidesShow2} />
+            </Box>
             <Sponsers />
+            <Features />
+            <About/>
+            <Contact/>
         </Box>
     )
 }
