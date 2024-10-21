@@ -21,6 +21,7 @@ const useAuth = () => {
                     isClosable: true,
                 });
                 setSendOTPLoading(false);
+                return "Sent"
             })
             .catch((error) => {
                 toast({
@@ -31,7 +32,7 @@ const useAuth = () => {
                     isClosable: true,
                 });
                 setSendOTPLoading(false);
-                return null
+
             });
     };
 
