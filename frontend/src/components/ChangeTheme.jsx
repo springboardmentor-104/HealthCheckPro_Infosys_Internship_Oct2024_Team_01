@@ -7,8 +7,11 @@ const ChangeTheme = () => {
     return (
         <IconButton
             aria-label="Toggle theme"
-            icon={colorMode === 'light' ? <MoonIcon /> : <SunIcon />}
+            icon={colorMode === 'light' ? <MoonIcon /> : <SunIcon boxSize="25px"  color="white"/>}
             onClick={toggleColorMode}
+            colorScheme={
+                colorMode === 'light' ? 'blue' : 'orange'
+            }
         />
     );
 }
