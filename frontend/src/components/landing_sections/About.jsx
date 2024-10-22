@@ -2,6 +2,7 @@
 import { ExternalLinkIcon } from '@chakra-ui/icons';
 import { Box, Button, Flex, Grid, Heading, Text,SimpleGrid,HStack,Image } from '@chakra-ui/react';
 import landingBg from "../../assets/landing-img.png"
+import useCustomTheme from "../../hooks/useCustomTheme";
 
 const About = () => {
 
@@ -24,8 +25,10 @@ const About = () => {
         }
     ];
 
+    const {aboutBg,cardBg} = useCustomTheme();
+
     return (
-        <Box p={5} bgColor="blue.50" id='about'>
+        <Box p={5} bgColor={aboutBg} id='about'>
             <Flex  align="center" p={5} direction={{
                 base:"column",
                 md:"row"
@@ -47,7 +50,7 @@ const About = () => {
             <HStack py={10}>
                 <SimpleGrid mx="auto" w={{md:"80%"}} columns={{ base: 1, md: 1,lg:2 }} spacing={5} p={{md:10}}>
                     {sections.map((section, index) => (
-                        <Box  key={index} boxShadow="xl" borderRadius="lg" overflow="hidden" p={10} backgroundColor="white">
+                        <Box  key={index} boxShadow="xl" borderRadius="lg" overflow="hidden" p={10} backgroundColor={cardBg}>
                             <Heading as="h2" size="md"  fontSize={{ base: "2xl", md: "2xl" }} fontWeight="bold" color="blue.500">
                                 {section.title}
                             </Heading>

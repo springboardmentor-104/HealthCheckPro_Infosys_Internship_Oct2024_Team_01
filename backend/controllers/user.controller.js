@@ -1,7 +1,6 @@
 import User from "../models/user.model.js";
 import jwt from "jsonwebtoken";
-import nodemailer from "nodemailer";
-import crypto from "crypto";
+
 
 const createToken = (id) => {
   // JWTSKND (JWT Secret Key Not Defined)
@@ -17,21 +16,33 @@ const createToken = (id) => {
 
 
 const createAccount = async (req, res) => {
-  try {
-    const { email, password, username, confirmPassword } = req.body;
 
-    const user = await User.signup(email, username, password, confirmPassword);
+  const { email, password, username, gender, age, otp, confirmPassword } = req.body;
 
-    const token = createToken(user._id);
-    res.status(201).json({
-      token,
-      email,
-      username
+  const isVerified = await User.verifyOTP(email, otp).
+    catch((err) => {
+      return res.status(400).json({ message: err.message });
     });
-  } catch (err) {
-    console.log(err.message);
-    res.status(400).json({ message: err.message });
+
+  if (isVerified) {
+    await User.signup(email, username, age, gender, password, confirmPassword, isVerified)
+      .then((user) => {
+        const token = createToken(user._id);
+        return res.status(201).json({
+          token,
+          email,
+          username
+        });
+      })
+      .catch((err) => {
+        return res.status(400).json({ message: err.message });
+      }
+      );
   }
+  else {
+    return res.status(400).json({ message: "OTP not verified" });
+  }
+
 };
 
 const loginUser = async (req, res) => {
@@ -51,53 +62,40 @@ const loginUser = async (req, res) => {
 
 const resetPassword = async (req, res) => {
   try {
-    const { email, password, confirmPassword } = req.body;
-    const user = await User.resetPassword(email, password, confirmPassword);
-    const token = createToken(user._id);
-    res.status(201).json({
-      token,
-      user,
-    });
+    const { otp, email, password, confirmPassword } = req.body;
+
+    const isVerified = await User.verifyOTP(email, otp);
+    if (isVerified) {
+      await User.resetPassword(email, password, confirmPassword, isVerified).then(() => {
+        return res.status(201).json({ message: "Password reset successfully" });
+      })
+      .catch((err) => {
+        return res.status(400).json({ message: err.message });
+      });
+    }
+    else {
+      return res.status(400).json({ message: "OTP not verified" });
+    }
   } catch (err) {
     res.status(400).json({ message: err.message });
   }
 };
 
 const sendOTP = async (req, res) => {
-  try {
-    const { email } = req.body;
-    await User.sendOTP(email)
-      .then(() => {
-        res.status(201).json({ message: "OTP sent successfully" });
-      }
-      )
-      .catch((err) => {
-        res.status(400).json({ message: err.message });
-      }
-      );
-
-
-  } catch (err) {
-    res.status(400).json({ message: err.message });
-  }
-};
-
-const verifyOTP = async (req, res) => {
-  try {
-    const { email, otp } = req.body;
-    const user = await User.verifyOTP(email, otp);
-    if (user) {
-      res.status(201).json({ message: "OTP verified successfully" });
-    }
-  } catch (err) {
-    res.status(400).json({ message: err.message });
-  }
+  const { email } = req.body;
+  await User.sendOTP(email)
+    .then(() => {
+      return res.status(201).json({ message: "OTP sent to your mail" });
+    })
+    .catch((err) => {
+      return res.status(400).json({ message: err.message });
+    });
 }
+
 
 export {
   createAccount,
   loginUser,
   resetPassword,
-  sendOTP,
-  verifyOTP
+  sendOTP
 };

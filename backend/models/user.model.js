@@ -14,11 +14,27 @@ const userSchema = new Schema({
   },
   username: {
     type: String,
+    default: "username",
     required: true,
+    trim: true,
+  },
+  age: {
+    type: Number,
+    required: true,
+    min: 18,
+    max: 99,
+    default: 18,
+  },
+  gender: {
+    type: String,
+    required: true,
+    enum: ['Male', 'Female'],
+    default: 'Male',
     trim: true,
   },
   passwordHash: {
     type: String,
+    default: "password",
     required: true,
   },
   avatarUrl: {
@@ -28,10 +44,15 @@ const userSchema = new Schema({
   otp: { type: String, trim: true },
   otpExpiry: { type: Date },
 
-});
+}, { timestamps: true });
 
-userSchema.statics.signup = async (email, username, password, confirmPassword) => {
-  if (!email || !password) {
+userSchema.statics.signup = async (email, username, age, gender, password, confirmPassword, isVerified) => {
+
+  if (!isVerified) {
+    throw Error("OTP not verified");
+  }
+
+  if (!email || !password || !username || !age || !age || !gender) {
     throw Error("Please fill all the fields");
   }
 
@@ -42,25 +63,31 @@ userSchema.statics.signup = async (email, username, password, confirmPassword) =
     throw Error("Passwords do not match");
   }
 
-  const exists = await User.findOne({ email });
-  if (exists) {
-    throw Error("User already exists");
-  }
-
   if (!validator.isStrongPassword(password)) {
-    throw Error("Password is not strong enough. Must contain at least 8 characters, 1 uppercase, 1 lowercase, 1 number and 1 symbol");
+    throw Error("Password is not strong enough.\nMust contain at least: \n8 characters \n1 uppercase \n1 lowercase \n1 number  \n1 symbol");
   }
 
   const salt = await bcrypt.genSalt(10);
   const passwordHashed = await bcrypt.hash(password, salt);
 
-  const user = await new User({
-    email,
-    username,
-    passwordHash: passwordHashed,
-  }).save();
+  const user = await User.updateOne({ email },
+    {
+      $set: {
+        username,
+        age,
+        gender,
+        passwordHash: passwordHashed,
+        avatarUrl: "",
+        otp: null,
+        otpExpiry: null
+      }
+    }
+  ).catch((err) => {
+    throw Error(err);
+  });
 
   return user;
+
 };
 
 userSchema.statics.login = async (email, password) => {
@@ -87,6 +114,74 @@ userSchema.statics.login = async (email, password) => {
   }
 };
 
+
+userSchema.statics.resetPassword = async (email, password, confirmPassword, isVerified) => {
+
+  
+  if (!isVerified) {
+    throw Error("OTP not verified");
+  }
+
+  if (!email || !password || !confirmPassword) {
+    throw Error("Please fill all the fields");
+  }
+
+  if (!validator.isEmail(email)) {
+    throw Error("Email is not valid. Please enter a valid email");
+  }
+
+  if (!validator.isStrongPassword(password)) {
+    throw Error("Password is not strong enough. Must contain at least 6 characters, 1 uppercase, 1 lowercase, 1 number and 1 symbol");
+  }
+
+  if (password !== confirmPassword) {
+    throw Error("Passwords do not match");
+  }
+
+  const salt = await bcrypt.genSalt(10);
+  const passwordHashed = await bcrypt.hash(password, salt);
+
+  await User.updateOne({ email }, { $set: { passwordHash: passwordHashed } })
+};
+
+userSchema.statics.verifyOTP = async (email, otp) => {
+  if (!email || !otp) {
+    throw Error("Please fill all the fields");
+  }
+
+  if (!validator.isEmail(email)) {
+    throw Error("Email is not valid. Please enter a valid email");
+  }
+
+  const user = await User.findOne({ email });
+
+  if (!user) {
+    throw Error("User does not exist");
+  }
+
+  if (!user.otp) {
+    throw Error("No OTP was sent to this user");
+  }
+
+  if (Date.now() > user.otpExpiry) {
+    throw Error("OTP has expired");
+  }
+
+  
+  const match = await bcrypt.compare(otp, user.otp)
+  if (match) {
+    user.otp = null;
+    user.otpExpiry = null;
+    await user.save();
+    return true;
+  } else {
+    await User.deleteOne({ email });
+    throw Error("Wrong OTP");
+  }
+
+
+}
+
 userSchema.statics.sendOTP = async (email) => {
   if (!email) {
     throw Error("Please fill all the fields");
@@ -96,10 +191,6 @@ userSchema.statics.sendOTP = async (email) => {
     throw Error("Email is not valid. Please enter a valid email");
   }
 
-  const user = await User.findOne({ email });
-  if (!user) {
-    throw Error("User does not exist");
-  }
 
   // Send an email with the OTP code
   const transporter = nodemailer.createTransport({
@@ -119,7 +210,6 @@ userSchema.statics.sendOTP = async (email) => {
   const hashOTP = await bcrypt.hash(otp, 10);
 
   // Save the hashed OTP and the expiry time in the database
-
   const mailOptions = {
     from: process.env.EMAIL,
     to: email,
@@ -130,78 +220,21 @@ userSchema.statics.sendOTP = async (email) => {
   const res = await transporter.sendMail(mailOptions);
 
   if (res) {
-    user.otp = hashOTP;
-    // Date + 10 minutes in milliseconds (10 * 60s * 1000ms)
-    user.otpExpiry = Date.now() + 10 * 60 * 1000;
-    await user.save();
-    return;
+    const exists = await User.exists({ email });
+    if (exists) {
+      await User.updateOne({ email }, { $set: { otp: hashOTP, otpExpiry: Date.now() + 600000 } });
+      
+    }
+    else {
+      await new User({
+        email,
+        otp: hashOTP,
+        otpExpiry: Date.now() + 600000,
+      }).save();
+      
+    }
   }
 
-  
-
-}
-
-userSchema.statics.resetPassword = async (email, password, confirmPassword) => {
-  if (!email || !password || !confirmPassword) {
-    throw Error("Please fill all the fields");
-  }
-
-  if (!validator.isEmail(email)) {
-    throw Error("Email is not valid. Please enter a valid email");
-  }
-
-  if (!validator.isStrongPassword(password)) {
-    throw Error("Password is not strong enough. Must contain at least 6 characters, 1 uppercase, 1 lowercase, 1 number and 1 symbol");
-  }
-
-  if (password !== confirmPassword) {
-    throw Error("Passwords do not match");
-  }
-
-  const user = await User.findOne({ email });
-  if (!user) {
-    throw Error("User does not exist");
-  }
-  const salt = await bcrypt.genSalt(10);
-  const passwordHashed = await bcrypt.hash(password, salt);
-  user.passwordHash = passwordHashed;
-  await user.save();
-  return user;
-};
-
-userSchema.statics.verifyOTP = async (email, otp) => {
-  if (!email || !otp) {
-    throw Error("Please fill all the fields");
-  }
-
-  if (!validator.isEmail(email)) {
-    throw Error("Email is not valid. Please enter a valid email");
-  }
-
-  const user = await User.findOne({ email });
-  if (!user) {
-    throw Error("User does not exist");
-  }
-
-  if (!user.otp) {
-    throw Error("No OTP was sent to this user");
-  }
-
-  if (Date.now() > user.otpExpiry) {
-    throw Error("OTP has expired");
-  }
-
-  const match = await bcrypt.compare(otp, user.otp);
-
-  if (match) {
-    // Clear OTP and expiry after successful verification
-    user.otp = null;
-    user.otpExpiry = null;
-    await user.save();
-    return user;
-  } else {
-    throw Error("Wrong OTP");
-  }
 }
 
 const User = mongoose.model("users", userSchema);

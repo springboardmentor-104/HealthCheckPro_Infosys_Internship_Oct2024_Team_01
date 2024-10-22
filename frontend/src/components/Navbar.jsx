@@ -1,16 +1,20 @@
-import { useToast, Heading, Flex, HStack, Divider, Button, VStack, Accordion, AccordionItem, Avatar, AccordionButton, AccordionPanel, AccordionIcon, Menu, MenuButton, MenuItem, MenuList, Box } from "@chakra-ui/react";
-import { useLocation, useNavigate, Link } from "react-router-dom";
+import { useToast, Heading, Flex, HStack, Divider, Button, VStack, Accordion, AccordionItem, Avatar, AccordionButton, AccordionPanel, AccordionIcon, Menu, MenuButton, MenuItem, MenuList } from "@chakra-ui/react";
+import { useNavigate, Link } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { Link as ScrollLink } from 'react-scroll';
 import useGlobalState from "../hooks/useGlobalState";
 import Profile from "./Profile";
+import ChangeTheme from "./ChangeTheme";
+import useCustomTheme from "../hooks/useCustomTheme";
 
 const Navbar = () => {
-    const location = useLocation();
+
     const navigate = useNavigate();
     const { user, setUser } = useGlobalState();
     const toast = useToast();
     const [activeSection, setActiveSection] = useState('');
+    const { navBg } = useCustomTheme();
+
 
     const handleLogout = () => {
         setUser(null);
@@ -51,7 +55,9 @@ const Navbar = () => {
         <>
             <Flex display={{
                 base: "none", md: "flex"
-            }} py={3} px={10} justify="space-between" align="center" position="fixed" zIndex={5} bg="white" left={0} right={0}>
+            }} py={3} px={10} justify="space-between" align="center" position="fixed" zIndex={5} bg={
+                navBg
+            } left={0} right={0}>
                 <Heading size={"md"} color={"blue.600"}>
                     HealthCheckPro
                 </Heading>
@@ -90,13 +96,15 @@ const Navbar = () => {
                             <Button colorScheme="blue" as={Link} to="/register">Register</Button>
                         </HStack>
                     )}
+                    <ChangeTheme />
                 </HStack>
             </Flex>
 
-            <Accordion w="100svw" position="fixed" zIndex={5} bgColor="white" allowToggle display={{ base: "block", md: "none" }} p={3}>
+            <Accordion w="100svw" position="fixed" zIndex={5} bgColor={navBg} allowToggle display={{ base: "block", md: "none" }} p={3}>
                 <AccordionItem w="100%" border="none">
                     <AccordionButton w="100%" display="flex" >
                         <HStack>
+                            <ChangeTheme />
                             {user && <Menu>
                                 <MenuButton>
                                     <Avatar name={user.username} />
@@ -114,25 +122,25 @@ const Navbar = () => {
                                 HealthCheckPro
                             </Heading>
                         </HStack>
-                        <AccordionIcon ml="auto"/>
+                        <AccordionIcon ml="auto" />
                     </AccordionButton>
                     <AccordionPanel px={3} as={VStack} flex={1} w="100%">
-                        <HStack display="flex" >
+                        <HStack display="flex" w="full" >
                             <Button as={ScrollLink} colorScheme="blue" variant="outline" to="home" smooth={true} duration={500} style={{ textDecoration: 'none' }} >Home</Button>
                             <Button as={ScrollLink} colorScheme="blue" variant="outline" to="about" smooth={true} duration={500} style={{ textDecoration: 'none' }} >About</Button>
                             <Button as={ScrollLink} colorScheme="blue" variant="outline" to="features" smooth={true} duration={500} style={{ textDecoration: 'none' }} >Features</Button>
                             <Button as={ScrollLink} colorScheme="blue" variant="outline" to="contact" smooth={true} duration={500} style={{ textDecoration: 'none' }} >Contact</Button>
                         </HStack>
-                        <HStack flex={1} w="100%">
+
                             {user ? (
                                 ""
                             ) : (
-                                <>
-                                    <Button flex={1} colorScheme="blue" variant="outline" as={Link} to="/login" >Login</Button>
-                                    <Button flex={1} colorScheme="blue" as={Link} to="/register" >Register</Button>
-                                </>
+                                <VStack mt={3} width="100%">
+                                    <Button width="100%" colorScheme="blue" variant="outline" as={Link} to="/login" >Login</Button>
+                                    <Button width="100%" colorScheme="blue" as={Link} to="/register" >Register</Button>
+                                </VStack>
                             )}
-                        </HStack>
+
                     </AccordionPanel>
                 </AccordionItem>
             </Accordion>

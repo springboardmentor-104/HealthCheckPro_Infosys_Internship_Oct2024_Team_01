@@ -1,5 +1,6 @@
 import { Box, Flex, Icon, SimpleGrid, Text, Stack } from "@chakra-ui/react";
 import { FaFire, FaHeartbeat, FaHourglassHalf } from "react-icons/fa";
+import useCustomTheme from "../../hooks/useCustomTheme";
 
 const features = [
   {
@@ -19,9 +20,11 @@ const features = [
   }
 ];
 
+
 const Features = () => {
+  const { featuresBg,cardBg } = useCustomTheme();
   return (
-    <Flex bg="gray.50" py={10} px={6} justify="space-between" align="center" id="features" flexDirection={{
+    <Flex bg={featuresBg} py={10} px={6} justify="space-between" align="center" id="features" flexDirection={{
       base: "column",
       md: "row"
     }}>
@@ -50,7 +53,7 @@ const Features = () => {
         md: "row"
       }}>
         {features.map((feature, index) => (
-          <Box key={index} bg="white" p={6} rounded="md" shadow="md" w={{
+          <Box key={index} bg={cardBg} p={6} rounded="md" shadow="md" w={{
             base: "100%",
             md: "auto"
           }} mb={{
@@ -58,8 +61,8 @@ const Features = () => {
             md: 0
           }}>
             <Flex align="center" mb={4}>
-              <Icon as={feature.icon} boxSize={6} color="gray.700" />
-              <Text ml={2} fontSize="lg" fontWeight="bold" color="gray.700">
+              <Icon as={feature.icon} boxSize={6} color="blue.500" />
+              <Text ml={2} fontSize="lg" fontWeight="bold" color="blue.500">
                 {feature.title}
               </Text>
             </Flex>
