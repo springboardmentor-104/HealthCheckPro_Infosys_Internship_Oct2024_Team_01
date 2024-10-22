@@ -69,19 +69,21 @@ const Navbar = () => {
                         <span style={{ textDecoration: 'underline', textDecorationColor: activeSection === 'about' ? 'blue' : 'transparent', textUnderlineOffset: '4px', transition: 'text-decoration-color 0.3s', fontWeight: activeSection === 'about' ? 'bold' : 'normal' }}>About</span>
                     </ScrollLink>
                     {user ? (
-                        <Menu>
-                            <MenuButton>
-                                <Avatar name={user.username} />
-                            </MenuButton>
-                            <MenuList>
-                                <MenuItem>
-                                    <Profile userInfo={user} />
-                                </MenuItem>
-                                <MenuItem onClick={handleLogout}>
-                                    Logout
-                                </MenuItem>
-                            </MenuList>
-                        </Menu>
+                        <HStack>
+                            <Menu>
+                                <MenuButton>
+                                    <Avatar name={user.username} />
+                                </MenuButton>
+                                <MenuList>
+                                    <MenuItem>
+                                        <Profile userInfo={user} />
+                                    </MenuItem>
+                                    <MenuItem onClick={handleLogout}>
+                                        Logout
+                                    </MenuItem>
+                                </MenuList>
+                            </Menu>
+                        </HStack>
                     ) : (
                         <HStack >
                             <Button colorScheme="blue" variant="outline" as={Link} to="/login">Login</Button>

@@ -20,7 +20,22 @@ import img3 from '../assets/img3.jpg';
 import { About, Features,Sponsers,Contact } from '../components/landing_sections';
 import Carousel from '../components/Carousel';
 
+import { useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
+
+import useGlobalState from '../hooks/useGlobalState';
+
 const Home = () => {
+
+    const navigate = useNavigate();
+    const { user } = useGlobalState();
+
+    useEffect(() => {
+        if (user) {
+            navigate('/dashboard');
+        }
+
+    }, []);
 
     // Note: Only change the slides array to change the slides
     // You can also change the settings object to change the carousel settings
