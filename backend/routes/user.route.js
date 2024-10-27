@@ -157,6 +157,41 @@ router.post("/reset-password", resetPassword);
  *         description: Internal server error.
  */
 router.post("/send-otp", sendOTP);
+
+
+/**
+ * @swagger
+ * /api/user/verify-email:
+ *   post:
+ *     summary: Verify the OTP sent to the user's email
+ *     tags: [User]
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             required:
+ *               - email
+ *               - otp
+ *             properties:
+ *               email:
+ *                 type: string
+ *                 description: The user's email.
+ *               otp:
+ *                 type: string
+ *                 description: The OTP sent to the user's email.
+ *     responses:
+ *       200:
+ *         description: Email verified successfully.
+ *       400:
+ *         description: Bad request.
+ *       401:
+ *         description: Unauthorized.
+ *       500:
+ *         description: Internal server error.
+ */
+
 router.post("/verify-email", verifyOTP);
 
 
