@@ -22,13 +22,13 @@ import {
     useToast
 } from '@chakra-ui/react';
 import { useState } from 'react';
-import { Link as NLink, useNavigate } from 'react-router-dom';
+import { Link as NLink } from 'react-router-dom';
 import useGlobalState from '../hooks/useGlobalState';
 import useSignup from '../hooks/useSignup';
 import authbg from '/authbg.png';
 import useCustomTheme from '../hooks/useCustomTheme';
 import VerifyOTP from '../components/VerifyOTP';
-import useAuth from '../hooks/useAuth';
+import useOTP from '../hooks/useOTP';
 
 
 const Register = () => {
@@ -42,10 +42,10 @@ const Register = () => {
     const { setUser } = useGlobalState();
     const { bodyBg, inputBg, authBg } = useCustomTheme();
     const { isOpen, onOpen, onClose } = useDisclosure();
-    const { sendOTPAction, sendOTPLoading } = useAuth();
+    const { sendOTPAction, loading: otpLoading, verifyOTPAction } = useOTP();
     const toast = useToast();
     const { signup, loading, error } = useSignup();
-    const navigate = useNavigate();
+
 
 
 
@@ -55,31 +55,17 @@ const Register = () => {
             .then(() => {
                 onOpen();
             })
-            .catch((error) => {
-                toast({
-                    title: "Error",
-                    description: error.response.data.message,
-                    status: "error",
-                    duration: 5000,
-                    isClosable: true,
-                });
-            });
+
     };
 
 
 
     const handleVerficationRegistration = async () => {
-        await signup(otp, email, username, age, gender, password, confirmPassword)
-            .then((response) => {
-                if (response) {
-                    setUser(response);
-                    localStorage.setItem('user', JSON.stringify(response));
-                    navigate('/');
-                }
+        await verifyOTPAction(email, otp)
+            .then((res) => {
+                res && signup(email, username, age, gender, password, confirmPassword)
             })
-            .catch((error) => {
-                console.log(error);
-            });
+
     };
 
 
@@ -242,7 +228,7 @@ const Register = () => {
 
                     </FormControl>
 
-                    <Button colorScheme="blue" width="full" mt={4} onClick={handleOTPSubmit} isLoading={sendOTPLoading}>
+                    <Button colorScheme="blue" width="full" mt={4} onClick={handleOTPSubmit} isLoading={otpLoading || loading}>
                         Verify Email
                     </Button>
                 </Stack>

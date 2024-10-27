@@ -15,17 +15,17 @@ const useSignup = () => {
     const toast = useToast();
     const navigate = useNavigate();
 
-    const signup = async (otp, email, username, age, gender, password, confirmPassword) => {
+    const signup = async ( email, username, age, gender, password, confirmPassword) => {
         setLoading(true);
         setError(false);
 
         const data = {
-            otp, email, username, age, gender, password, confirmPassword
+             email, username, age, gender, password, confirmPassword
         }
 
         await axios.post("/api/user/signup", data)
             .then((res) => {
-                if (res) {
+                if (res.status === 201) {
                     toast({
                         title: "Account Created",
                         description: "Redirecting to login page",
@@ -40,7 +40,7 @@ const useSignup = () => {
             })
             .catch((error) => {
                 toast({
-                    title: "Error",
+                    title: "Registration Failed",
                     description: error.response.data.message,
                     status: "error",
                     duration: 5000,
