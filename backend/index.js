@@ -8,17 +8,19 @@ import userRouter from "./routes/user.route.js";
 import { notFound, errorHandler } from "./middlewares/error.middleware.js";
 import path from 'path';
 import { fileURLToPath } from "url";
-
-
-
+import { swaggerUiServe,swaggerUiSetup } from "./swaggerui.js";
 
 const __dirname1 = path.dirname(fileURLToPath(import.meta.url));
 const __dirname2 = path.join(__dirname1, '../');
 
+
+
 app.use(cors());
 app.use(express.json());
 
+app.use('/api-docs', swaggerUiServe, swaggerUiSetup);
 app.use('/api/user', userRouter);
+
 
 // DEPLOYMENT CODE
 if (process.env.NODE_ENV === "production") {
