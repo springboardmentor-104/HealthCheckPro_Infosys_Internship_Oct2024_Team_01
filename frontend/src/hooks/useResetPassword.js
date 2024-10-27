@@ -11,11 +11,11 @@ const useResetPassword = () => {
 
     const toast = useToast();
 
-    const resetPassword = async (otp, email, password, confirmPassword) => {
+    const resetPassword = async ( email, password, confirmPassword) => {
         setLoading(true);
         setError(null);
 
-        const data = { otp, email, password, confirmPassword }
+        const data = { email, password, confirmPassword }
 
             await axios.post('/api/user/reset-password', data)
                 .then(() => {
@@ -32,7 +32,7 @@ const useResetPassword = () => {
                 })
                 .catch((err) => {
                     toast({
-                        title: 'Error',
+                        title: 'Password Reset Failed',
                         description: err.response.data.message,
                         status: 'error',
                         duration: 5000,

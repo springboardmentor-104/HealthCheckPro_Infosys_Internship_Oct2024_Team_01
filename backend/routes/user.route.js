@@ -1,5 +1,5 @@
 import express from "express";
-import { createAccount, loginUser, resetPassword,sendOTP} from "../controllers/user.controller.js";
+import { createAccount, loginUser, resetPassword,sendOTP,verifyOTP} from "../controllers/authentication.controller.js";
 
 
 const router = express.Router();
@@ -157,6 +157,7 @@ router.post("/reset-password", resetPassword);
  *         description: Internal server error.
  */
 router.post("/send-otp", sendOTP);
+router.post("/verify-email", verifyOTP);
 
 
 export default router;

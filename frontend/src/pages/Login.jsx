@@ -16,7 +16,7 @@ import { Link as NLink ,useNavigate} from "react-router-dom";
 import useLogin from "../hooks/useLogin";
 import authbg from "/authbg.png";
 import useCustomTheme from "../hooks/useCustomTheme";
-import useAuth from "../hooks/useAuth";
+import useOTP from "../hooks/useOTP";
 
 const Login = () => {
   const [email, setEmail] = useState("");
@@ -25,7 +25,7 @@ const Login = () => {
 
 
   const { bodyBg, inputBg, authBg } = useCustomTheme();
-  const { sendOTPAction, sendOTPLoading } = useAuth();
+  const { sendOTPAction, loading:otpLaoding } = useOTP();
   const { isOpen, onOpen, onClose } = useDisclosure();
 
   const navigate = useNavigate();
@@ -146,7 +146,7 @@ const Login = () => {
                   />
                   <FormHelperText my={3} textAlign="center">OTP will be sent on your mail to verify you.</FormHelperText>
                 </FormControl>
-                <Button w="100%" colorScheme="blue" onClick={handleSendOTP} isLoading={sendOTPLoading}>Send OTP</Button>
+                <Button w="100%" colorScheme="blue" onClick={handleSendOTP} isLoading={otpLaoding}>Send OTP</Button>
               </PopoverBody>
             </PopoverContent>
           </Popover>

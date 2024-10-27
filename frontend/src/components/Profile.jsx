@@ -18,7 +18,7 @@ import {
 
 const Profile = ({userInfo}) => {
     const { isOpen, onOpen, onClose } = useDisclosure();
-    console.log('=== userInfo Profile.jsx [21] ===', userInfo);
+    // console.log('=== userInfo Profile.jsx [21] ===', userInfo);
 
 
     return (

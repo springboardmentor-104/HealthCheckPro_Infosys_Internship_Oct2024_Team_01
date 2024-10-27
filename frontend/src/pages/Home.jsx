@@ -91,8 +91,7 @@ const Home = () => {
             scrollbar: {
                 draggable: true
             },
-            onSwiper: (swiper) => console.log(swiper),
-            onSlideChange: () => console.log('slide change')
+           
         },
         sliderContainerStyle: {
             width: "100%",
