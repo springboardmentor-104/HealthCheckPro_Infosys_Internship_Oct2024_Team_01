@@ -7,9 +7,9 @@ const options = {
     definition: {
         openapi: "3.0.0",
         info: {
-            title: "All HealthCheckPro API",
-            version: "1.0.0",
-            description: "For now, this is a User Authentication API for HealthCheckPro",
+            title: "HealthCheckPro API Documentation",
+            version: "1.1.5",
+            description: "All the APIs of HealthCheckPro",
         },
         servers: [
             {

@@ -9,7 +9,7 @@ const router = express.Router();
  * /api/user/signup:
  *   post:
  *     summary: Create a new user account
- *     tags: [User]
+ *     tags: [Authentication]
  *     requestBody:
  *       required: true
  *       content:
@@ -58,7 +58,7 @@ router.post("/signup", createAccount);
  * /api/user/login:
  *   post:
  *     summary: Log in a user
- *     tags: [User]
+ *     tags: [Authentication]
  *     requestBody:
  *       required: true
  *       content:
@@ -92,7 +92,7 @@ router.post("/login", loginUser);
  * /api/user/reset-password:
  *   post:
  *     summary: Reset user password
- *     tags: [User]
+ *     tags: [Authentication]
  *     requestBody:
  *       required: true
  *       content:
@@ -135,7 +135,7 @@ router.post("/reset-password", resetPassword);
  * /api/user/send-otp:
  *   post:
  *     summary: Send an OTP to the user's email
- *     tags: [User]
+ *     tags: [Authentication]
  *     requestBody:
  *       required: true
  *       content:
@@ -164,7 +164,7 @@ router.post("/send-otp", sendOTP);
  * /api/user/verify-email:
  *   post:
  *     summary: Verify the OTP sent to the user's email
- *     tags: [User]
+ *     tags: [Authentication]
  *     requestBody:
  *       required: true
  *       content:
