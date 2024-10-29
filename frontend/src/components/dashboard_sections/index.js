@@ -1,3 +1,3 @@
 import DashHome from "./DashHome";
-
-export { DashHome };
+import Assessment from "./Assesment";
+export { DashHome, Assessment};

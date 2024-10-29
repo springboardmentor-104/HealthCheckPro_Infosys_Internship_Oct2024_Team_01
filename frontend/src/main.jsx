@@ -10,7 +10,7 @@ import { createBrowserRouter, RouterProvider } from 'react-router-dom'
 import { Home, Login, Register, ResetPassword,Dashboard } from './pages'
 import GlobalProvider from './context/GlobalProvider'
 import ThemeProvider from './context/ThemeProvider'
-import {DashHome} from './components/dashboard_sections/index.js'
+import {DashHome, Assessment} from './components/dashboard_sections/index.js'
 
 // Add or remove routes as needed
 const router = createBrowserRouter([
@@ -37,15 +37,19 @@ const router = createBrowserRouter([
     element: <ResetPassword />,
   },
   {
-    path:'/dashboard',
+    path: '/dashboard',
     element: <Dashboard />,
-    children:[
+    children: [
       {
-        path:'',
-        element:<DashHome/>
-      }
-    ]
-  }
+        path: '',
+        element: <DashHome />,
+      },
+      {
+        path: 'assessment', // New route for the Assessment page
+        element: <Assessment />,
+      },
+    ],
+  },
 ])
 
 
