@@ -17,12 +17,14 @@ import useLogin from "../hooks/useLogin";
 import authbg from "/authbg.png";
 import useCustomTheme from "../hooks/useCustomTheme";
 import useOTP from "../hooks/useOTP";
+import { useEffect } from "react";
+import useGlobalState from "../hooks/useGlobalState";
 
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const { loading, error, login } = useLogin();
-
+  const {user} = useGlobalState();
 
   const { bodyBg, inputBg, authBg } = useCustomTheme();
   const { sendOTPAction, loading:otpLaoding } = useOTP();
@@ -46,6 +48,12 @@ const Login = () => {
       console.log(error);
     });
   };
+
+  useEffect(() => {
+    if(user){
+      navigate('/dashboard');
+    }
+  },[]);
 
   return (
     <Box

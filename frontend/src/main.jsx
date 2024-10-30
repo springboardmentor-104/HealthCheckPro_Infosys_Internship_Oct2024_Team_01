@@ -7,10 +7,11 @@ import App from './App.jsx'
 import { ChakraProvider, ColorModeScript } from '@chakra-ui/react'
 import theme from '../theme.js'
 import { createBrowserRouter, RouterProvider } from 'react-router-dom'
-import { Home, Login, Register, ResetPassword,Dashboard } from './pages'
+import { LandingPage, Login, Register, ResetPassword,Dashboard } from './pages'
 import GlobalProvider from './context/GlobalProvider'
 import ThemeProvider from './context/ThemeProvider'
-import {DashHome} from './components/dashboard_sections/index.js'
+import {DashHome,Leaderboards,Assessment} from './components/dashboard_sections/index.js'
+
 
 // Add or remove routes as needed
 const router = createBrowserRouter([
@@ -20,7 +21,7 @@ const router = createBrowserRouter([
     children: [
       {
         path: '/',
-        element: <Home />,
+        element: <LandingPage />,
       },
     ]
   },
@@ -43,6 +44,14 @@ const router = createBrowserRouter([
       {
         path:'',
         element:<DashHome/>
+      },
+      {
+        path:'assessment',
+        element:<Assessment/>
+      },
+      {
+        path:'leaderboard',
+        element:<Leaderboards/>
       }
     ]
   }
