@@ -10,6 +10,7 @@ const ThemeProvider = ({ children }) => {
 
     // Add your custom themes here (light and dark)
     const customThemes = {
+        landingBg: useColorModeValue('#f0f4ff', '#1a202c'),
         bodyBg: useColorModeValue('#f0f4ff', '#1a202c'),
         authBg: useColorModeValue('#FFFFFF', '#121212'),
         inputBg: useColorModeValue('#ffffff', '#2d3748'),
