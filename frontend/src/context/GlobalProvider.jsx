@@ -18,7 +18,7 @@ const GlobalProvider = ({ children }) => {
     );
 
     useEffect(() => {
-        console.log('=== user GlobalProvider.jsx [21] ===', user);
+  
         localStorage.setItem('user', JSON.stringify(user));
     }
     , [user]);

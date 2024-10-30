@@ -16,16 +16,18 @@ import { Link as NLink ,useNavigate} from "react-router-dom";
 import useLogin from "../hooks/useLogin";
 import authbg from "/authbg.png";
 import useCustomTheme from "../hooks/useCustomTheme";
-import useAuth from "../hooks/useAuth";
+import useOTP from "../hooks/useOTP";
+import { useEffect } from "react";
+import useGlobalState from "../hooks/useGlobalState";
 
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const { loading, error, login } = useLogin();
-
+  const {user} = useGlobalState();
 
   const { bodyBg, inputBg, authBg } = useCustomTheme();
-  const { sendOTPAction, sendOTPLoading } = useAuth();
+  const { sendOTPAction, loading:otpLaoding } = useOTP();
   const { isOpen, onOpen, onClose } = useDisclosure();
 
   const navigate = useNavigate();
@@ -46,6 +48,12 @@ const Login = () => {
       console.log(error);
     });
   };
+
+  useEffect(() => {
+    if(user){
+      navigate('/dashboard');
+    }
+  },[]);
 
   return (
     <Box
@@ -146,7 +154,7 @@ const Login = () => {
                   />
                   <FormHelperText my={3} textAlign="center">OTP will be sent on your mail to verify you.</FormHelperText>
                 </FormControl>
-                <Button w="100%" colorScheme="blue" onClick={handleSendOTP} isLoading={sendOTPLoading}>Send OTP</Button>
+                <Button w="100%" colorScheme="blue" onClick={handleSendOTP} isLoading={otpLaoding}>Send OTP</Button>
               </PopoverBody>
             </PopoverContent>
           </Popover>

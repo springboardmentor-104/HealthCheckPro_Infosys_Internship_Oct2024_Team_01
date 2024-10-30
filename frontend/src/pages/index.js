@@ -1,8 +1,10 @@
 
-import Home from "./Home";
+import Dashboard from "./Dashboard";
+import LandingPage from "./LandingPage";
 import Login from "./Login";
 import Register from "./Register";
 import ResetPassword from "./ResetPassword";
 
-export {  Home, Login, Register, ResetPassword };
+
+export { Dashboard, LandingPage, Login, Register, ResetPassword };
 

@@ -19,7 +19,7 @@ import VerifyOTP from '../components/VerifyOTP';
 import useCustomTheme from '../hooks/useCustomTheme';
 import authbg from '/authbg.png';
 import useResetPassword from '../hooks/useResetPassword';
-
+import useOTP from '../hooks/useOTP';
 
 
 const ResetPassword = () => {
@@ -30,14 +30,15 @@ const ResetPassword = () => {
     const { bodyBg, inputBg, authBg } = useCustomTheme();
     const { email } = useParams();
     const { resetPassword, error,loading } = useResetPassword();
-
+    const { verifyOTPAction,loading:otpLoading } = useOTP();
 
 
     const handleSubmit = async () => {
-        await resetPassword(otp,email, password, confirmPassword)
-            .catch((error) => {
-                console.log(error);
-            });
+        await verifyOTPAction(email, otp)
+        .then((res) => {
+            res && resetPassword(email, password, confirmPassword);
+        }
+        );
     };
 
     return (
@@ -127,7 +128,7 @@ const ResetPassword = () => {
                             onChange={(e) => setConfirmPassword(e.target.value)}
                         />
                     </FormControl>
-                    <Button colorScheme="blue" width="full" mt={4} onClick={handleSubmit} isLoading={loading}>
+                    <Button colorScheme="blue" width="full" mt={4} onClick={handleSubmit} isLoading={loading || otpLoading}>
                         Reset Password
                     </Button>
                 </Stack>
