@@ -4,7 +4,7 @@ import App from './App.jsx'
 import { ChakraProvider, ColorModeScript } from '@chakra-ui/react'
 import theme from '../theme.js'
 import { createBrowserRouter, RouterProvider } from 'react-router-dom'
-import { Home,Login, Register,Features,Contact,About } from './pages'
+import { Home,Login, Register,Assessment,Contact,About } from './pages'
 
 
 const router = createBrowserRouter([
@@ -17,8 +17,8 @@ const router = createBrowserRouter([
         element: <Home />,
       },
       {
-        path: 'features',
-        element: <Features />,
+        path: 'assessment',
+        element: <Assessment />,
       },
       {
         path: 'contact',
