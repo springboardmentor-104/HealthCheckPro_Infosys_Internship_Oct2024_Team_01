@@ -1,18 +1,16 @@
-import { useState, useEffect } from 'react';
+import { useEffect, useState } from 'react';
 // import DashHome1 from './DashPage1';
 
 import {
     Box,
-    Text,
-    Heading,
     Center,
-    Flex,
     CircularProgress,
     CircularProgressLabel,
+    Flex,
+    Heading,
     Progress,
+    Text,
     VStack,
-    // Avatar,
-    // HStack,
 } from '@chakra-ui/react';
 // import useCustomTheme from '../../hooks/useCustomTheme';
 
@@ -90,7 +88,7 @@ import {
 //                         <Text fontSize="xl" color="blue.500">
 //                             Health Upgrade({data.healthStatus})
 //                         </Text>
-//                         <Text mt={2} color="gray.600">
+//                         <Text mt={2} >
 //                             Online solution looks at your physical health & mental health
 //                         </Text>
 //                     </Box>
@@ -174,7 +172,7 @@ const DashHome = () => {
                     <Heading as="h3" fontSize={{ base: "xl", md: "2xl" }} color="blue.500">
                         Health Upgrade ({scoreData.healthStatus}) <span role="img" aria-label="fire">🔥</span>
                     </Heading>
-                    <Text fontSize={{ base: "md", md: "lg" }} color="gray.600">
+                    <Text fontSize={{ base: "md", md: "lg" }} >
                         You've made excellent progress so far; improving your speed without sacrificing quality could help you reach your full potential.
                     </Text>
                 </VStack>

@@ -51,7 +51,7 @@ const useSignup = () => {
             });
     };
 
-    return { loading, error, signup };
+    return { loading, error, signup,setError };
 }
 
 export default useSignup;

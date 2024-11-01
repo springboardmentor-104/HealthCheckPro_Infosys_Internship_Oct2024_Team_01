@@ -1,14 +1,13 @@
 import {
-  Box,
-  Flex,
-  Avatar,
-  Heading,
-  Text,
-  Progress,
-  Button,
-
-  VStack,
-  HStack,
+    Avatar,
+    Box,
+    Button,
+    Flex,
+    Heading,
+    HStack,
+    Progress,
+    Text,
+    VStack,
 } from '@chakra-ui/react';
 
 import useCustomTheme from '../../hooks/useCustomTheme';
@@ -112,7 +111,7 @@ const Assessment = () => {
             {/* Progress Bar */}
             <HStack w="100%"><VStack align="end" spacing={1} flex={1} ml={6} w="100%">
               <Progress value={assessment.progress} size="sm" width="100%" colorScheme="blue" borderRadius="full" />
-              <Text fontSize="sm" color="gray.600">{assessment.progress}/100%</Text>
+              <Text fontSize="sm" >{assessment.progress}/100%</Text>
             </VStack>
 
               <Button

@@ -1,25 +1,12 @@
 import express from 'express';
 const router = express.Router();
+import {modifyQuestion,deleteQuestion,addQuestion,getQuestionsByCategory,getCategories,addCategory } from '../controllers/assessment.controller.js';
 
-router.get('/:userid', (req, res) => {
-    res.send('Gets all the tasked assessments for a userid: ' + req.params.userid);
-});
-
-router.get('/:userid/category/:categoryName', (req, res) => {
-    res.send('Gets all the questions for a category: ' + req.params.categoryName);
-});
-
-router.post('/addQuestions/:categoryName', (req, res) => {
-    res.send('Posts new questions for a category: ' + req.params.categoryName);
-});
-
-router.post('/submitAssessment/:userid', (req, res) => {
-    res.send('Posts assessment for a userid: ' + req.params.userid+" and calculates the score");
-});
-
-
-
-
-
+router.get('/categories', getCategories);
+router.get('/questions/:id', getQuestionsByCategory);
+router.post('/add-category', addCategory);
+router.post('/add-question', addQuestion);
+router.put('/modify-question/:id', modifyQuestion);
+router.delete('/delete-question/:id', deleteQuestion);
 
 export default router;
