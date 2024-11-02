@@ -29,7 +29,7 @@ const Login = () => {
   const { loading, error, login } = useLogin();
   const {user} = useGlobalState();
 
-  const { bodyBg, inputBg, authBg } = useCustomTheme();
+  const { bodyBg, inputBg } = useCustomTheme();
   const { sendOTPAction, loading:otpLaoding } = useOTP();
   const { isOpen, onOpen, onClose } = useDisclosure();
 
@@ -70,11 +70,6 @@ const Login = () => {
       position="relative"
       overflowX="hidden"
     >
-      {/* <Box position="fixed" w="100svw" h="100svh" display={{ base: "block", md: "none" }}>
-        <Box position={"fixed"} as='span' width="1px" height="1px" rounded={"full"} boxShadow={"200px 150px 60px 80px rgb(0,0,255,.075),0px 0px 100px 120px rgb(0,0,255,.2)"} zIndex={0}></Box>
-        <Box position={"fixed"} bottom={0} right={0} as='span' width="1px" height="1px" rounded={"full"} boxShadow={"-200px -150px 60px 80px rgb(0,0,255,.075),-50px 0px 100px 120px rgb(0,0,255,.2)"} zIndex={0}></Box>
-      </Box> */}
-
       <Box p={4} display={{ base: "block", md: "none" }} zIndex={3}>
         <Text fontWeight="bold">Hi! Welcome back to</Text>
         <Button as={NLink} to="/" colorScheme="blue" variant="link" fontSize="3xl" >HealthCheckPro</Button>
@@ -98,7 +93,6 @@ const Login = () => {
          Don&apos;t have an account?{" "}
           <Button variant="link" position="absolute" as={NLink} to="/register" colorScheme="blue" width="fit-content" fontSize="xl" fontWeight="bold" ml={4}>
             Register here!
-            {/* <Box position="fixed" as='span' width="1px" height="1px" rounded={"full"} boxShadow={"-200px -150px 60px 80px rgb(0,0,255,.075),-50px 0px 100px 120px rgb(0,0,255,.2)"} zIndex={0}></Box> */}
           </Button>
         </Text>
       </VStack>
@@ -123,6 +117,7 @@ const Login = () => {
               placeholder="Enter Email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
+              boxShadow="md"
             />
           </FormControl>
           <FormControl id="password" isInvalid={!password && error}>
@@ -136,6 +131,7 @@ const Login = () => {
               placeholder="********"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
+              boxShadow="md"
             />
           </FormControl>
 
@@ -152,6 +148,7 @@ const Login = () => {
                   <Input mt={3} type="email" placeholder="Enter Email"
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
+                    boxShadow="md"
                   />
                   <FormHelperText my={3} textAlign="center">OTP will be sent on your mail to verify you.</FormHelperText>
                 </FormControl>

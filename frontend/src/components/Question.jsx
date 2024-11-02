@@ -3,9 +3,11 @@ import {
     Text,
     Button,
     HStack,
+    VStack,
     Progress,
     Image,
     Grid,
+    useBreakpointValue,
 } from '@chakra-ui/react';
 
 import { useState } from 'react';
@@ -24,38 +26,44 @@ const Question = () => {
         console.log(selectedAnswer);
     }
 
+    const StackComponent = useBreakpointValue({ base: Grid, md: HStack });
 
     return (
         <Box mt={20} w="100%" minH="100vh" p={6} display="flex" justifyContent="center" alignItems="center">
-            <Box bg={cardBg} borderRadius="md" p={6}>
+            <Box bg={cardBg} borderRadius="md" p={6} position="relative">
                 <Box width="100%" overflowX="auto"><SectionSteps/></Box>
                 <Box mb={10}/>
-                <HStack w="100%" align="center" gap={10}>
+                <StackComponent w="100%"  gap={2}>
                     {/* Progress Bar */}
-                    <Progress colorScheme="blue" size="md" flex={1} value={20} border="1px" borderColor="blue.500" rounded="full" />
+                    <Progress w="full" colorScheme="blue" size="md" flex={1} value={20} border="1px" borderColor="blue.500" rounded="full" />
 
                     {/* Question Number */}
                     <Text color="blue.500" fontSize="lg" fontWeight="bold" textAlign="right">
                         QUESTION 1/5
-                    </Text></HStack>
+                    </Text>
+                </StackComponent>
 
                 {/* Question Text */}
                 <Text fontSize="2xl" fontWeight="bold" m={6}>
                     Which former British colony was given back to China in 1997?
                 </Text>
 
-                <HStack w="100%" gap={10}>{/* Illustration Image */}
-                    <Box mb={4} display="flex" justifyContent="center">
+                <HStack w="100%" gap={10} position="relative">
+                    {/* Illustration Image */}
+                    <Box
+                        w={{ base: "100%", md: "50%" }}
+                        mb={4}
+                        display={{ base: "none", md: "flex" }}
+                        justifyContent="center"
+                    >
                         <Image
                             src={questionBg}
                             alt="Illustration"
-                            width="500px"
+                            width="full"
                         />
                     </Box>
 
                     {/* Answer Options */}
-
-
                     <Grid mt={4} gap={4} w="100%">
                         <Button
                             onClick={() => setSelectedAnswer('Russia')}
@@ -93,6 +101,19 @@ const Question = () => {
                             Hong Kong
                         </Button>
                     </Grid>
+
+                    {/* Mobile Illustration Image */}
+                    <Image
+                        src={questionBg}
+                        alt="Illustration"
+                        position="absolute"
+                        top="50%"
+                        left="50%"
+                        transform="translate(-50%, -50%)"
+                        width="80%"
+                        opacity={0.1}
+                        display={{ base: "block", md: "none" }}
+                    />
                 </HStack>
 
                 {/* Navigation Buttons */}
