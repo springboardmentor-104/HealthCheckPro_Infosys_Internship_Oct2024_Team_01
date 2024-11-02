@@ -24,7 +24,7 @@ const ThemeProvider = ({ children }) => {
 
     const customThemes = {
         bodyBg: useColorModeValue('#f0f4ff', '#1a202c'),
-        authBg: useColorModeValue('#FFFFFF', '#121212'),
+        authBg: useColorModeValue('#FFFFFF', 'gray.800'),
         inputBg: useColorModeValue('#ffffff', '#2d3748'),
         navBg: useColorModeValue('#ffffff', '#121212'),
         sponsersBg: useColorModeValue('gray.100', 'gray.500'),

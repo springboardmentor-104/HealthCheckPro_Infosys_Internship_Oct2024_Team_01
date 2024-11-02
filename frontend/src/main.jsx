@@ -11,6 +11,7 @@ import { LandingPage, Login, Register, ResetPassword,Dashboard } from './pages'
 import GlobalProvider from './context/GlobalProvider'
 import ThemeProvider from './context/ThemeProvider'
 import {DashHome,Leaderboards,Assessment} from './components/dashboard_sections/index.js'
+import Question from './components/Question.jsx'
 
 
 // Add or remove routes as needed
@@ -52,8 +53,12 @@ const router = createBrowserRouter([
       {
         path:'leaderboard',
         element:<Leaderboards/>
-      }
+      },
     ]
+  },
+  {
+    path: 'test',
+    element: <Question/>
   }
 ])
 

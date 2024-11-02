@@ -1,10 +1,15 @@
 import {
     Avatar, Heading, HStack, Button,
-    Accordion, AccordionItem, AccordionButton, AccordionPanel, AccordionIcon, VStack
+    Accordion, AccordionItem, AccordionButton, AccordionPanel, AccordionIcon, VStack,
+    IconButton,
+    Menu,
+    MenuButton,
+    MenuList,
+    MenuItem
 } from "@chakra-ui/react";
 import useCustomTheme from "../hooks/useCustomTheme";
 
-import {Link as NLink} from "react-router-dom";
+import { Link as NLink } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import useGlobalState from "../hooks/useGlobalState";
 
@@ -18,24 +23,32 @@ const DashNavbar = () => {
     }
     const { navBg } = useCustomTheme();
     return (
+        <>
+            <HStack display={{
+                base: "none",
+                md: "flex"
+            }}
+                bgColor={navBg}
+                zIndex={3} py={3} px={10} w="100%" justify="space-between" position="fixed" top={0}  >
 
-        <><HStack display={{
-            base: "none",
-            md: "flex"
-        }}
-            bgColor={navBg}
-            zIndex={3} py={3} px={10} w="100%" justify="space-between" position="fixed" top={0}  >
-
-            <HStack color="blue.600"><Avatar size="md" /> <Heading size="md" >John Doe</Heading></HStack>
-            <Button colorScheme="blue" variant="ghost"></Button>
-            <HStack>
-                <Button as={NLink} to="/dashboard/" colorScheme="blue" variant="ghost">Overview</Button>
-                <Button as={NLink} to="/dashboard/assessment" colorScheme="blue" variant="ghost">Assessment</Button>
-                <Button as={NLink} to="/dashboard/leaderboard" colorScheme="blue" variant="ghost">Leaderboard</Button>
-                <Button onClick={handleLogout}  colorScheme="red" variant="solid">Logout</Button>
+                <Heading size={"md"} color={"blue.600"}>
+                    HealthCheckPro
+                </Heading>
+                <Button colorScheme="blue" variant="ghost"></Button>
+                <HStack>
+                    <Button as={NLink} to="/dashboard/" colorScheme="blue" variant="ghost">Overview</Button>
+                    <Button as={NLink} to="/dashboard/assessment" colorScheme="blue" variant="ghost">Assessment</Button>
+                    <Button as={NLink} to="/dashboard/leaderboard" colorScheme="blue" variant="ghost">Leaderboard</Button>
+                    <Menu>
+                        <MenuButton as={IconButton} aria-label="Profile" icon={<Avatar size="sm" name="John Doe" />} />
+                        <MenuList p={2} as={VStack}>
+                            <Button  colorScheme="blue" w="full" as={NLink}>Profile</Button>
+                            <Button variant="outline" colorScheme="red" w="full" onClick={handleLogout}>Logout</Button>
+                        </MenuList>
+                    </Menu>
                 </HStack>
 
-        </HStack>
+            </HStack>
 
             <Accordion w="100svw" position="fixed" zIndex={5} bgColor={navBg} allowToggle display={{ base: "block", md: "none" }} p={3} borderColor="gray.100">
                 <AccordionItem w="100%" border="none">
@@ -54,14 +67,11 @@ const DashNavbar = () => {
                             <Button as={NLink} to="/dashboard/assessment" colorScheme="blue" variant="outline">Assessment</Button>
                             <Button as={NLink} to="/dashboard/leaderboard" colorScheme="blue" variant="outline">Leaderboards</Button>
                         </HStack>
-                            <Button w="100%" as={NLink} onClick={handleLogout} colorScheme="red" variant="solid">Logout</Button>
+                        <Button w="100%" as={NLink} onClick={handleLogout} colorScheme="red" variant="solid">Logout</Button>
                     </AccordionPanel>
                 </AccordionItem>
             </Accordion>
-
         </>
-
-
     )
 }
 

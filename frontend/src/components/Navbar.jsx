@@ -1,4 +1,4 @@
-import { useToast, Heading, Flex, HStack, Divider, Button, VStack, Accordion, AccordionItem, Avatar, AccordionButton, AccordionPanel, AccordionIcon, Menu, MenuButton, MenuItem, MenuList } from "@chakra-ui/react";
+import { useToast, Heading, Flex, HStack,IconButton, Divider, Button, VStack, Accordion, AccordionItem, Avatar, AccordionButton, AccordionPanel, AccordionIcon, Menu, MenuButton, MenuItem, MenuList } from "@chakra-ui/react";
 import { useNavigate, Link } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { Link as ScrollLink } from 'react-scroll';
@@ -6,6 +6,7 @@ import useGlobalState from "../hooks/useGlobalState";
 import Profile from "./Profile";
 import ChangeTheme from "./ChangeTheme";
 import useCustomTheme from "../hooks/useCustomTheme";
+import { IoPersonAdd } from "react-icons/io5";
 
 const Navbar = () => {
 
@@ -92,8 +93,10 @@ const Navbar = () => {
                         </HStack>
                     ) : (
                         <HStack >
-                            <Button colorScheme="blue" variant="outline" as={Link} to="/login">Login</Button>
-                            <Button colorScheme="blue" as={Link} to="/register">Register</Button>
+                            <IconButton icon={
+                                <IoPersonAdd />
+                            } colorScheme="blue" variant="outline" as={Link} to="/login"/>
+
                         </HStack>
                     )}
                     <ChangeTheme />
