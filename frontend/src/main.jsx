@@ -1,12 +1,19 @@
+// Code: Main entry point for the frontend application
+// Wrap your ContextProvider here. Important: Wrap to RouterProvider only
+
 import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
 import App from './App.jsx'
 import { ChakraProvider, ColorModeScript } from '@chakra-ui/react'
 import theme from '../theme.js'
 import { createBrowserRouter, RouterProvider } from 'react-router-dom'
-import { Home,Login, Register,Features,Contact,About } from './pages'
+import { LandingPage, Login, Register, ResetPassword,Dashboard } from './pages'
+import GlobalProvider from './context/GlobalProvider'
+import ThemeProvider from './context/ThemeProvider'
+import {DashHome,Leaderboards,Assessment} from './components/dashboard_sections/index.js'
 
 
+// Add or remove routes as needed
 const router = createBrowserRouter([
   {
     path: '/',
@@ -14,20 +21,8 @@ const router = createBrowserRouter([
     children: [
       {
         path: '/',
-        element: <Home />,
+        element: <LandingPage />,
       },
-      {
-        path: 'features',
-        element: <Features />,
-      },
-      {
-        path: 'contact',
-        element: <Contact />,
-      },
-      {
-        path: 'about',
-        element: <About />,
-      }
     ]
   },
   {
@@ -37,6 +32,28 @@ const router = createBrowserRouter([
   {
     path: '/register',
     element: <Register />,
+  },
+  {
+    path: '/reset-pass/:email',
+    element: <ResetPassword />,
+  },
+  {
+    path:'/dashboard',
+    element: <Dashboard />,
+    children:[
+      {
+        path:'',
+        element:<DashHome/>
+      },
+      {
+        path:'assessment',
+        element:<Assessment/>
+      },
+      {
+        path:'leaderboard',
+        element:<Leaderboards/>
+      }
+    ]
   }
 ])
 
@@ -46,7 +63,11 @@ createRoot(document.getElementById('root')).render(
   <StrictMode>
     <ColorModeScript initialColorMode={theme.config.initialColorMode} />
     <ChakraProvider>
-      <RouterProvider router={router} />
+      <ThemeProvider>
+        <GlobalProvider>
+          <RouterProvider router={router} />
+        </GlobalProvider>
+      </ThemeProvider>
     </ChakraProvider>
   </StrictMode>,
 )
