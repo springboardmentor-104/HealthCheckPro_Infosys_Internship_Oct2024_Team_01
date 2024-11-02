@@ -1,39 +1,35 @@
 import {
     Step,
-    StepDescription,
     StepIcon,
     StepIndicator,
-    StepNumber,
     StepSeparator,
     StepStatus,
-    StepTitle,
     Stepper,
-    useSteps,
-    Box,
     Stack,
     Text,
-    Heading
-} from '@chakra-ui/react'
+    Heading,
+    useSteps
+} from '@chakra-ui/react';
+import PropTypes from 'prop-types';
+import { useEffect } from 'react';
 
-const SectionSteps = () => {
-    const steps = [
-        { title: 'Physical Health', description: 'Contact Info' },
-        { title: 'Diet', description: 'Date & Time' },
-        { title: 'Mental Well Being', description: 'Select Rooms' },
-        { title: 'Lifestyle', description: 'Payment' },
-    ]
+const SectionSteps = ({ currentCategoryIndex, categories }) => {
+    const { activeStep,setActiveStep } = useSteps({
+        index: currentCategoryIndex,
+        count: categories.length,
+    });
+    useEffect(() => {
+        console.log('Updated currentCategoryIndex:', currentCategoryIndex);
+        setActiveStep(currentCategoryIndex);
+    }, [currentCategoryIndex]);
 
-    const { activeStep, setActiveStep } = useSteps({
-        index: 3,
-        count: steps.length,
-    })
 
-    const activeStepText = steps[activeStep].title
+    const activeStepText = categories[activeStep];
 
     return (
-        <Stack>
+        <Stack overflow="hidden">
             <Stepper size='md' index={activeStep} gap='0'>
-                {steps.map((step, index) => (
+                {categories.map((_, index) => (
                     <Step key={index} gap='0'>
                         <StepIndicator>
                             <StepStatus complete={<StepIcon />} />
@@ -46,7 +42,12 @@ const SectionSteps = () => {
                 Test Category {activeStep + 1}: <Heading size="lg" color="blue.500">{activeStepText}</Heading>
             </Text>
         </Stack>
-    )
-}
+    );
+};
+
+SectionSteps.propTypes = {
+    currentCategoryIndex: PropTypes.number.isRequired,
+    categories: PropTypes.array.isRequired
+};
 
 export default SectionSteps;
