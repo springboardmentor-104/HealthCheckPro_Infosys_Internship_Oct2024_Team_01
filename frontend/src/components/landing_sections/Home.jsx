@@ -1,20 +1,19 @@
-import { Box, Button, Container, Flex, Heading, Icon, Image, Text, useColorModeValue } from "@chakra-ui/react";
+import { Box, Button, Container, Flex, Heading, Icon, Text, useColorModeValue } from "@chakra-ui/react";
 import { ExternalLinkIcon } from "@chakra-ui/icons";
 import { AiFillHeart } from "react-icons/ai";
-import doctorImage from '../../assets/Doctor-removebg-preview_enhanced.png';
 import { Link as NLink } from "react-router-dom";
-import useCustomTheme from "../../hooks/useCustomTheme"
-
+import { DotLottieReact } from '@lottiefiles/dotlottie-react';
+import useCustomTheme from "../../hooks/useCustomTheme";
+import homePageAnimation from '../../assets/homePage.lottie';
 
 const Home = () => {
     const { landingBg, textColor, headingColor, subheadingColor } = useCustomTheme();
 
-
-    const buttonColor = useColorModeValue("gray", "whiteAlpha.300")
+    const buttonColor = useColorModeValue("gray", "whiteAlpha.300");
 
     return (
         <Box bg={landingBg} minH="100vh" display="flex" alignItems="center" py={10}>
-            <Container maxW="container.lg">
+            <Container maxW="90%">
                 {/* Main Content */}
                 <Flex
                     direction={["column", "row"]}
@@ -48,10 +47,10 @@ const Home = () => {
                             Using your BMI index, we calculate whether the dish is suitable for you.
                         </Text>
 
-
-                        <Button  as={NLink} to="/login" rightIcon={
-                            <ExternalLinkIcon />
-                        }
+                        <Button
+                            as={NLink}
+                            to="/login"
+                            rightIcon={<ExternalLinkIcon />}
                             borderRadius="full"
                             boxShadow="md"
                             p={10}
@@ -61,12 +60,16 @@ const Home = () => {
                         >
                             Get Started
                         </Button>
-
                     </Box>
 
-                    {/* Doctor Image */}
+                    {/* Lottie Animation */}
                     <Box flex="1" align="center" display="flex" justifyContent="center" px={4}>
-                        <Image src={doctorImage} alt="Doctor" maxH="450px" /> {/* Adjusted image size */}
+                        <DotLottieReact
+                            src={homePageAnimation}
+                            loop
+                            autoplay
+                            style={{ minWidth: '50svw' }}
+                        />
                     </Box>
                 </Flex>
             </Container>
