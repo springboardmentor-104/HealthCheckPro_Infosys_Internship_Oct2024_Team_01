@@ -88,7 +88,10 @@ const Question = () => {
                             <Text display={{ base: "none", md: "block" }} w="100%" color="blue.500" fontSize="lg" fontWeight="bold" textAlign="right">
                                 QUESTION {currentQuestionIndex + 1}/{currentCategory.questions.length}
                             </Text>
-                            <HStack>
+                            <HStack display={{
+                                base: "flex",
+                                md: "none"
+                            }}>
                                 <IconButton
                                     colorScheme="gray"
                                     size="lg"
@@ -109,11 +112,17 @@ const Question = () => {
                                 />
                             </HStack>
                         </StackComponent>
-                        <Text w="100%" textAlign="right" fontSize="2xl" fontWeight="bold" my={6}>
+                        <Text w="100%" textAlign={
+                            {
+                                base: "center",
+                                md: "left"
+                            }
+                        } fontSize="2xl" fontWeight="bold" my={6}>
                             {currentQuestion.questionText}
                         </Text>
                         <HStack w="100%" gap={10} position="relative">
-                            <Box w={{ base: "100%", md: "50%" }} mb={4} display={{ base: "none", md: "flex" }} justifyContent="center">
+                            <Box w={{ base: "100%", md: "50%" }} mb={4} display={{ base: "none", md: "flex" }}
+                             justifyContent="center">
                                 <Image src={questionBg} alt="Illustration" width="full" />
                             </Box>
                             <Grid h="100%" mt={4} gap={4} w="100%" zIndex={2}>
@@ -144,7 +153,7 @@ const Question = () => {
                                 display={{ base: "block", md: "none" }}
                             />
                         </HStack>
-                        <HStack justify="space-between" mt={8} width="100%" display={{ base: "none", md: "flex" }}>
+                        <HStack justify="flex-end" mt={8} width="100%" display={{ base: "none", md: "flex" }}>
                             <Button
                                 colorScheme="gray"
                                 size="lg"

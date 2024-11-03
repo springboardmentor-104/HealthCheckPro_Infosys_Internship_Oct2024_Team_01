@@ -36,8 +36,10 @@ const SectionSteps = ({ currentCategoryIndex, categories }) => {
 
     return (
 
-        <Box ><Stepper size='md' index={activeStep} gap='0' height={
-            orientation === 'horizontal' ? 'auto' : '100%'
+        <Box ><Stepper size='md' minWidth={
+            orientation === 'horizontal' ? 'auto' : '200px'
+        } index={activeStep} gap='0' height={
+            orientation === 'horizontal' ? 'auto' : '50svh'
         } orientation={orientation}>
             {categories.map((category, index) => (
                 <Step key={index}>
