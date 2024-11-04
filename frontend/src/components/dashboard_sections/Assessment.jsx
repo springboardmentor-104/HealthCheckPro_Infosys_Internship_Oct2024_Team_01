@@ -115,7 +115,7 @@ const Assessment = () => {
 
         <Button
         as={NLink}
-        to="/dashboard/test"
+        to="/test"
         colorScheme="blue"
         size="sm"
         variant="solid"
