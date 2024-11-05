@@ -1,4 +1,5 @@
 import mongoose from "mongoose";
+import { optionSchema } from "./question.model.js";
 
 const assessmentScoreSchema = new mongoose.Schema({
   categoryId: {
@@ -13,16 +14,13 @@ const assessmentScoreSchema = new mongoose.Schema({
         ref: "Question",
         required: true,
       },
-      selectedOptionId: {
-        type: mongoose.Schema.Types.ObjectId,
-        required: true,
-      },
       score: {
         type: Number,
         required: true,
       },
     },
   ],
+  selectedOptionId: optionSchema,
 });
 
 const userAssessmentHistorySchema = new mongoose.Schema(

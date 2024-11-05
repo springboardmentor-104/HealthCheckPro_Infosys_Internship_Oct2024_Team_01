@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 
-const optionSchema = new mongoose.Schema({
+export const optionSchema = new mongoose.Schema({
   optionId: {
     type: mongoose.Schema.Types.ObjectId,
     default: () => new mongoose.Types.ObjectId(),
@@ -27,6 +27,10 @@ const questionSchema = new mongoose.Schema(
       required: true,
     },
     options: [optionSchema],
+    selectedOption: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Option",
+    },
   },
   { timestamps: true }
 );
