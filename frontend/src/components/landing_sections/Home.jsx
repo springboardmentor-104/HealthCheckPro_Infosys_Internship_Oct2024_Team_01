@@ -3,7 +3,10 @@ import { ExternalLinkIcon } from "@chakra-ui/icons";
 import { AiFillHeart } from "react-icons/ai";
 import doctorImage from '../../assets/Doctor-removebg-preview_enhanced.png';
 import { Link as NLink } from "react-router-dom";
-import useCustomTheme from "../../hooks/useCustomTheme"
+import useCustomTheme from "../../hooks/useCustomTheme";
+import { DotLottieReact } from '@lottiefiles/dotlottie-react';
+import homePageAnimation from '../../assets/homePage.lottie';
+
 
 
 const Home = () => {
@@ -64,9 +67,14 @@ const Home = () => {
 
                     </Box>
 
-                    {/* Doctor Image */}
-                    <Box flex="1" align="center" display="flex" justifyContent="center" px={4}>
-                        <Image src={doctorImage} alt="Doctor" maxH="450px" /> {/* Adjusted image size */}
+                      {/* Lottie Animation */}
+                      <Box flex="1" align="center" display="flex" justifyContent="center" px={4}>
+                        <DotLottieReact
+                            src={homePageAnimation}
+                            loop
+                            autoplay
+                            style={{ minWidth: '50svw' }}
+                        />
                     </Box>
                 </Flex>
             </Container>
