@@ -1,5 +1,5 @@
-import Category from "../models/Category.js";
-import Question from "../models/Question.js";
+import Category from "../models/category.model.js";
+import Question from "../models/question.model.js";
 
 export const getCategories = async (req, res) => {
   try {
@@ -50,6 +50,7 @@ export const addQuestion = async (req, res) => {
       categoryId,
       questionText,
       options,
+      selectedOption: null,
     });
 
     await question.save();
@@ -78,6 +79,9 @@ export const deleteQuestion = async (req, res) => {
 export const modifyQuestion = async (req, res) => {
   const { id } = req.params;
   const { questionText, options } = req.body;
+  const props = { questionText, options };
+  if(questionText === undefined) delete props.questionText;
+  if(options === undefined) delete props.options;
 
   try {
     await Question.findByIdAndUpdate(id, { questionText, options });

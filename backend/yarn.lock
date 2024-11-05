@@ -89,6 +89,23 @@ array-flatten@1.1.1:
   resolved "https://registry.yarnpkg.com/array-flatten/-/array-flatten-1.1.1.tgz#9a5f699051b1e7073328f2a008968b64ea2955d2"
   integrity sha512-PCVAQswWemu6UdxsDFFX/+gVeYqKAod3D3UVm91jHwynguOwAvYPhx8nNlM++NqRcK6CxxpUafjmhIdKiHibqg==
 
+"backend@file:.":
+  version "1.0.0"
+  dependencies:
+    backend "file:../../../../../Users/ashuv/AppData/Local/Yarn/Cache/v6/npm-backend-1.0.0-f79bcf1b-2ba4-461f-b442-752ebd56015f-1730809049435/node_modules/backend"
+    bcryptjs "^2.4.3"
+    body-parser "^1.20.3"
+    cors "^2.8.5"
+    dotenv "^16.3.1"
+    express "^4.21.1"
+    jsonwebtoken "^9.0.2"
+    mongoose "^8.0.3"
+    nodemailer "^6.9.15"
+    swagger-jsdoc "^6.2.8"
+    swagger-ui-express "^5.0.1"
+    typescript "^5.3.3"
+    validator "^13.11.0"
+
 balanced-match@^1.0.0:
   version "1.0.2"
   resolved "https://registry.yarnpkg.com/balanced-match/-/balanced-match-1.0.2.tgz#e83e3a7e3f300b34cb9d87f615fa0cbf357690ee"

@@ -1,4 +1,4 @@
-import { Box, Flex, Icon, SimpleGrid, Text, Stack } from "@chakra-ui/react";
+import { Box, Flex, Icon, Stack, Text } from "@chakra-ui/react";
 import { FaFire, FaHeartbeat, FaHourglassHalf } from "react-icons/fa";
 import useCustomTheme from "../../hooks/useCustomTheme";
 
@@ -36,7 +36,7 @@ const Features = () => {
           </Text>
           <Text textAlign="center" fontSize={{ base: "2xl", md: "3xl" }} fontWeight="bold" color="blue.700">Health Upgrade</Text>
         </Stack>
-        <Text fontSize="md" textAlign="center" color="gray.600">
+        <Text fontSize="md" textAlign="center" >
           Online solution looks at your physical health & Mental Health
         </Text>
       </Flex>
@@ -66,7 +66,7 @@ const Features = () => {
                 {feature.title}
               </Text>
             </Flex>
-            <Text color="gray.600">
+            <Text >
               {feature.description}
             </Text>
           </Box>
