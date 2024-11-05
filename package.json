@@ -15,7 +15,6 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "concurrently": "^9.0.1",
-    "healthcheckpro_infosys": "file:"
+    "concurrently": "^9.0.1"
   }
 }

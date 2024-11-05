@@ -1,7 +1,7 @@
 // Desc: About page component
 import { ExternalLinkIcon } from '@chakra-ui/icons';
-import { Box, Button, Flex, Grid, Heading, Text,SimpleGrid,HStack,Image } from '@chakra-ui/react';
-import landingBg from "../../assets/landing-img.png"
+import { Box, Button, Flex, Grid, Heading, HStack, Image, SimpleGrid, Text } from '@chakra-ui/react';
+import landingBg from "../../assets/landing-img.png";
 import useCustomTheme from "../../hooks/useCustomTheme";
 
 const About = () => {
@@ -37,7 +37,7 @@ const About = () => {
                     <Heading mb={5} fontSize={{ base: "2xl", md: "3xl" }} fontWeight="bold" color="blue.700">
                         About Us
                     </Heading>
-                    <Text mb={5} width={{md:"50%"}} fontSize="md" color="gray.600">
+                    <Text mb={5} width={{md:"50%"}} fontSize="md" >
                         Health Check Pro is your intuitive wellness companion, simplifying health management. It analyzes your physical health, mental well-being, diet, and lifestyle choices. With personalized insights and recommendations, taking charge of your health has never been easier. Transform your well-being today with Health Check Pro.
                     </Text>
                 </Box>
@@ -54,7 +54,7 @@ const About = () => {
                             <Heading as="h2" size="md"  fontSize={{ base: "2xl", md: "2xl" }} fontWeight="bold" color="blue.500">
                                 {section.title}
                             </Heading>
-                            <Text  fontSize="md" color="gray.600">
+                            <Text  fontSize="md" >
                                 {section.content}
                             </Text>
                         </Box>
