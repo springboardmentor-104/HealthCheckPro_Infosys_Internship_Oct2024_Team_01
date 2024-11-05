@@ -3,6 +3,7 @@ import { Box, Text, SimpleGrid } from '@chakra-ui/react';
 import { PieChart, Pie, Cell, Tooltip, ResponsiveContainer, Label } from 'recharts';
 import DemoCard from './DemoCard';
 
+
 const DashHome = () => {
     const [scoreData, setScoreData] = useState({
         totalScore: 100,
