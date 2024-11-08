@@ -1,6 +1,8 @@
 import { createContext } from 'react';
 import { useColorMode,useColorModeValue } from "@chakra-ui/react";
 import PropTypes from 'prop-types';
+import logoLight from "../assets/logo-light.svg";
+import logoDark from "../assets/logo-dark.svg";
 
 
 export const ThemeContext = createContext();
@@ -39,9 +41,11 @@ const ThemeProvider = ({ children }) => {
         subheadingColor : useColorModeValue("gray.600", "gray.400"),
     };
 
+    const appLogo = useColorModeValue(logoLight, logoDark);
+
 
     return (
-        <ThemeContext.Provider value={{ colorMode, toggleColorMode, ...customThemes }}>
+        <ThemeContext.Provider value={{ colorMode, toggleColorMode, ...customThemes,appLogo }}>
             {children}
         </ThemeContext.Provider>
     );

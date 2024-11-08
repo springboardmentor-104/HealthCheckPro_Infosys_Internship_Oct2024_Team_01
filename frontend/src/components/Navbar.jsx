@@ -7,7 +7,7 @@ import Profile from "./Profile";
 import ChangeTheme from "./ChangeTheme";
 import useCustomTheme from "../hooks/useCustomTheme";
 import { IoPersonAdd } from "react-icons/io5";
-import logodark from "../assets/main-logo1.svg"; // Import your logo here
+import appLogo from "../assets/main-logo1.svg"; // Import your logo here
 
 const Navbar = () => {
 
@@ -15,7 +15,7 @@ const Navbar = () => {
     const { user, setUser } = useGlobalState();
     const toast = useToast();
     const [activeSection, setActiveSection] = useState('');
-    const { navBg } = useCustomTheme();
+    const { navBg,appLogo } = useCustomTheme();
 
     const handleLogout = () => {
         setUser(null);
@@ -57,8 +57,8 @@ const Navbar = () => {
             <Flex display={{ base: "none", md: "flex" }} py={3} px={10} justify="space-between" align="center" position="fixed" zIndex={5} bg={navBg} left={0} right={0}>
                 {/* Desktop Logo and Brand Name */}
                 <HStack spacing={3} align="center">
-                    <Image src={logodark} boxSize="80px" alt="Logo" /> {/* Add logo here */}
-                    <Heading size={"md"} color={"blue.600"}>HealthCheckPro</Heading>
+                    <Image src={appLogo} boxSize="80px" alt="Logo" /> {/* Add logo here */}
+                    {/* <Heading size={"md"} color={"blue.600"}>HealthCheckPro</Heading> */}
                 </HStack>
 
                 <HStack display={{ base: "none", md: "flex" }} gap={10}>
@@ -105,10 +105,10 @@ const Navbar = () => {
                     <AccordionButton w="100%" display="flex" >
                         <HStack>
                             <ChangeTheme />
-                            <Image src={logodark} boxSize="80px" alt="Logo" /> {/* Mobile logo */}
-                            <Heading size={"md"} color={"blue.600"} p={3}>
+                            <Image src={appLogo} boxSize="80px" alt="Logo" /> {/* Mobile logo */}
+                            {/* <Heading size={"md"} color={"blue.600"} p={3}>
                                 HealthCheckPro
-                            </Heading>
+                            </Heading> */}
                         </HStack>
                         <AccordionIcon ml="auto" />
                     </AccordionButton>
