@@ -88,4 +88,6 @@ const Leaderboards = () => {
         </Box>
     );
 }
-export default Leaderboards
+
+
+export default Leaderboards;

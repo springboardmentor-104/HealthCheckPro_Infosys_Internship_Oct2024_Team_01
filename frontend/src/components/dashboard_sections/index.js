@@ -1,5 +1,7 @@
 import DashHome from "./DashHome";
-import Assessment from "./Assessment";
-import Leaderboards from "./Leaderboards";
+import LeaderBoards from "./Leaderboards"
+import Assessment from "./Assessment"
 
-export { DashHome,Leaderboards,Assessment };
+
+export { DashHome, LeaderBoards, Assessment }
+
