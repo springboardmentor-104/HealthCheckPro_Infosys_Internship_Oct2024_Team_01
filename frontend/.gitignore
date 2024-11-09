@@ -22,3 +22,9 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+
+# End of https://www.toptal.com/developers/gitignore/api/node
+# Lock files
+yarn.lock
+package-lock.json
