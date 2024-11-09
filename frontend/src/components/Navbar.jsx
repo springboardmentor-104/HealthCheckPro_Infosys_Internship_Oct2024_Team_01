@@ -1,4 +1,4 @@
-import { useToast, Heading, Flex, HStack,IconButton, Divider, Button, VStack, Accordion, AccordionItem, Avatar, AccordionButton, AccordionPanel, AccordionIcon, Menu, MenuButton, MenuItem, MenuList } from "@chakra-ui/react";
+import { useToast, Heading, Flex, HStack,IconButton, Divider, Button, VStack, Accordion, AccordionItem, Avatar, AccordionButton, AccordionPanel, Image, Menu, MenuButton, MenuItem, MenuList } from "@chakra-ui/react";
 import { useNavigate, Link } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { Link as ScrollLink } from 'react-scroll';
@@ -7,6 +7,8 @@ import Profile from "./Profile";
 import ChangeTheme from "./ChangeTheme";
 import useCustomTheme from "../hooks/useCustomTheme";
 import { IoPersonAdd } from "react-icons/io5";
+ // Import your logo here
+import { CloseIcon, HamburgerIcon } from "@chakra-ui/icons";
 
 const Navbar = () => {
 
@@ -14,8 +16,7 @@ const Navbar = () => {
     const { user, setUser } = useGlobalState();
     const toast = useToast();
     const [activeSection, setActiveSection] = useState('');
-    const { navBg } = useCustomTheme();
-
+    const { navBg, appLogo } = useCustomTheme();
 
     const handleLogout = () => {
         setUser(null);
@@ -93,10 +94,7 @@ const Navbar = () => {
                         </HStack>
                     ) : (
                         <HStack >
-                            <IconButton icon={
-                                <IoPersonAdd />
-                            } colorScheme="blue" variant="outline" as={Link} to="/login"/>
-
+                            <IconButton icon={<IoPersonAdd />} colorScheme="blue" variant="outline" as={Link} to="/login" />
                         </HStack>
                     )}
                     <ChangeTheme />
@@ -105,35 +103,25 @@ const Navbar = () => {
 
             <Accordion w="100svw" position="fixed" zIndex={5} bgColor={navBg} allowToggle display={{ base: "block", md: "none" }} p={3}>
                 <AccordionItem w="100%" border="none">
-                    <AccordionButton w="100%" display="flex" >
-                        <HStack>
-                            <ChangeTheme />
-                            {user && <Menu>
-                                <MenuButton>
-                                    <Avatar name={user.username} />
-                                </MenuButton>
-                                <MenuList>
-                                    <MenuItem >
-                                        <Profile userInfo={user} />
-                                    </MenuItem>
-                                    <MenuItem onClick={handleLogout}>
-                                        Logout
-                                    </MenuItem>
-                                </MenuList>
-                            </Menu>}
-                            <Heading size={"md"} color={"blue.600"} p={3}>
+                    {({ isExpanded }) => (<>
+                        <HStack pr={3}>
+                            <AccordionButton w="100%" display="flex" justifyContent="space-between" >
+                                <Image src={appLogo} boxSize="80px" alt="Logo" /> {/* Mobile logo */}
+                                {/* <Heading size={"md"} color={"blue.600"} p={3}>
                                 HealthCheckPro
-                            </Heading>
+                                </Heading> */}
+                                <IconButton colorScheme="blue" size="lg">{isExpanded ? <CloseIcon /> : <HamburgerIcon />}</IconButton>
+
+                            </AccordionButton>
+                            <ChangeTheme />
                         </HStack>
-                        <AccordionIcon ml="auto" />
-                    </AccordionButton>
-                    <AccordionPanel px={3} as={VStack} flex={1} w="100%">
-                        <HStack display="flex" w="full" >
-                            <Button as={ScrollLink} colorScheme="blue" variant="outline" to="home" smooth={true} duration={500} style={{ textDecoration: 'none' }} >Home</Button>
-                            <Button as={ScrollLink} colorScheme="blue" variant="outline" to="about" smooth={true} duration={500} style={{ textDecoration: 'none' }} >About</Button>
-                            <Button as={ScrollLink} colorScheme="blue" variant="outline" to="features" smooth={true} duration={500} style={{ textDecoration: 'none' }} >Features</Button>
-                            <Button as={ScrollLink} colorScheme="blue" variant="outline" to="contact" smooth={true} duration={500} style={{ textDecoration: 'none' }} >Contact</Button>
-                        </HStack>
+                        <AccordionPanel px={3} flex={1} as={VStack} w="100%">
+                            <HStack display="flex"  w="100%" >
+                                <Button flex={1} as={ScrollLink} colorScheme="blue" variant="outline" to="home" smooth={true} duration={500} style={{ textDecoration: 'none' }} >Home</Button>
+                                <Button flex={1} as={ScrollLink} colorScheme="blue" variant="outline" to="about" smooth={true} duration={500} style={{ textDecoration: 'none' }} >About</Button>
+                                <Button flex={1} as={ScrollLink} colorScheme="blue" variant="outline" to="features" smooth={true} duration={500} style={{ textDecoration: 'none' }} >Features</Button>
+                                <Button flex={1} as={ScrollLink} colorScheme="blue" variant="outline" to="contact" smooth={true} duration={500} style={{ textDecoration: 'none' }} >Contact</Button>
+                            </HStack>
 
                             {user ? (
                                 ""
@@ -143,8 +131,7 @@ const Navbar = () => {
                                     <Button width="100%" colorScheme="blue" as={Link} to="/register" >Register</Button>
                                 </VStack>
                             )}
-
-                    </AccordionPanel>
+                        </AccordionPanel></>)}
                 </AccordionItem>
             </Accordion>
 

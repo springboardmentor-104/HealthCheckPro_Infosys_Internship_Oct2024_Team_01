@@ -50,7 +50,7 @@ const About = () => {
             <HStack py={10}>
                 <SimpleGrid mx="auto" w={{md:"80%"}} columns={{ base: 1, md: 1,lg:2 }} spacing={5} p={{md:10}}>
                     {sections.map((section, index) => (
-                        <Box  key={index} boxShadow="xl" borderRadius="lg" overflow="hidden" p={10} backgroundColor={cardBg}>
+                        <Box  key={index} boxShadow="md" borderRadius="lg" overflow="hidden" p={10} backgroundColor={cardBg}>
                             <Heading as="h2" size="md"  fontSize={{ base: "2xl", md: "2xl" }} fontWeight="bold" color="blue.500">
                                 {section.title}
                             </Heading>

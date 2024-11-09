@@ -15,9 +15,12 @@ export const getQuestionsByCategory = async (req, res) => {
 
   try {
     const questions = await Question.find({ categoryId: id });
+    if (!questions.length > 0) {
+      throw new Error("No questions found for this category");
+    }
     res.status(200).json(questions);
   } catch (error) {
-    res.status(500).json({ message: "Error fetching questions", error });
+    res.status(500).json({ message: "Error fetching questions", error: error.message });
   }
 };
 
@@ -42,6 +45,19 @@ export const addCategory = async (req, res) => {
   }
 };
 
+export const deleteCategory = async (req, res) => {
+  const { id } = req.params;
+
+  try {
+    await Category.findByIdAndDelete(id);
+    res.status(200).json({ message: "Category deleted successfully!" });
+  } catch (error) {
+    res
+      .status(500)
+      .json({ message: "Error occured while deleting the category", error });
+  }
+};
+
 export const addQuestion = async (req, res) => {
   const { categoryId, questionText, options } = req.body;
 
@@ -54,6 +70,8 @@ export const addQuestion = async (req, res) => {
     });
 
     await question.save();
+
+    console.log('=== question admin.controller.js [61] ===', question);
 
     res.status(201).json({ message: "Question added successfully!" });
   } catch (error) {
