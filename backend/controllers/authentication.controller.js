@@ -158,6 +158,8 @@ const loginUser = async (req, res) => {
       token,
       username: user.username,
       email,
+      age: user.age,
+      gender: user.gender
     });
   } catch (err) {
     res.status(400).json({ message: err.message });

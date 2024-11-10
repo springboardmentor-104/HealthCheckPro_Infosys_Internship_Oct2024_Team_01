@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { Box, Text, SimpleGrid } from '@chakra-ui/react';
 import { PieChart, Pie, Cell, Tooltip, ResponsiveContainer, Label } from 'recharts';
-import DemoCard from './DemoCard';
+import Chart from './Chart';
 
 
 const DashHome = () => {
@@ -41,7 +41,7 @@ const DashHome = () => {
 
             <SimpleGrid columns={{ base: 1, md: 2, lg: 3 }} spacing={{ base: 10, md: 12 }} mb={10}>
                 {scoreProgress.map((score, index) => (
-                    <DemoCard key={index} title={score.name} description="Score representation">
+                    <Chart key={index} title={score.name} description="Score representation">
                         <ResponsiveContainer  width="100%" height={200}>
                             <PieChart>
                                 <Pie data={data[index]} cx="50%" cy="50%" outerRadius={100} innerRadius={80} fill="#00FF00" dataKey="value">
@@ -53,7 +53,7 @@ const DashHome = () => {
                                 <Tooltip />
                             </PieChart>
                         </ResponsiveContainer>
-                    </DemoCard>
+                    </Chart>
                 ))}
             </SimpleGrid>
         </Box>

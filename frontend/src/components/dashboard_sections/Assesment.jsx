@@ -1,5 +1,5 @@
 // Assessment.js
-import React from 'react';
+import React, { useEffect } from 'react';
 import {
   Box,
   Flex,
@@ -10,7 +10,6 @@ import {
   VStack,
   Progress,
   Button,
-  Spacer,
   IconButton,
   Menu,
   MenuButton,
@@ -20,10 +19,10 @@ import {
   useColorModeValue,
   Badge,
   Tooltip,
-  Stack,
 } from '@chakra-ui/react';
 import { FaBell, FaUserCircle, FaBars } from 'react-icons/fa';
 import { ChevronDownIcon, SunIcon, MoonIcon } from '@chakra-ui/icons';
+import useAssessment from '../../hooks/useAssessment';
 
 const Navbar = () => {
   const { colorMode, toggleColorMode } = useColorMode();
@@ -33,12 +32,9 @@ const Navbar = () => {
   return (
     <Box bg={bg} px={6} py={3} shadow="md" position="sticky" top="0" zIndex="1000">
       <Flex alignItems="center" justifyContent="space-between" maxW="1200px" mx="auto">
-        {/* Logo / Title */}
         <Heading color="blue.600" fontSize="xl" fontWeight="bold">
           HealthCheckPro
         </Heading>
-
-        {/* Navigation Links */}
         <HStack spacing={8} display={{ base: 'none', md: 'flex' }}>
           {['Home', 'Dashboard', 'About', 'Contact'].map((link) => (
             <Text
@@ -52,10 +48,7 @@ const Navbar = () => {
             </Text>
           ))}
         </HStack>
-
-        {/* Right Side Icons and Menu */}
         <HStack spacing={4}>
-          {/* Theme Toggle */}
           <Tooltip label={`Switch to ${colorMode === 'light' ? 'dark' : 'light'} mode`} aria-label="A tooltip">
             <IconButton
               aria-label="Toggle Theme"
@@ -65,8 +58,6 @@ const Navbar = () => {
               _hover={{ bg: useColorModeValue('gray.200', 'gray.700') }}
             />
           </Tooltip>
-
-          {/* Language Selector */}
           <Menu>
             <MenuButton as={Button} rightIcon={<ChevronDownIcon />} size="sm" variant="ghost">
               English
@@ -77,8 +68,6 @@ const Navbar = () => {
               <MenuItem>French</MenuItem>
             </MenuList>
           </Menu>
-
-          {/* Icons */}
           <Tooltip label="User Profile" aria-label="User Profile">
             <IconButton
               icon={<FaUserCircle />}
@@ -101,7 +90,7 @@ const Navbar = () => {
               variant="ghost"
               aria-label="More Options"
               _hover={{ color: hoverColor }}
-              display={{ base: 'inline-flex', md: 'none' }} // Show only on mobile
+              display={{ base: 'inline-flex', md: 'none' }}
             />
           </Tooltip>
         </HStack>
@@ -111,17 +100,15 @@ const Navbar = () => {
 };
 
 const Assessment = () => {
-  const assessments = [
-    { id: 1, title: "PHYSICAL FITNESS", description: "Enrolled, Finished", progress: 100, imgSrc: "https://via.placeholder.com/50", status: "Finished" },
-    { id: 2, title: "NUTRITION", description: "Not Enrolled, Not Finished", progress: 0, imgSrc: "https://via.placeholder.com/50", status: "Not Started" },
-    { id: 3, title: "MENTAL WELL-BEING", description: "Enrolled, In Progress", progress: 50, imgSrc: "https://via.placeholder.com/50", status: "In Progress" },
-    { id: 4, title: "LIFESTYLE", description: "Not Enrolled, Not Finished", progress: 0, imgSrc: "https://via.placeholder.com/50", status: "Not Started" },
-  ];
+  const { assessmentStatus, fetchAssessmentStatus } = useAssessment();
+
+  useEffect(() => {
+    fetchAssessmentStatus();
+  }, [fetchAssessmentStatus]);
 
   const bg = useColorModeValue('gray.50', 'gray.900');
   const cardBg = useColorModeValue('white', 'gray.700');
 
-  // Function to determine badge color based on status
   const getStatusColor = (status) => {
     switch (status) {
       case 'Finished':
@@ -135,7 +122,6 @@ const Assessment = () => {
     }
   };
 
-  // Function to determine progress bar color based on progress value
   const getProgressColor = (progress) => {
     if (progress === 100) return 'green';
     if (progress >= 50) return 'blue';
@@ -145,9 +131,7 @@ const Assessment = () => {
   return (
     <Box bg={bg} minH="100vh">
       <Navbar />
-
       <Box p={6} maxW="900px" mx="auto" mt={4}>
-        {/* Header */}
         <Flex
           bgGradient="linear(to-r, blue.400, blue.600)"
           p={8}
@@ -163,7 +147,6 @@ const Assessment = () => {
           shadow="md"
           color="white"
         >
-          {/* Overlay for better text readability */}
           <Box
             position="absolute"
             top="0"
@@ -187,8 +170,6 @@ const Assessment = () => {
             Assessment Overview
           </Heading>
         </Flex>
-
-        {/* User Information */}
         <Box
           textAlign="center"
           mb={6}
@@ -204,9 +185,7 @@ const Assessment = () => {
             Email: khandelwaljayant1634@gmail.com | ID: 12345 | Age: 20
           </Text>
         </Box>
-
-        {/* Assessment Cards */}
-        {assessments.map((assessment) => (
+        {assessmentStatus && assessmentStatus.map((assessment) => (
           <Box
             key={assessment.id}
             p={6}
@@ -225,7 +204,6 @@ const Assessment = () => {
               bg: useColorModeValue('blue.50', 'gray.600'),
             }}
           >
-            {/* Left Section */}
             <HStack spacing={4} w={{ base: '100%', md: 'auto' }}>
               <Avatar
                 size="md"
@@ -246,8 +224,6 @@ const Assessment = () => {
                 <Badge colorScheme={getStatusColor(assessment.status)}>{assessment.status}</Badge>
               </VStack>
             </HStack>
-
-            {/* Progress Bar */}
             <VStack align="start" spacing={1} w={{ base: '100%', md: '30%' }} mt={{ base: 4, md: 0 }}>
               <Progress
                 value={assessment.progress}
@@ -260,8 +236,6 @@ const Assessment = () => {
                 {assessment.progress}%
               </Text>
             </VStack>
-
-            {/* Start Button */}
             <Button
               colorScheme={assessment.progress === 100 ? 'green' : 'blue'}
               size="sm"
@@ -274,8 +248,6 @@ const Assessment = () => {
             </Button>
           </Box>
         ))}
-
-        {/* Dashboard Button */}
         <Box textAlign="center" mt={8}>
           <Button
             colorScheme="blue"

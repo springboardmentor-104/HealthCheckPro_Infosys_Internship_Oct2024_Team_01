@@ -3,7 +3,7 @@ import User from "../models/user.model.js";
 const { verify } = jwt;
 
 // This function is used to protect the routes that require authentication before accessing them
-export const protect = async (req, res, next) => {
+const protect = async (req, res, next) => {
     if (req.headers.authorization && req.headers.authorization.startsWith("Bearer")) {
         try {
             const token = req.headers.authorization.split(" ")[1];
@@ -21,13 +21,6 @@ export const protect = async (req, res, next) => {
                     message: "Not authorized, user not found"
                 });
             }
-
-            if (user.role !== 'admin') {
-                return res.status(403).json({
-                    message: "Access denied, admin only"
-                });
-            }
-
             req.user = user;
             next();
         } catch (err) {
@@ -42,3 +35,5 @@ export const protect = async (req, res, next) => {
         });
     }
 };
+
+export default protect;

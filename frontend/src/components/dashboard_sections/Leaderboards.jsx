@@ -29,7 +29,7 @@ const Leaderboards = () => {
             <Heading as="h2" size="lg" color="blue.600" mb={6}>HealthCheckPro Top Ranking</Heading>
 
             {/* Top 3 Ranking Cards */}
-            <Grid templateColumns="repeat(3, 1fr)" gap={6} mb={8} overflowY="auto">
+            <Grid templateColumns="repeat(3, 1fr)" gap={6} mb={8} >
                 {topRanking.map((item, index) => (
                     <GridItem key={index}bg={leaderboardGradients[index] || leaderboardGradients.default} p={6} borderRadius="lg" textAlign="center" boxShadow="lg">
                         <HStack justifySelf="center" align="center" gap={5}><Badge colorScheme="yellow" variant="solid" rounded="full" p={2} fontSize="1.2em">{item.position}</Badge>
