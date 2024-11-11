@@ -11,10 +11,11 @@ import {
   PopoverTrigger,
   Stack, Text,
   useDisclosure,
-  VStack
+  VStack, IconButton
 } from "@chakra-ui/react";
 import { useState } from "react";
 import { Link as NLink, useNavigate } from "react-router-dom";
+import { FaEye, FaEyeSlash } from "react-icons/fa"; // Eye icons for showing/hiding password
 
 import { useEffect } from "react";
 import useCustomTheme from "../hooks/useCustomTheme";
@@ -26,11 +27,12 @@ import authbg from "/authbg.png";
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [showPassword, setShowPassword] = useState(false); // State to toggle password visibility
   const { loading, error, login } = useLogin();
-  const {user} = useGlobalState();
+  const { user } = useGlobalState();
 
   const { bodyBg, inputBg } = useCustomTheme();
-  const { sendOTPAction, loading:otpLaoding } = useOTP();
+  const { sendOTPAction, loading: otpLoading } = useOTP();
   const { isOpen, onOpen, onClose } = useDisclosure();
 
   const navigate = useNavigate();
@@ -42,21 +44,21 @@ const Login = () => {
   };
 
   const handleSendOTP = async () => {
-    await sendOTPAction(email).
-    then((res) => {
-      console.log('=== res Login.jsx [42] ===', res);
-      navigate(`/reset-pass/${email}`);
-    }).
-    catch((error) => {
-      console.log(error);
-    });
+    await sendOTPAction(email)
+      .then((res) => {
+        console.log('=== res Login.jsx [42] ===', res);
+        navigate(`/reset-pass/${email}`);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   };
 
   useEffect(() => {
-    if(user){
+    if (user) {
       navigate('/dashboard');
     }
-  },[]);
+  }, [user]);
 
   return (
     <Box
@@ -90,7 +92,7 @@ const Login = () => {
         </Heading>
         <Heading size="md">Sign In to continue!</Heading>
         <Text fontSize="md">
-         Don&apos;t have an account?{" "}
+          Don&apos;t have an account?{" "}
           <Button variant="link" position="absolute" as={NLink} to="/register" colorScheme="blue" width="fit-content" fontSize="xl" fontWeight="bold" ml={4}>
             Register here!
           </Button>
@@ -122,17 +124,29 @@ const Login = () => {
           </FormControl>
           <FormControl id="password" isInvalid={!password && error}>
             <FormLabel>Password</FormLabel>
-            <Input
-              width="full"
-              minW="150px"
-              bgColor={{ base: "transparent", md: inputBg }}
-              backdropFilter={{ base: "blur(10px)", md: "none" }}
-              type="password"
-              placeholder="********"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              boxShadow="md"
-            />
+            <Box position="relative">
+              <Input
+                width="full"
+                minW="150px"
+                bgColor={{ base: "transparent", md: inputBg }}
+                backdropFilter={{ base: "blur(10px)", md: "none" }}
+                type={showPassword ? "text" : "password"} // Toggle the password visibility
+                placeholder="********"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                boxShadow="md"
+              />
+              <IconButton
+                icon={showPassword ? <FaEyeSlash /> : <FaEye />}
+                onClick={() => setShowPassword(!showPassword)} // Toggle the password visibility
+                position="absolute"
+                top="50%"
+                right={4}
+                transform="translateY(-50%)"
+                variant="link"
+                aria-label="Toggle password visibility"
+              />
+            </Box>
           </FormControl>
 
           <Popover isOpen={isOpen} onOpen={onOpen} onClose={onClose} closeOnBlur={false}>
@@ -152,7 +166,7 @@ const Login = () => {
                   />
                   <FormHelperText my={3} textAlign="center">OTP will be sent on your mail to verify you.</FormHelperText>
                 </FormControl>
-                <Button w="100%" colorScheme="blue" onClick={handleSendOTP} isLoading={otpLaoding}>Send OTP</Button>
+                <Button w="100%" colorScheme="blue" onClick={handleSendOTP} isLoading={otpLoading}>Send OTP</Button>
               </PopoverBody>
             </PopoverContent>
           </Popover>
