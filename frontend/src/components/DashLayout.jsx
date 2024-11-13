@@ -12,7 +12,7 @@ const DashLayout = ({ children }) => {
             <Box width={
                 {
                     base: "100%",
-                    md: "80%"
+                    md: "90%"
                 }
             }>{children}</Box>
 

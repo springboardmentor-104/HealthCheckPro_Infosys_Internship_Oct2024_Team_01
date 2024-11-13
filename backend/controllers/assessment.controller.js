@@ -25,8 +25,11 @@ export const checkUserAssessmentStatus = async (req, res) => {
 
 export const startNewRound = async (req, res) => {
     try {
-        const userId = req.user._id;
+        const userId = req.body.user;
+        console.log('=== user assessment.controller.js [29] ===', userId);
         const lastAttempt = await UserAssessmentHistory.findOne({ userId }).sort({ attemptNumber: -1 });
+        console.log('=== lastAttempt assessment.controller.js [31] ===', lastAttempt);
+
 
         if(lastAttempt && !lastAttempt.isComplete)
           return res.status(400).json({ message: "Finish the current round before starting a new one." });
@@ -50,9 +53,16 @@ export const startNewRound = async (req, res) => {
 export const submitCatgegoryTest = async (req, res) => {
   try {
     const userId = req.user._id;
+
     const { categoryId, questions } = req.body;
 
     // caculate total score of user in specific category assessment
+
+    if(!categoryId  || questions.length === 0) {
+
+      return res.status(400).json({ message: "No questions submitted! Please answer all the questions" });
+    }
+
     let totalScore = 0;
     for (const question of questions) {
       const questionDoc = await Question.findById(question.questionId);

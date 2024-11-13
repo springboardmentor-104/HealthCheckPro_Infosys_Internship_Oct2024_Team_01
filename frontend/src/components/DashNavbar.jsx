@@ -37,8 +37,8 @@ const DashNavbar = () => {
                 </Heading></HStack>
                 <Button colorScheme="blue" variant="ghost"></Button>
                 <HStack>
-                    <Button as={NLink} to="/dashboard/assessment" colorScheme="blue" variant="ghost">Assessment</Button>
-                    <Button as={NLink} to="/dashboard/" colorScheme="blue" variant="ghost">Overview</Button>
+                    {/* <Button as={NLink} to="/dashboard/assessment" colorScheme="blue" variant="ghost">Assessment</Button> */}
+                    <Button as={NLink} to="/dashboard/" colorScheme="blue" variant="ghost">Dashboard</Button>
                     <Button as={NLink} to="/dashboard/leaderboard" colorScheme="blue" variant="ghost">Leaderboard</Button>
 
                     <Menu>

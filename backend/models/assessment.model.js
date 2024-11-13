@@ -38,6 +38,7 @@ const userAssessmentHistorySchema = new mongoose.Schema(
     overallScore: {
       type: Number,
       required: true,
+      default: 0,
     },
     date: {
       type: Date,
@@ -51,9 +52,9 @@ const userAssessmentHistorySchema = new mongoose.Schema(
   { timestamps: true }
 );
 
-const userAssessmentHistory = mongoose.model(
+const UserAssessmentHistory = mongoose.model(
   "UserAssessmentHistory",
   userAssessmentHistorySchema
 );
 
-export default userAssessmentHistory;
+export default UserAssessmentHistory;
