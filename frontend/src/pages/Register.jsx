@@ -74,16 +74,25 @@ const Register = () => {
         }
 
         // Check if password meets requirements (example: at least 8 characters, with a number and special character)
-        const passwordValid = password.length >= 8 && /[A-Z]/.test(password) && /\d/.test(password) && /[!@#$%^&*]/.test(password);
+        const trimmedPassword = password.trim();  // Trim whitespace from both ends
+        console.log("Password Length: ", trimmedPassword.length);  // Log the password length
+
+        const passwordValid = trimmedPassword.length >= 8
+            && /[A-Z]/.test(trimmedPassword)  // Check for uppercase letter
+            && /\d/.test(trimmedPassword)     // Check for a digit
+            && /[^\w\s]/.test(trimmedPassword);  // Check for a special character
+
         if (!passwordValid) {
             toast({
-                title: "Password must be at least 8 characters long, include a number, and a special character.",
+                title: "Password must be at least 8 characters long, include an uppercase letter, a number, and a special character.",
                 status: "error",
                 duration: 3000,
                 isClosable: true
             });
             return;
         }
+
+
 
         // Check if confirm password matches
         if (password !== confirmPassword) {
