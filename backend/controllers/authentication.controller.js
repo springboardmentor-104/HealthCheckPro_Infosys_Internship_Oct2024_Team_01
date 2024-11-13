@@ -70,7 +70,7 @@ const verifyOTP = async (req, res) => {
       throw new Error("Email is not valid. Please enter a valid email");
     }
 
-    if(otpStore[email] !== otp){
+    if (otpStore[email] !== otp) {
       throw new Error("OTP not verified");
     }
 
@@ -103,6 +103,13 @@ const createAccount = async (req, res) => {
       throw new Error("Password is not strong enough.\nMust contain at least: \n8 characters \n1 uppercase \n1 lowercase \n1 number  \n1 symbol");
     }
 
+    // Check if the email already exists
+    const existingUser = await User.findOne({ email });
+    if (existingUser) {
+      return res.status(400).json({ message: "Email is already registered. Please use a different email." });
+    }
+
+    // Hash the password and create the user
     const genSalt = await bcrypt.genSalt(10);
     const hashedPassword = await bcrypt.hash(password, genSalt);
 
@@ -113,11 +120,10 @@ const createAccount = async (req, res) => {
       age,
       password: hashedPassword,
       profilePic: ""
-    })
-
-    user.save();
+    });
 
     const token = generateToken(user._id);
+
     return res.status(201).json({
       token,
       email,
@@ -125,6 +131,10 @@ const createAccount = async (req, res) => {
       profilePic: ""
     });
   } catch (err) {
+    // Handling MongoDB duplicate key error
+    if (err.code === 11000) {
+      return res.status(400).json({ message: "Email is already registered. Please use a different email." });
+    }
     return res.status(400).json({ message: err.message });
   }
 };
@@ -165,7 +175,7 @@ const loginUser = async (req, res) => {
 };
 
 const resetPassword = async (req, res) => {
-  const { email, password,confirmPassword } = req.body;
+  const { email, password, confirmPassword } = req.body;
 
   try {
     const user = await User.findOne({ email });
