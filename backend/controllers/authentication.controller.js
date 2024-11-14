@@ -66,11 +66,6 @@ const verifyOTP = async (req, res) => {
       throw new Error("Please fill all the fields");
     }
 
-    const emailRegistered = await User.findOne({ email });
-    if(emailRegistered){
-      throw new Error("Email already registered");
-    }
-
     if (!validator.isEmail(email)) {
       throw new Error("Email is not valid. Please enter a valid email");
     }
