@@ -1,36 +1,37 @@
 import UserAssessmentHistory from "../models/assessment.model.js";
 import Question from "../models/question.model.js";
+import Category from "../models/category.model.js";
 
 export const checkUserAssessmentStatus = async (req, res) => {
-    try {
-        const userId = req.user._id;
-        const history = await UserAssessmentHistory.find({ userId }).sort({ attemptNumber: -1 });
-        const attemptNumber = history.length;
+  try {
+    const userId = req.user._id;
+    const history = await UserAssessmentHistory.find({ userId }).sort({ attemptNumber: -1 });
+    const attemptNumber = history.length;
 
-        if(attemptNumber === 0) {
-            res.json({ attemptNumber, completedCategories: [] });
-        } else {
-            const currentAttempt = history[0];
-            const completedCategories = currentAttempt.assessments.map(assessment => assessment.categoryId);
-            res.json({
-                isComplete: currentAttempt.isComplete,
-                completedCategories,
-                attemptNumber
-            })
-        }
-    } catch(error) {
-        res.status(500).json({ message: "Server Error", error });
+    if (attemptNumber === 0) {
+      res.json({ attemptNumber, completedCategories: [] });
+    } else {
+      const currentAttempt = history[0];
+      const completedCategories = currentAttempt.assessments.map(assessment => ({
+        categoryId: assessment.categoryId,
+        categoryName: assessment.categoryName
+      }));
+      res.json({
+        isComplete: currentAttempt.isComplete,
+        completedCategories,
+        attemptNumber
+      });
     }
+  } catch (error) {
+    res.status(500).json({ message: "Server Error", error });
+  }
 }
 
 export const startNewRound = async (req, res) => {
     try {
-        const userId = req.body.user;
-        console.log('=== user assessment.controller.js [29] ===', userId);
+        const userId = req.user._id;
+        console.log('=== userId assessment.controller.js [29] ===', userId);
         const lastAttempt = await UserAssessmentHistory.findOne({ userId }).sort({ attemptNumber: -1 });
-        console.log('=== lastAttempt assessment.controller.js [31] ===', lastAttempt);
-
-
         if(lastAttempt && !lastAttempt.isComplete)
           return res.status(400).json({ message: "Finish the current round before starting a new one." });
 
@@ -50,29 +51,36 @@ export const startNewRound = async (req, res) => {
     }
 }
 
-export const submitCatgegoryTest = async (req, res) => {
+export const submitCategoryTest = async (req, res) => {
   try {
     const userId = req.user._id;
+    const { categoryId, categoryName, questions } = req.body;
+    console.log('=== req.body assessment.controller.js [42] ===', req.body);
 
-    const { categoryId, questions } = req.body;
-
-    // caculate total score of user in specific category assessment
-
-    if(!categoryId  || questions.length === 0) {
-
-      return res.status(400).json({ message: "No questions submitted! Please answer all the questions" });
+    if (!categoryId || !categoryName || questions.length === 0) {
+      return res.status(400).json({ message: "Invalid submission! Please provide category ID, category name, and answer all the questions." });
     }
 
     let totalScore = 0;
+    const questionsWithScores = [];
+
     for (const question of questions) {
       const questionDoc = await Question.findById(question.questionId);
-      const selectedOption = questionDoc.options.find(option => option.optionId.equals(question.selectedOptionId));
+      if (!questionDoc) {
+        return res.status(400).json({ message: `Question with ID ${question.questionId} not found` });
+      }
+      const selectedOption = questionDoc.options.find(option => option._id.equals(question.selectedOptionId));
+      if (!selectedOption) {
+        return res.status(400).json({ message: `Selected option for question ID ${question.questionId} not found` });
+      }
       totalScore += selectedOption.score;
+      questionsWithScores.push({
+        ...question,
+        score: selectedOption.score
+      });
     }
 
-    const lastAttempt = await UserAssessmentHistory.findOne({ userId }).sort({
-      attemptNumber: -1,
-    });
+    const lastAttempt = await UserAssessmentHistory.findOne({ userId }).sort({ attemptNumber: -1 });
 
     let currentAttempt;
     if (!lastAttempt || lastAttempt.isComplete) {
@@ -81,35 +89,29 @@ export const submitCatgegoryTest = async (req, res) => {
       currentAttempt = new UserAssessmentHistory({
         userId,
         attemptNumber: newAttemptNumber,
-        assessments: [{ categoryId, questions, totalScore }],
+        assessments: [{ categoryId, categoryName, questions: questionsWithScores, totalScore }],
         isComplete: false,
       });
     } else {
       currentAttempt = lastAttempt;
 
-      if (
-        currentAttempt.assessments.some((assessment) =>
-          assessment.categoryId.equals(categoryId)
-        )
-      ) {
-        return res.status(400).json({
-          message: "This category test already submitted in the current round!",
-        });
+      if (currentAttempt.assessments.some(assessment => assessment.categoryId.equals(categoryId))) {
+        return res.status(400).json({ message: "This category test already submitted in the current round!" });
       }
 
-      currentAttempt.assessments.push({ categoryId, questions, totalScore });
+      currentAttempt.assessments.push({ categoryId, categoryName, questions: questionsWithScores, totalScore });
     }
 
-    if (currentAttempt.assessments.length === 4) {
+    // Check if the current attempt is complete
+
+    const categories = await Category.find(); // Assuming you have a Category model to fetch all categories
+    if (currentAttempt.assessments.length === categories.length) {
       currentAttempt.isComplete = true;
-      currentAttempt.overallScore =
-        currentAttempt.assessments.reduce((sum, assessment) => sum + assessment.totalScore, 0); // / 4
+      currentAttempt.overallScore = currentAttempt.assessments.reduce((sum, assessment) => sum + assessment.totalScore, 0);
     }
 
     await currentAttempt.save();
-    res
-      .status(200)
-      .json({ message: "Category test submitted!", attempt: currentAttempt });
+    res.status(200).json({ message: "Category test submitted!", attempt: currentAttempt });
   } catch (error) {
     res.status(500).json({ message: "Server Error", error });
   }
@@ -119,6 +121,7 @@ export const submitCatgegoryTest = async (req, res) => {
 export const fetchUserLatestAssessment = async (req, res) => {
   try {
     const userId = req.user._id; // Assuming userId is attached to the req object
+    console.log('=== userId assessment.controller.js [119] ===', userId);
     const latestAttempts = await UserAssessmentHistory.find({ userId }).sort({ attemptNumber: -1 }).limit(2);
 
     // Process the latest attempts to exclude the questions array

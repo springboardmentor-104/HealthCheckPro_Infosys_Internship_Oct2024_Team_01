@@ -7,6 +7,10 @@ const assessmentScoreSchema = new mongoose.Schema({
     ref: "Category",
     required: true,
   },
+  categoryName: {
+    type: String,
+    required: true
+  },
   questions: [
     {
       questionId: {
@@ -20,6 +24,11 @@ const assessmentScoreSchema = new mongoose.Schema({
       },
     },
   ],
+  totalScore: {
+    type: Number,
+    required: true,
+    default: 0,
+  },
   selectedOptionId: optionSchema,
 });
 

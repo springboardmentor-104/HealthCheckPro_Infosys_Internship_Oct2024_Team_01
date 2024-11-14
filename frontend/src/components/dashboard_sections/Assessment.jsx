@@ -32,6 +32,7 @@ const Assessment = () => {
     fetchAssessmentStatus();
     fetchAssessmentHistory();
     fetchLatestAssessment();
+    
   }, [fetchAssessmentStatus, fetchAssessmentHistory, fetchLatestAssessment]);
 
   const assessments = assessmentStatus || [];

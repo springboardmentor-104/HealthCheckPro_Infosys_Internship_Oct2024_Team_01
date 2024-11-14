@@ -9,42 +9,65 @@ import {
     Grid,
     useBreakpointValue,
     VStack,
-    IconButton
+    IconButton,
+    Skeleton,
 } from '@chakra-ui/react';
-import { ArrowBackIcon, ArrowForwardIcon,CheckIcon } from '@chakra-ui/icons';
+import { ArrowBackIcon, ArrowForwardIcon, CheckIcon } from '@chakra-ui/icons';
 
 import questionBg from '../assets/question.png';
-import SectionSteps from './SectionSteps';
+import SectionSteps from '../components/SectionSteps';
 import useCustomTheme from '../hooks/useCustomTheme';
-import data from './dashboard_sections/data';
+import useCategory from '../hooks/useCategory';
+import useAssessment from '../hooks/useAssessment';
 
-const Question = () => {
-    const { cardBg } = useCustomTheme();
+const TestPortal = () => {
     const [currentCategoryIndex, setCurrentCategoryIndex] = useState(0);
     const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
-    const [categories, setCategories] = useState([]);
     const [selectedAnswer, setSelectedAnswer] = useState('');
     const [isQuizCompleted, setIsQuizCompleted] = useState(false);
+    const [questions, setQuestions] = useState([]);
+    const [categories, setCategories] = useState([]);
+    const [selectedOptions, setSelectedOptions] = useState({});
+    const { fetchCategories, fetchQuestionsByCategory, loadingQuestions, loadingCategories } = useCategory();
+    const { submitCategoryAssessment } = useAssessment();
 
     useEffect(() => {
-        setCategories(data.map((category) => category.categoryName));
+        const getCategories = async () => {
+            const data = await fetchCategories();
+            if (data) {
+                setCategories(data);
+            }
+        };
+        getCategories();
     }, []);
 
     useEffect(() => {
-        console.log('Updated currentCategoryIndex:', currentCategoryIndex);
-    }, [currentCategoryIndex]);
+        const getQuestions = async () => {
+            if (categories[currentCategoryIndex]?._id) {
+                const data = await fetchQuestionsByCategory(categories[currentCategoryIndex]._id);
+                if (data) {
+                    setQuestions(data);
+                }
+            }
+        };
+        if (categories.length > 0) {
+            getQuestions();
+        }
+    }, [categories, currentCategoryIndex]);
 
-    const handleNextQuestion = () => {
-        const currentCategory = data[currentCategoryIndex];
-        if (currentQuestionIndex < currentCategory.questions.length - 1) {
+    const handleNextQuestion = async () => {
+        if (currentQuestionIndex < questions.length - 1) {
             setCurrentQuestionIndex(currentQuestionIndex + 1);
             setSelectedAnswer('');
-        } else if (currentCategoryIndex < data.length - 1) {
-            setCurrentCategoryIndex((prev) => prev + 1);
-            setCurrentQuestionIndex(0);
-            setSelectedAnswer('');
         } else {
-            setIsQuizCompleted(true);
+            await handleSubmit();
+            if (currentCategoryIndex < categories.length - 1) {
+                setCurrentCategoryIndex((prev) => prev + 1);
+                setCurrentQuestionIndex(0);
+                setSelectedAnswer('');
+            } else {
+                setIsQuizCompleted(true);
+            }
         }
     };
 
@@ -54,10 +77,27 @@ const Question = () => {
             setSelectedAnswer('');
         } else if (currentCategoryIndex > 0) {
             setCurrentCategoryIndex(currentCategoryIndex - 1);
-            setCurrentQuestionIndex(data[currentCategoryIndex - 1].questions.length - 1);
+            setCurrentQuestionIndex(categories[currentCategoryIndex - 1].length - 1);
             setSelectedAnswer('');
         }
-        console.log('Previous Question:', currentCategoryIndex, currentQuestionIndex);
+    };
+
+    const handleOptionSelect = (optionText, questionId) => {
+        setSelectedAnswer(optionText);
+        setSelectedOptions((prev) => ({
+            ...prev,
+            [questionId]: optionText,
+        }));
+    };
+
+    const handleSubmit = async () => {
+        const categoryId = categories[currentCategoryIndex]._id;
+        const categoryName = categories[currentCategoryIndex].categoryName;
+        const questionsToSubmit = questions.map((question) => ({
+            questionId: question._id,
+            selectedOptionId: question.options.find(option => option.optionText === selectedOptions[question._id])._id,
+        }));
+        await submitCategoryAssessment(categoryId, categoryName, questionsToSubmit);
     };
 
     const StackComponent = useBreakpointValue({ base: Grid, md: HStack });
@@ -70,66 +110,58 @@ const Question = () => {
         );
     }
 
-    const currentCategory = data[currentCategoryIndex];
-    const currentQuestion = currentCategory.questions[currentQuestionIndex];
-
+    const currentQuestion = questions[currentQuestionIndex];
 
     return (
         <>
-            <Progress colorScheme="blue" size="md" w="100%" value={(currentQuestionIndex + 1) / currentCategory.questions.length * 100} />
+            <Progress colorScheme="blue" size="md" w="100%" value={(currentQuestionIndex + 1) / questions.length * 100} />
             <Box mx="auto" w="80%" display="flex" justifyContent="center" h="100svh">
                 <StackComponent borderRadius="md" p={6} position="relative">
                     <Box>
-                        <SectionSteps currentCategoryIndex={currentCategoryIndex} categories={categories} />
+                        <SectionSteps loadingCategories={loadingCategories} currentCategoryIndex={currentCategoryIndex} categories={categories} />
                     </Box>
 
                     <VStack>
                         <StackComponent w="100%" gap={20}>
                             <Text display={{ base: "none", md: "block" }} w="100%" color="blue.500" fontSize="lg" fontWeight="bold" textAlign="right">
-                                QUESTION {currentQuestionIndex + 1}/{currentCategory.questions.length}
+                                QUESTION {currentQuestionIndex + 1}/{questions.length}
                             </Text>
                             <HStack display={{
                                 base: "flex",
                                 md: "none"
                             }}>
-                                <IconButton
-                                    colorScheme="gray"
-                                    size="lg"
-                                    onClick={handlePreviousQuestion}
-                                    disabled={currentCategoryIndex === 0 && currentQuestionIndex === 0}
-                                    icon={<ArrowBackIcon />}
-                                    aria-label="Previous Question"
-                                />
-                                <Text w="100%" color="blue.500" fontSize="lg" fontWeight="bold" textAlign="center">
-                                    QUESTION {currentQuestionIndex + 1}/{currentCategory.questions.length}
+
+                                <Text flex={1} color="blue.500" fontSize="lg" fontWeight="bold" textAlign="center">
+                                    QUESTION {currentQuestionIndex + 1}/{questions.length}
                                 </Text>
                                 <IconButton
                                     colorScheme="blue"
                                     size="lg"
                                     onClick={handleNextQuestion}
-                                    icon={currentCategoryIndex === data.length - 1 && currentQuestionIndex === currentCategory.questions.length - 1 ? <CheckIcon /> : <ArrowForwardIcon />}
+                                    disabled={!selectedAnswer}
+                                    icon={currentCategoryIndex === categories.length - 1 && currentQuestionIndex === questions.length - 1 ? <CheckIcon /> : <ArrowForwardIcon />}
                                     aria-label="Next Question"
                                 />
                             </HStack>
                         </StackComponent>
-                        <Text w="100%" textAlign={
-                            {
-                                base: "center",
-                                md: "left"
-                            }
-                        } fontSize="2xl" fontWeight="bold" my={6}>
-                            {currentQuestion.questionText}
-                        </Text>
+                        <Skeleton isLoaded={
+                            !loadingQuestions
+                        }><Text w="100%" textAlign={{
+                            base: "center",
+                            md: "left"
+                        }} fontSize="2xl" fontWeight="bold" my={6}>
+                                {currentQuestion && currentQuestion.questionText}
+                            </Text></Skeleton>
                         <HStack w="100%" gap={10} position="relative">
                             <Box w={{ base: "100%", md: "50%" }} mb={4} display={{ base: "none", md: "flex" }}
-                             justifyContent="center">
+                                justifyContent="center">
                                 <Image src={questionBg} alt="Illustration" width="full" />
                             </Box>
                             <Grid h="100%" mt={4} gap={4} w="100%" zIndex={2}>
-                                {currentQuestion.options.map((option, index) => (
+                                {currentQuestion && currentQuestion.options.map((option, index) => (
+                                    <Skeleton isLoaded={!loadingQuestions} key={index}>
                                     <Button
-                                        key={index}
-                                        onClick={() => setSelectedAnswer(option.optionText)}
+                                        onClick={() => handleOptionSelect(option.optionText, currentQuestion._id)}
                                         colorScheme="blue"
                                         variant={selectedAnswer === option.optionText ? 'solid' : 'outline'}
                                         size="lg"
@@ -139,6 +171,7 @@ const Question = () => {
                                     >
                                         {option.optionText}
                                     </Button>
+                                    </Skeleton>
                                 ))}
                             </Grid>
                             <Image
@@ -154,18 +187,9 @@ const Question = () => {
                             />
                         </HStack>
                         <HStack justify="flex-end" mt={8} width="100%" display={{ base: "none", md: "flex" }}>
-                            <Button
-                                colorScheme="gray"
-                                size="lg"
-                                onClick={handlePreviousQuestion}
-                                disabled={currentCategoryIndex === 0 && currentQuestionIndex === 0}
-                            >
-                                Previous
+                            <Button colorScheme="blue" size="lg" onClick={handleNextQuestion} disabled={!selectedAnswer}>
+                                {currentCategoryIndex === categories.length - 1 && currentQuestionIndex === questions.length - 1 ? 'Submit' : 'Next'}
                             </Button>
-                            <Button colorScheme="blue" size="lg" onClick={handleNextQuestion}>
-                                {currentCategoryIndex === data.length - 1 && currentQuestionIndex === currentCategory.questions.length - 1 ? 'Submit' : 'Next'}
-                            </Button>
-
                         </HStack>
                     </VStack>
                 </StackComponent>
@@ -174,4 +198,4 @@ const Question = () => {
     );
 };
 
-export default Question;
+export default TestPortal;
