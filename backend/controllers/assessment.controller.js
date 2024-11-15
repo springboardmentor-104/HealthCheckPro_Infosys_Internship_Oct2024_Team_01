@@ -139,7 +139,7 @@ export const fetchUserLatestAssessment = async (req, res) => {
     if (latestCompleteAttempt || latestIncompleteAttempt) {
       res.status(200).json({
         latestCompleteAttempt,
-        latestIncompleteAttempt
+        latestIncompleteAttempt: latestIncompleteAttempt || null // Ensure null if no incomplete attempt
       });
     } else {
       res.status(200).json({ message: "User has not submitted any tests!" });

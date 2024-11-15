@@ -19,6 +19,7 @@ import SectionSteps from '../components/SectionSteps';
 import useCustomTheme from '../hooks/useCustomTheme';
 import useCategory from '../hooks/useCategory';
 import useAssessment from '../hooks/useAssessment';
+import { Link } from 'react-router-dom';
 
 const TestPortal = () => {
     const [currentCategoryIndex, setCurrentCategoryIndex] = useState(0);
@@ -106,6 +107,7 @@ const TestPortal = () => {
         return (
             <Box mt={20} w="100%" minH="100vh" p={6} display="flex" justifyContent="center" alignItems="center">
                 <Text fontSize="2xl" fontWeight="bold">Quiz Completed! Thank you for participating.</Text>
+                <Button as={Link} to="/dashboard">Go to Dashboard</Button>
             </Box>
         );
     }
