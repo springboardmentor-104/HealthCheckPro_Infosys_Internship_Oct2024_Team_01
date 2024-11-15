@@ -54,3 +54,6 @@ This app password will allow your application to access your Google account secu
 4. Run `npm run dev` to start the development server
 
 ### Note: You can also use `yarn` instead of `npm`.
+
+# Also Try admin panel for health check pro
+## https://github.com/Ashish-Sunil-Vaidya/healthcheckpro-admin
