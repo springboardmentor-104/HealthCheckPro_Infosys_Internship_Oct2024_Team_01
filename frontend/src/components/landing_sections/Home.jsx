@@ -2,17 +2,18 @@ import { Box, Button, Container, Flex, Heading, Icon, Text, useColorModeValue } 
 import { ExternalLinkIcon } from "@chakra-ui/icons";
 import { AiFillHeart } from "react-icons/ai";
 import { Link as NLink } from "react-router-dom";
-import { DotLottieReact } from '@lottiefiles/dotlottie-react';
+
 import useCustomTheme from "../../hooks/useCustomTheme";
+import { DotLottieReact } from '@lottiefiles/dotlottie-react';
 import homePageAnimation from '../../assets/homePage.lottie';
+
 
 const Home = () => {
     const { landingBg, textColor, headingColor, subheadingColor } = useCustomTheme();
 
     const buttonColor = useColorModeValue("gray", "whiteAlpha.300");
 
-    return (
-        <Box bg={landingBg} minH="100vh" display="flex" alignItems="center" py={10}>
+    return ( <Box bg={landingBg} minH="100vh" display="flex" alignItems="center" py={10}>
             <Container maxW="90%">
                 {/* Main Content */}
                 <Flex
@@ -73,6 +74,7 @@ const Home = () => {
                     </Box>
                 </Flex>
             </Container>
+
         </Box>
     );
 }

@@ -17,15 +17,17 @@ const GlobalProvider = ({ children }) => {
         localStorage.getItem('user') ? JSON.parse(localStorage.getItem('user')) : null
     );
 
+    const [fetchAgain, setFetchAgain] = useState(false);
+
     useEffect(() => {
-  
+
         localStorage.setItem('user', JSON.stringify(user));
     }
     , [user]);
 
 
     return (
-        <GlobalContext.Provider value={{ user, setUser }}>
+        <GlobalContext.Provider value={{ user, setUser, fetchAgain,setFetchAgain }}>
             {children}
         </GlobalContext.Provider>
     );

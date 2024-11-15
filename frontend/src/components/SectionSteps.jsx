@@ -11,14 +11,15 @@ import {
     useSteps,
     StepNumber,
     StepTitle,
-    useBreakpointValue
+    useBreakpointValue,
+    Skeleton
 } from '@chakra-ui/react';
 import PropTypes from 'prop-types';
 import { useEffect } from 'react';
 
 
 
-const SectionSteps = ({ currentCategoryIndex, categories }) => {
+const SectionSteps = ({ loadingCategories, currentCategoryIndex, categories }) => {
     const orientation = useBreakpointValue({ base: 'horizontal', md: 'vertical' });
     const { activeStep, setActiveStep } = useSteps({
         index: currentCategoryIndex,
@@ -32,30 +33,30 @@ const SectionSteps = ({ currentCategoryIndex, categories }) => {
         setActiveStep(currentCategoryIndex);
     }, [currentCategoryIndex]);
 
-    const activeStepText = categories[activeStep];
+    const activeStepText = categories[activeStep]?.categoryName;
 
     return (
 
-        <Box ><Stepper size='md' minWidth={
+        <Box >
+            <Stepper size='md' minWidth={
             orientation === 'horizontal' ? 'auto' : '200px'
         } index={activeStep} gap='0' height={
             orientation === 'horizontal' ? 'auto' : '50svh'
         } orientation={orientation}>
             {categories.map((category, index) => (
-                <Step key={index}>
-                    <StepIndicator>
-                        <StepStatus
-                            complete={<StepIcon />}
-                            incomplete={<StepNumber />}
-                            active={<StepNumber />}
-                        />
-                    </StepIndicator>
 
-                    {orientation !== 'horizontal' && <StepTitle>{category}</StepTitle>}
+                    <Step key={index} as={Skeleton} isLoaded={!loadingCategories}>
+                        <StepIndicator>
+                            <StepStatus
+                                complete={<StepIcon />}
+                                incomplete={<StepNumber />}
+                                active={<StepNumber />}
+                            />
+                        </StepIndicator>
+                        {orientation !== 'horizontal' && <StepTitle>{category.categoryName}</StepTitle>}
+                        <StepSeparator />
+                    </Step>
 
-
-                    <StepSeparator />
-                </Step>
             ))}
 
         </Stepper>

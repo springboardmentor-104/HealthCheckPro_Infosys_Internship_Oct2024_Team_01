@@ -6,15 +6,18 @@ import PropTypes from 'prop-types';
 const DashLayout = ({ children }) => {
     const { bodyBg } = useCustomTheme();
     return (
-        <VStack w="100svw"  bgColor={bodyBg}>
+        <VStack w="100%"  bgColor={bodyBg}>
             <DashNavbar />
 
             <Box width={
                 {
                     base: "100%",
-                    md: "80%"
+                    md: "90%"
                 }
-            }>{children}</Box>
+
+            }
+
+            >{children}</Box>
 
         </VStack>
     )

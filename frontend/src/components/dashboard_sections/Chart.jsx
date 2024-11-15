@@ -2,7 +2,7 @@ import { Box, Text } from "@chakra-ui/react";
 import PropTypes from 'prop-types';
 import useCustomTheme from "../../hooks/useCustomTheme";
 
-const DemoCard = ({ title, description, children }) => {
+const Chart = ({ title, description, children }) => {
 
     const {cardBg} = useCustomTheme();
   return (
@@ -27,11 +27,11 @@ const DemoCard = ({ title, description, children }) => {
 };
 
 
-DemoCard.propTypes = {
+Chart.propTypes = {
   title: PropTypes.string.isRequired,
   description: PropTypes.string.isRequired,
   children: PropTypes.node
 };
 
-export default DemoCard;
+export default Chart;
 
