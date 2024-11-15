@@ -1,6 +1,6 @@
 const data = [
     {
-        categoryName: "Diet",
+        categoryName: "672f723087aaf11a357306e7",
         description: "Questions related to dietary habits",
         totalScore: 25,
         questions: [

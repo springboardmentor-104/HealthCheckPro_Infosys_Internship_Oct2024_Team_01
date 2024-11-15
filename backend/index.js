@@ -6,6 +6,8 @@ const app = express();
 import mongoose from "mongoose";
 import userRouter from "./routes/user.route.js";
 import assessmentRouter from "./routes/assessment.route.js";
+import categoryRouter from "./routes/category.route.js";
+
 import { notFound, errorHandler } from "./middlewares/error.middleware.js";
 import path from 'path';
 import { fileURLToPath } from "url";
@@ -22,6 +24,7 @@ app.use(express.json());
 app.use('/api-docs', swaggerUiServe, swaggerUiSetup);
 app.use('/api/user', userRouter);
 app.use('/api/assessment', assessmentRouter);
+app.use('/api/category', categoryRouter);
 
 
 // DEPLOYMENT CODE

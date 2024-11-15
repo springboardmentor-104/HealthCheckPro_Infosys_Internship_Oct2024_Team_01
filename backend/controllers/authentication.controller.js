@@ -95,6 +95,19 @@ const createAccount = async (req, res) => {
       throw new Error("Email is not valid. Please enter a valid email");
     }
 
+    const userExists = await User({ email });
+
+    if(userExists){
+      throw new Error("User already exists");
+    }
+
+
+    const usernameExists = await User({ username });
+
+    if(usernameExists){
+      throw new Error("Username already taken");
+    }
+
     if (password !== confirmPassword) {
       throw new Error("Passwords do not match");
     }
@@ -168,6 +181,8 @@ const loginUser = async (req, res) => {
       token,
       username: user.username,
       email,
+      age: user.age,
+      gender: user.gender
     });
   } catch (err) {
     res.status(400).json({ message: err.message });

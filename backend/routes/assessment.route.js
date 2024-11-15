@@ -1,12 +1,13 @@
-import express from 'express';
-const router = express.Router();
-import {modifyQuestion,deleteQuestion,addQuestion,getQuestionsByCategory,getCategories,addCategory } from '../controllers/assessment.controller.js';
+import express from "express"
+import { checkUserAssessmentStatus, fetchUserAssessmentHistory, fetchUserLatestAssessment, startNewRound, submitCategoryTest } from "../controllers/assessment.controller.js"
+import protect from "../middlewares/protect.middleware.js"
 
-router.get('/categories', getCategories);
-router.get('/questions/:id', getQuestionsByCategory);
-router.post('/add-category', addCategory);
-router.post('/add-question', addQuestion);
-router.put('/modify-question/:id', modifyQuestion);
-router.delete('/delete-question/:id', deleteQuestion);
+const router = express.Router();
+
+router.get("/status", protect, checkUserAssessmentStatus);
+router.post("/start-new-round",protect, startNewRound);
+router.patch("/submit", protect, submitCategoryTest);
+router.get("/latest-attempt",protect, fetchUserLatestAssessment);
+router.get("/all-attempts",protect, fetchUserAssessmentHistory);
 
 export default router;

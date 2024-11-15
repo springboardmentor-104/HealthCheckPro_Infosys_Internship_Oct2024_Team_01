@@ -7,6 +7,10 @@ const assessmentScoreSchema = new mongoose.Schema({
     ref: "Category",
     required: true,
   },
+  categoryName: {
+    type: String,
+    required: true
+  },
   questions: [
     {
       questionId: {
@@ -20,6 +24,11 @@ const assessmentScoreSchema = new mongoose.Schema({
       },
     },
   ],
+  totalScore: {
+    type: Number,
+    required: true,
+    default: 0,
+  },
   selectedOptionId: optionSchema,
 });
 
@@ -38,6 +47,7 @@ const userAssessmentHistorySchema = new mongoose.Schema(
     overallScore: {
       type: Number,
       required: true,
+      default: 0,
     },
     date: {
       type: Date,
@@ -51,9 +61,9 @@ const userAssessmentHistorySchema = new mongoose.Schema(
   { timestamps: true }
 );
 
-const userAssessmentHistory = mongoose.model(
+const UserAssessmentHistory = mongoose.model(
   "UserAssessmentHistory",
   userAssessmentHistorySchema
 );
 
-export default userAssessmentHistory;
+export default UserAssessmentHistory;

@@ -27,10 +27,6 @@ const questionSchema = new mongoose.Schema(
       required: true,
     },
     options: [optionSchema],
-    selectedOption: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "Option",
-    },
   },
   { timestamps: true }
 );
