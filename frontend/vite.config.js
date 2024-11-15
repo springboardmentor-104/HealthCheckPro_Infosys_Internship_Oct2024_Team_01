@@ -6,7 +6,6 @@ export default defineConfig({
   plugins: [react()],
   assetsInclude: ["**/*.lottie"], // Add this line to include .lottie files as assets
   base: "/",
-  assetsInclude: ["**/*.lottie"], // Add this line to include .lottie files as assets
   server: {
     proxy: {
       "/api": {
