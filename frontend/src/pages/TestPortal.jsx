@@ -30,7 +30,23 @@ const TestPortal = () => {
     const [categories, setCategories] = useState([]);
     const [selectedOptions, setSelectedOptions] = useState({});
     const { fetchCategories, fetchQuestionsByCategory, loadingQuestions, loadingCategories } = useCategory();
-    const { submitCategoryAssessment } = useAssessment();
+    const { submitCategoryAssessment,fetchAssessmentStatus } = useAssessment();
+
+    useEffect(() => {
+        const getAssessmentStatus = async () => {
+            const data = await fetchAssessmentStatus();
+            if (data) {
+                console.log('=== data TestPortal.jsx [64] ===', data);
+                if (data.isComplete) {
+                    setIsQuizCompleted(true);
+                }
+                else{
+                    setCurrentCategoryIndex(data.completedCategories.length);
+                }
+            }
+        };
+        getAssessmentStatus();
+    }, []);
 
     useEffect(() => {
         const getCategories = async () => {
@@ -55,6 +71,8 @@ const TestPortal = () => {
             getQuestions();
         }
     }, [categories, currentCategoryIndex]);
+
+
 
     const handleNextQuestion = async () => {
         if (currentQuestionIndex < questions.length - 1) {
@@ -162,17 +180,17 @@ const TestPortal = () => {
                             <Grid h="100%" mt={4} gap={4} w="100%" zIndex={2}>
                                 {currentQuestion && currentQuestion.options.map((option, index) => (
                                     <Skeleton isLoaded={!loadingQuestions} key={index}>
-                                    <Button
-                                        onClick={() => handleOptionSelect(option.optionText, currentQuestion._id)}
-                                        colorScheme="blue"
-                                        variant={selectedAnswer === option.optionText ? 'solid' : 'outline'}
-                                        size="lg"
-                                        w="100%"
-                                        mr={2}
-                                        boxShadow={selectedAnswer === option.optionText ? 'lg' : 'md'}
-                                    >
-                                        {option.optionText}
-                                    </Button>
+                                        <Button
+                                            onClick={() => handleOptionSelect(option.optionText, currentQuestion._id)}
+                                            colorScheme="blue"
+                                            variant={selectedAnswer === option.optionText ? 'solid' : 'outline'}
+                                            size="lg"
+                                            w="100%"
+                                            mr={2}
+                                            boxShadow={selectedAnswer === option.optionText ? 'lg' : 'md'}
+                                        >
+                                            {option.optionText}
+                                        </Button>
                                     </Skeleton>
                                 ))}
                             </Grid>

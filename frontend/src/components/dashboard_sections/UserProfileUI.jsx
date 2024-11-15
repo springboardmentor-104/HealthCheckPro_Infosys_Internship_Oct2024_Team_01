@@ -17,7 +17,7 @@ import useAssessment from '../../hooks/useAssessment';
 import useGlobalState from '../../hooks/useGlobalState';
 import banner from '../../assets/banner.jpg';
 
-const Assessment = () => {
+const UserProfileUI = () => {
   const { cardBg } = useCustomTheme();
   const {
     assessmentStatus,
@@ -32,7 +32,7 @@ const Assessment = () => {
     fetchAssessmentStatus();
     fetchAssessmentHistory();
     fetchLatestAssessment();
-    
+
   }, [fetchAssessmentStatus, fetchAssessmentHistory, fetchLatestAssessment]);
 
   const assessments = assessmentStatus || [];
@@ -61,7 +61,6 @@ const Assessment = () => {
           <Avatar
             size="2xl"
             name={user.username}
-            src="https://via.placeholder.com/150"
             position="absolute"
             left="5%"
             top="40%"
@@ -166,4 +165,4 @@ const Assessment = () => {
   );
 };
 
-export default Assessment;
+export default UserProfileUI;

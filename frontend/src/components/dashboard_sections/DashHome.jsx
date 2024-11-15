@@ -8,24 +8,20 @@ import {
 // import Chart from './Chart';
 // import Assessment from './Assessment';
 // import useCustomTheme from '../../hooks/useCustomTheme';
-import useAssessment from '../../hooks/useAssessment';
-import UserStatusUI from './UserStatusUI';
 
+import UserStatusUI from './UserStatusUI';
+import UserProfileUI from './UserProfileUI';
 
 
 const DashHome = () => {
 
-    const { startNewRound } = useAssessment();
 
-   
 
 
     return (
         <Box mt={20}>
-            {/* <Assessment /> */}
+            <UserProfileUI />
             <UserStatusUI />
-
-
         </Box>
     );
 };

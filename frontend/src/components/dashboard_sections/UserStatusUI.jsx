@@ -6,7 +6,7 @@ import { useNavigate } from 'react-router-dom';
 import useAssessment from '../../hooks/useAssessment';
 import useCustomTheme from '../../hooks/useCustomTheme';
 
-const PendingAssessment = ({ status, latestAssessment, cardBg, history }) => {
+const PendingAssessment = ({ status, latestAttempt,cardBg, history }) => {
 
     if (!status) {
         return (
@@ -18,12 +18,14 @@ const PendingAssessment = ({ status, latestAssessment, cardBg, history }) => {
         );
     }
 
+    console.log('=== latestAttempt UserStatusUI.jsx [21] ===', latestAttempt);
+
     const handleRedirect = () => {
-        history(`/assessment/attempt/${latestAssessment.latestIncompleteAttempt._id}`);
+        history(`/assessment/attempt/${latestAttempt._id}`);
     }
 
-    if (latestAssessment && !latestAssessment.isComplete) {
-        return (
+
+        return !status.isComplete?(
             <Box bgColor={cardBg} p={5} shadow="md" rounded="md">
                 <Flex justify="space-between">
                     <Heading color='red.600' mb={5}>
@@ -53,12 +55,12 @@ const PendingAssessment = ({ status, latestAssessment, cardBg, history }) => {
                     )}
                 </VStack>
             </Box>
-        );
+        ):null
     }
-    return null;
-}
 
-const AssessmentHistory = ({ latestCompleteAttempt, cardBg }) => {
+
+
+    const AssessmentHistory = ({ latestCompleteAttempt, cardBg }) => {
     if (!latestCompleteAttempt) {
         return null;
     }
@@ -90,12 +92,12 @@ const AssessmentHistory = ({ latestCompleteAttempt, cardBg }) => {
 };
 
 const UserStatusUI = () => {
-
     const { fetchAssessmentStatus, fetchLatestAssessment,startNewRound } = useAssessment();
     const [status, setStatus] = useState(null);
     const [latestAssessment, setLatestAssessment] = useState(null);
     const { cardBg } = useCustomTheme();
     const history = useNavigate();
+
 
     useEffect(() => {
         const fetchStatus = async () => {
@@ -120,19 +122,21 @@ const UserStatusUI = () => {
 
 
     return (
-        <>
+        <Box w="100%" overflowX="hidden">
             {status?.attemptNumber > 0 && (
                 <>
-                    <PendingAssessment status={status} latestAssessment={latestAssessment} cardBg={cardBg} history={history} />
+                    <PendingAssessment status={status} latestAttempt={
+                        latestAssessment?.latestIncompleteAttempt
+                    } cardBg={cardBg} history={history} />
                     <AssessmentHistory latestCompleteAttempt={latestAssessment?.latestCompleteAttempt} cardBg={cardBg} />
                 </>
             )}
             <Flex w="100%" alignItems="center">
-                <Button mx="auto" colorScheme="blue" size="lg" onClick={handleStartRound}>
+                <Button mt={5} mx="auto" colorScheme="blue" size="lg" onClick={handleStartRound}>
                     Start New Round
                 </Button>
             </Flex>
-        </>
+        </Box>
     );
 
 }
@@ -162,10 +166,8 @@ PendingAssessment.propTypes = {
         ),
         isComplete: PropTypes.bool
     }),
-    latestAssessment: PropTypes.shape({
-        latestIncompleteAttempt: PropTypes.shape({
-            _id: PropTypes.string
-        }),
+    latestAttempt: PropTypes.shape({
+        _id: PropTypes.string,
         isComplete: PropTypes.bool
     }),
     cardBg: PropTypes.string,

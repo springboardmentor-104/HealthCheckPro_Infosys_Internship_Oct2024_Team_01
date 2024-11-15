@@ -70,7 +70,6 @@ const DashNavbar = () => {
                     <AccordionPanel px={3} as={VStack} flex={1} w="100%">
                         <HStack display="flex" flex={1} w="full">
                             <Button as={NLink} to="/dashboard/" colorScheme="blue" variant="outline">Overview</Button>
-                            <Button as={NLink} to="/dashboard/assessment" colorScheme="blue" variant="outline">Assessment</Button>
                             <Button as={NLink} to="/dashboard/leaderboard" colorScheme="blue" variant="outline">Leaderboards</Button>
                         </HStack>
                         <Button w="100%" as={NLink} onClick={handleLogout} colorScheme="red" variant="solid">Logout</Button>

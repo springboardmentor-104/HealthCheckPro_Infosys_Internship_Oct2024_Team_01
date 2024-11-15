@@ -10,7 +10,7 @@ import { createBrowserRouter, RouterProvider } from 'react-router-dom'
 import { LandingPage, Login, Register, ResetPassword,Dashboard,TestPortal } from './pages'
 import GlobalProvider from './context/GlobalProvider'
 import ThemeProvider from './context/ThemeProvider'
-import {DashHome,LeaderBoards,Assessment} from './components/dashboard_sections'
+import {DashHome,LeaderBoards} from './components/dashboard_sections'
 
 
 
