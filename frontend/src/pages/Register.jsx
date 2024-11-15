@@ -50,6 +50,18 @@ const Register = () => {
     const [ageError, setAgeError] = useState(false);
 
     const handleOTPSubmit = async () => {
+        // Check if all fields are filled
+        if (!email || !username || !age || !gender || !password || !confirmPassword) {
+            toast({
+                title: "Please fill in all fields",
+                status: "error",
+                duration: 3000,
+                isClosable: true
+            });
+            return;
+        }
+
+        // Check if email is valid
         if (!validator.isEmail(email)) {
             toast({
                 title: "Email is not valid. Please enter a valid email",
@@ -60,11 +72,65 @@ const Register = () => {
             setEmailError(true);
             return;
         }
-        console.log('=== email Register.jsx [53] ===', email);
+
+        // Check if password meets requirements (example: at least 8 characters, with a number and special character)
+        const trimmedPassword = password.trim();  // Trim whitespace from both ends
+        console.log("Password Length: ", trimmedPassword.length);  // Log the password length
+
+        const passwordValid = trimmedPassword.length >= 8
+            && /[A-Z]/.test(trimmedPassword)  // Check for uppercase letter
+            && /\d/.test(trimmedPassword)     // Check for a digit
+            && /[^\w\s]/.test(trimmedPassword);  // Check for a special character
+
+        if (!passwordValid) {
+            toast({
+                title: "Password must be at least 8 characters long, include an uppercase letter, a number, and a special character.",
+                status: "error",
+                duration: 3000,
+                isClosable: true
+            });
+            return;
+        }
+
+
+
+        // Check if confirm password matches
+        if (password !== confirmPassword) {
+            toast({
+                title: "Passwords do not match.",
+                status: "error",
+                duration: 3000,
+                isClosable: true
+            });
+            return;
+        }
+
+        // Check if age is valid (between 18 and 80)
+        const ageValue = parseInt(age, 10);
+        if (ageValue < 18 || ageValue > 80) {
+            toast({
+                title: "Please enter a valid age (18-80).",
+                status: "error",
+                duration: 3000,
+                isClosable: true
+            });
+            setAgeError(true);
+            return;
+        }
+
+        // If all validations pass, send OTP
         await sendOTPAction(email)
             .then(() => {
-                onOpen();
+                onOpen(); // Open OTP modal
             })
+            .catch((err) => {
+                toast({
+                    title: "Error sending OTP. Please try again.",
+                    status: "error",
+                    duration: 3000,
+                    isClosable: true
+                });
+            });
     };
 
     const handleVerficationRegistration = async () => {

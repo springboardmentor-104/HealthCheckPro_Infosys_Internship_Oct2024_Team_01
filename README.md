@@ -53,4 +53,5 @@ This app password will allow your application to access your Google account secu
 3. Run `npm install` in the root directory for installing the dependencies
 4. Run `npm run dev` to start the development server
 
+
 ### Note: You can also use `yarn` instead of `npm`.
