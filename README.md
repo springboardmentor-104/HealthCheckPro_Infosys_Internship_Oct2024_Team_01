@@ -55,5 +55,5 @@ This app password will allow your application to access your Google account secu
 
 ### Note: You can also use `yarn` instead of `npm`.
 
-# Also Try admin panel for health check pro
+# Also to add assessmets in the database, we have created a separate admin panel for the same. The code for the admin panel can be found at the following link:
 ## https://github.com/Ashish-Sunil-Vaidya/healthcheckpro-admin
