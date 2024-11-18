@@ -19,26 +19,22 @@ import VerifyOTP from '../components/VerifyOTP';
 import useCustomTheme from '../hooks/useCustomTheme';
 import authbg from '/authbg.png';
 import useResetPassword from '../hooks/useResetPassword';
-import useOTP from '../hooks/useOTP';
+// import useOTP from '../hooks/useOTP';
 
 
 const ResetPassword = () => {
-    const [otp, setOTP] = useState('');
+    // const [otp, setOTP] = useState('');
     const [password, setPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
 
     const { bodyBg, inputBg, authBg } = useCustomTheme();
     const { email } = useParams();
     const { resetPassword, error,loading } = useResetPassword();
-    const { verifyOTPAction,loading:otpLoading } = useOTP();
+    // const { verifyOTPAction,loading:otpLoading } = useOTP();
 
 
     const handleSubmit = async () => {
-        await verifyOTPAction(email, otp)
-        .then((res) => {
-            res && resetPassword(email, password, confirmPassword);
-        }
-        );
+         resetPassword(email, password, confirmPassword);
     };
 
     return (

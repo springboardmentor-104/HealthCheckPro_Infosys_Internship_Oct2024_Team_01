@@ -1,0 +1,197 @@
+Index: frontend/src/components/dashboard_sections/DashHome.jsx
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>import React, { useState, useEffect } from 'react';\r\nimport DashHome1 from './DashPage1';\r\nimport DashHome2 from './DashPage2';\r\nimport DashHome3 from './DashPage3';\r\nimport DashHome4 from './DashPage4';\r\nimport { Contact } from '../landing_sections';\r\n\r\nimport {\r\n  Box,\r\n  Text,\r\n  Heading,\r\n  Center,\r\n  Flex,\r\n  CircularProgress,\r\n  CircularProgressLabel,\r\n  Progress,\r\n  VStack,\r\n} from '@chakra-ui/react';\r\n\r\nconst DashHome = () => {\r\n  const [scoreData, setScoreData] = useState({\r\n    totalScore: 80,\r\n    healthStatus: 'Good',\r\n    score: 80,\r\n    attend: 95,\r\n    date: '28/10/24'\r\n  });\r\n\r\n  useEffect(() => {\r\n    // Fetch data from the backend and update scoreData\r\n    // Example:\r\n    // fetchData().then(data => setScoreData(data));\r\n  }, []);\r\n\r\n  return (\r\n\r\n    <>\r\n    <Box maxWidth={{base: '90%', md:'800px'}} mx='auto' >\r\n      {/* Header */}\r\n      <Text fontSize={{ base: \"xl\", md: \"2xl\" }} fontWeight=\"bold\" color=\"blue.500\" mb={{ base: 8, md: 10 }} textAlign=\"center\">\r\n        OVERALL PERFORMANCE ON ({scoreData.date}) :\r\n      </Text>\r\n\r\n      <Flex \r\n        direction={{ base: \"column\", md: \"row\" }} \r\n        align=\"center\" \r\n        justify=\"center\" \r\n        gap={{ base: 10, md: 12 }}\r\n      >\r\n        \r\n        {/* Left Section - Health Status */}\r\n        <VStack \r\n          spacing={6} \r\n          align=\"flex-start\" \r\n          textAlign=\"left\" \r\n          w={{ base: \"100%\", md: \"30%\" }} \r\n          maxW=\"400px\"\r\n        >\r\n          <Heading as=\"h3\" fontSize={{ base: \"xl\", md: \"2xl\" }} color=\"blue.500\">\r\n            Health Upgrade ({scoreData.healthStatus}) <span role=\"img\" aria-label=\"fire\">\uD83D\uDD25</span>\r\n          </Heading>\r\n          <Text fontSize={{ base: \"md\", md: \"lg\" }} color=\"gray.600\">\r\n            You've made excellent progress so far; improving your speed without sacrificing quality could help you reach your full potential.\r\n          </Text>\r\n        </VStack>\r\n\r\n        {/* Center Section - Circular Progress */}\r\n        <Center w={{ base: \"100%\", md: \"30%\" }} py={6}>\r\n          <VStack>\r\n            <CircularProgress\r\n              value={scoreData.totalScore}\r\n              size={{ base: \"180px\", md: \"200px\", lg: \"220px\" }}\r\n              thickness=\"12px\"\r\n              color=\"blue.500\"\r\n              trackColor=\"yellow.400\"\r\n            >\r\n              <CircularProgressLabel fontSize={{ base: \"2xl\", md: \"3xl\", lg: \"4xl\" }} fontWeight=\"bold\">\r\n                {scoreData.totalScore}/100\r\n              </CircularProgressLabel>\r\n            </CircularProgress>\r\n            <Text mt={4} fontSize={{ base: \"lg\", md: \"xl\" }} fontWeight=\"bold\">\r\n              Total Score\r\n            </Text>\r\n          </VStack>\r\n        </Center>\r\n\r\n        {/* Right Section - Score and Attendance */}\r\n        <Box w={{ base: \"100%\", md: \"30%\" }} maxW=\"800px\">\r\n          <Text fontSize={{ base: \"lg\", md: \"xl\" }} fontWeight=\"bold\" color=\"black\" mb={6}>\r\n            SOLVED QUESTIONS :\r\n          </Text>\r\n          <Flex justify=\"space-between\" align=\"center\" mb={3}>\r\n            <Text fontSize={{ base: \"md\", md: \"lg\" }}>Score</Text>\r\n            <Text fontSize={{ base: \"md\", md: \"lg\" }}>{scoreData.score}/100</Text>\r\n          </Flex>\r\n          <Progress\r\n            colorScheme=\"blue\"\r\n            value={scoreData.score}\r\n            size=\"lg\"\r\n            borderRadius=\"md\"\r\n            mb={6}\r\n          />\r\n\r\n          <Flex justify=\"space-between\" align=\"center\" mb={3}>\r\n            <Text fontSize={{ base: \"md\", md: \"lg\" }}>Attend</Text>\r\n            <Text fontSize={{ base: \"md\", md: \"lg\" }}>{scoreData.attend}/100</Text>\r\n          </Flex>\r\n          <Progress\r\n            colorScheme=\"yellow\"\r\n            value={scoreData.attend}\r\n            size=\"lg\"\r\n            borderRadius=\"md\"\r\n          />\r\n        </Box>\r\n      </Flex>\r\n\r\n      <DashHome1/>\r\n      <DashHome2/>\r\n      <DashHome3/>\r\n      <DashHome4/>\r\n     \r\n    </Box>\r\n    <Box w=\"100svw\">\r\n    <Contact/>\r\n    </Box>\r\n\r\n</>\r\n\r\n//page 1 begins from here\r\n\r\n            \r\n          \r\n  );\r\n};\r\n\r\nexport default DashHome;\r\n\r\n\r\n\r\n\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/frontend/src/components/dashboard_sections/DashHome.jsx b/frontend/src/components/dashboard_sections/DashHome.jsx
+--- a/frontend/src/components/dashboard_sections/DashHome.jsx	(revision 8cfb9cf19941789ed657d71bc88816a11322ac39)
++++ b/frontend/src/components/dashboard_sections/DashHome.jsx	(date 1731926839305)
+@@ -41,19 +41,19 @@
+         OVERALL PERFORMANCE ON ({scoreData.date}) :
+       </Text>
+ 
+-      <Flex 
+-        direction={{ base: "column", md: "row" }} 
+-        align="center" 
+-        justify="center" 
++      <Flex
++        direction={{ base: "column", md: "row" }}
++        align="center"
++        justify="center"
+         gap={{ base: 10, md: 12 }}
+       >
+-        
++
+         {/* Left Section - Health Status */}
+-        <VStack 
+-          spacing={6} 
+-          align="flex-start" 
+-          textAlign="left" 
+-          w={{ base: "100%", md: "30%" }} 
++        <VStack
++          spacing={6}
++          align="flex-start"
++          textAlign="left"
++          w={{ base: "100%", md: "30%" }}
+           maxW="400px"
+         >
+           <Heading as="h3" fontSize={{ base: "xl", md: "2xl" }} color="blue.500">
+@@ -115,10 +115,10 @@
+       </Flex>
+ 
+       <DashHome1/>
+-      <DashHome2/>
++      {/* <DashHome2/>
+       <DashHome3/>
+-      <DashHome4/>
+-     
++      <DashHome4/> */}
++
+     </Box>
+     <Box w="100svw">
+     <Contact/>
+@@ -128,8 +128,8 @@
+ 
+ //page 1 begins from here
+ 
+-            
+-          
++
++
+   );
+ };
+ 
+Index: frontend/src/components/dashboard_sections/DashPage2.jsx
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>import React, { useEffect, useState } from 'react';\r\nimport { Box, Text, Progress, Flex, Avatar, Heading, VStack, HStack } from '@chakra-ui/react';\r\nimport image1 from '../../../dist/assets/3.jpg';\r\nimport image2 from '../../../dist/assets/bar1.png';\r\n\r\nconst DashHome1 = () => {\r\n  const [data, setData] = useState({\r\n    score: 10,\r\n    totalScore: 25,\r\n    attend: 21,\r\n    totalAttend: 25,\r\n    healthStatus: \"Have to improve\",\r\n  });\r\n\r\n  useEffect(() => {\r\n    const fetchData = async () => {\r\n      const backendData = {\r\n        score: 10,\r\n        totalScore: 25,\r\n        attend: 21,\r\n        totalAttend: 25,\r\n        healthStatus: \"Have to improve\",\r\n      };\r\n      setData(backendData);\r\n    };\r\n    fetchData();\r\n  }, []);\r\n\r\n  return (\r\n    <Box p={4} maxW=\"900px\" mx=\"auto\">\r\n      {/* Header */}\r\n      <Heading fontSize=\"md\" textAlign=\"center\" mb={3}>\r\n        2. NUTRITION\r\n      </Heading>\r\n\r\n      {/* Top Icons Section */}\r\n      <HStack justifyContent=\"center\" spacing={8} mb={5} padding={3} bg=\"gray.100\" borderRadius=\"md\">\r\n        <Box as=\"span\" role=\"img\" fontSize=\"3xl\" color=\"blue.500\">\uD83C\uDF7D\uFE0F</Box>\r\n        <Box as=\"span\" role=\"img\" fontSize=\"3xl\" color=\"blue.500\">\uD83C\uDFCB\uFE0F</Box>\r\n        <Box as=\"span\" role=\"img\" fontSize=\"3xl\" color=\"blue.500\">\uD83E\uDE7A</Box>\r\n        <Box as=\"span\" role=\"img\" fontSize=\"3xl\" color=\"blue.500\">\uD83D\uDCC8</Box>\r\n      </HStack>\r\n\r\n      {/* Title for Nutrition Performance */}\r\n      <Text fontSize=\"lg\" fontWeight=\"bold\" mb={2} color=\"blue.600\" textAlign=\"center\">\r\n        OVERALL PERFORMANCE IN NUTRITION\r\n      </Text>\r\n\r\n      {/* Images Section */}\r\n      <Flex gap={5} mb={4} justifyContent=\"space-between\" alignItems=\"center\">\r\n        {/* Left Section - Bar Graph */}\r\n        <Box flex=\"1\" display=\"flex\" justifyContent=\"center\" alignItems=\"center\">\r\n          <Avatar src={image2} alt=\"Performance Graph\" w=\"100%\" h=\"250px\" borderRadius=\"lg\" />\r\n        </Box>\r\n\r\n        {/* Right Section - User Avatar */}\r\n        <Box flex=\"1\" display=\"flex\" justifyContent=\"center\" alignItems=\"center\">\r\n          <Avatar src={image1} alt=\"User Image\" w=\"100%\" h=\"250px\" borderRadius=\"lg\" />\r\n        </Box>\r\n      </Flex>\r\n\r\n      {/* Lower Section with Health Status and Solved Questions */}\r\n      <Flex gap={5} mt={4} flexDirection={{ base: \"column\", md: \"row\" }}>\r\n        {/* Health Status Section - Left */}\r\n        <VStack flex=\"1\" align=\"stretch\" p={4} bg=\"gray.50\" borderRadius=\"lg\">\r\n          <Text fontSize=\"lg\" fontWeight=\"bold\" textAlign=\"center\" color=\"blue.500\">\r\n            Your Healthy \uD83E\uDD66\uD83C\uDF4E\r\n          </Text>\r\n          <Text fontSize=\"md\" textAlign=\"center\" color=\"blue.500\">\r\n            Health Upgrade: {data.healthStatus}\r\n          </Text>\r\n          <Text mt={1} fontSize=\"sm\" textAlign=\"center\" color=\"gray.600\">\r\n            Online solution looks at your physical health & mental health\r\n          </Text>\r\n        </VStack>\r\n\r\n        {/* Solved Questions Section - Right */}\r\n        <VStack flex=\"1\" align=\"stretch\" spacing={3}>\r\n          <Text fontSize=\"lg\" fontWeight=\"bold\">\r\n            SOLVED QUESTIONS:\r\n          </Text>\r\n\r\n          {/* Score Progress */}\r\n          <Flex w=\"100%\" align=\"center\">\r\n            <Text flex=\"1\" fontSize=\"sm\">Score</Text>\r\n            <Box flex=\"3\">\r\n              <Progress value={(data.score / data.totalScore) * 100} colorScheme=\"blue\" />\r\n            </Box>\r\n            <Text flex=\"1\" ml={2} fontSize=\"sm\">\r\n              {data.score}/{data.totalScore}\r\n            </Text>\r\n          </Flex>\r\n\r\n          {/* Attendance Progress */}\r\n          <Flex w=\"100%\" align=\"center\">\r\n            <Text flex=\"1\" fontSize=\"sm\">Attend</Text>\r\n            <Box flex=\"3\">\r\n              <Progress value={(data.attend / data.totalAttend) * 100} colorScheme=\"blue\" />\r\n            </Box>\r\n            <Text flex=\"1\" ml={2} fontSize=\"sm\">\r\n              {data.attend}/{data.totalAttend}\r\n            </Text>\r\n          </Flex>\r\n        </VStack>\r\n      </Flex>\r\n    </Box>\r\n  );\r\n};\r\n\r\nexport default DashHome1;\r\n
+===================================================================
+diff --git a/frontend/src/components/dashboard_sections/DashPage2.jsx b/frontend/src/components/dashboard_sections/DashPage2.jsx
+--- a/frontend/src/components/dashboard_sections/DashPage2.jsx	(revision 8cfb9cf19941789ed657d71bc88816a11322ac39)
++++ b/frontend/src/components/dashboard_sections/DashPage2.jsx	(date 1731926772209)
+@@ -1,7 +1,7 @@
+ import React, { useEffect, useState } from 'react';
+ import { Box, Text, Progress, Flex, Avatar, Heading, VStack, HStack } from '@chakra-ui/react';
+-import image1 from '../../../dist/assets/3.jpg';
+-import image2 from '../../../dist/assets/bar1.png';
++// import image1 from '../../../dist/assets/3.jpg';
++// import image2 from '../../../dist/assets/bar1.png';
+ 
+ const DashHome1 = () => {
+   const [data, setData] = useState({
+@@ -50,12 +50,12 @@
+       <Flex gap={5} mb={4} justifyContent="space-between" alignItems="center">
+         {/* Left Section - Bar Graph */}
+         <Box flex="1" display="flex" justifyContent="center" alignItems="center">
+-          <Avatar src={image2} alt="Performance Graph" w="100%" h="250px" borderRadius="lg" />
++          <Avatar  alt="Performance Graph" w="100%" h="250px" borderRadius="lg" />
+         </Box>
+ 
+         {/* Right Section - User Avatar */}
+         <Box flex="1" display="flex" justifyContent="center" alignItems="center">
+-          <Avatar src={image1} alt="User Image" w="100%" h="250px" borderRadius="lg" />
++          <Avatar  alt="User Image" w="100%" h="250px" borderRadius="lg" />
+         </Box>
+       </Flex>
+ 
+Index: frontend/src/components/dashboard_sections/DashPage4.jsx
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>import React, { useEffect, useState } from 'react';\r\nimport { Box, Text, Progress, Flex, Avatar, Heading, VStack, HStack } from '@chakra-ui/react';\r\nimport image1 from '../../../dist/assets/3.jpg';\r\nimport image2 from '../../../dist/assets/bar1.png';\r\n\r\nconst DashHome4 = () => {\r\n  const [data, setData] = useState({\r\n    score: 20,\r\n    totalScore: 25,\r\n    attend: 21,\r\n    totalAttend: 25,\r\n    healthStatus: \"Good\",\r\n  });\r\n\r\n  useEffect(() => {\r\n    const fetchData = async () => {\r\n      const backendData = {\r\n        score: 20,\r\n        totalScore: 25,\r\n        attend: 21,\r\n        totalAttend: 25,\r\n        healthStatus: \"Good\",\r\n      };\r\n      setData(backendData);\r\n    };\r\n    fetchData();\r\n  }, []);\r\n\r\n  return (\r\n    <Box p={4} maxW=\"900px\" mx=\"auto\">\r\n      {/* Header */}\r\n      <Heading fontSize=\"md\" textAlign=\"center\" mb={3}>\r\n        PHYSICAL FITNESS\r\n      </Heading>\r\n\r\n      {/* Top Icons Section */}\r\n      <HStack justifyContent=\"center\" spacing={8} mb={5} padding={3} bg=\"gray.100\" borderRadius=\"md\">\r\n        <Box as=\"span\" role=\"img\" fontSize=\"3xl\" color=\"teal.600\">\uD83C\uDFC3</Box>\r\n        <Box as=\"span\" role=\"img\" fontSize=\"3xl\" color=\"orange.600\">\uD83D\uDCAA</Box>\r\n        <Box as=\"span\" role=\"img\" fontSize=\"3xl\" color=\"purple.600\">\uD83E\uDDD8</Box>\r\n        <Box as=\"span\" role=\"img\" fontSize=\"3xl\" color=\"blue.600\">\uD83D\uDEB4</Box>\r\n      </HStack>\r\n\r\n      {/* Images Section */}\r\n      <Flex gap={5} mb={4} justifyContent=\"space-between\" alignItems=\"center\">\r\n        {/* Left Section - Bar Graph */}\r\n        <Box flex=\"1\" display=\"flex\" justifyContent=\"center\" alignItems=\"center\">\r\n          <Avatar src={image2} alt=\"Performance Graph\" w=\"100%\" h=\"250px\" borderRadius=\"lg\" />\r\n        </Box>\r\n\r\n        {/* Right Section - User Avatar */}\r\n        <Box flex=\"1\" display=\"flex\" justifyContent=\"center\" alignItems=\"center\">\r\n          <Avatar src={image1} alt=\"User Image\" w=\"100%\" h=\"250px\" borderRadius=\"lg\" />\r\n        </Box>\r\n      </Flex>\r\n\r\n      {/* Lower Section with Health Status and Solved Questions */}\r\n      <Flex gap={5} mt={4} flexDirection={{ base: \"column\", md: \"row\" }}>\r\n        {/* Health Status Section - Left */}\r\n        <VStack flex=\"1\" align=\"stretch\" p={4} bg=\"gray.50\" borderRadius=\"lg\">\r\n          <Text fontSize=\"lg\" fontWeight=\"bold\" textAlign=\"center\" color=\"blue.500\">\r\n            Fit Status \uD83D\uDD25\r\n          </Text>\r\n          <Text fontSize=\"md\" textAlign=\"center\" color=\"blue.500\">\r\n            Upgrade: {data.healthStatus}\r\n          </Text>\r\n          <Text mt={1} fontSize=\"sm\" textAlign=\"center\" color=\"gray.600\">\r\n            Health & mental insights at a glance\r\n          </Text>\r\n        </VStack>\r\n\r\n        {/* Solved Questions Section - Right */}\r\n        <VStack flex=\"1\" align=\"stretch\" spacing={3}>\r\n          <Text fontSize=\"lg\" fontWeight=\"bold\">\r\n            SOLVED QUESTIONS:\r\n          </Text>\r\n\r\n          {/* Score Progress */}\r\n          <Flex w=\"100%\" align=\"center\">\r\n            <Text flex=\"1\" fontSize=\"sm\">Score</Text>\r\n            <Box flex=\"3\">\r\n              <Progress value={(data.score / data.totalScore) * 100} colorScheme=\"blue\" />\r\n            </Box>\r\n            <Text flex=\"1\" ml={2} fontSize=\"sm\">\r\n              {data.score}/{data.totalScore}\r\n            </Text>\r\n          </Flex>\r\n\r\n          {/* Attendance Progress */}\r\n          <Flex w=\"100%\" align=\"center\">\r\n            <Text flex=\"1\" fontSize=\"sm\">Attend</Text>\r\n            <Box flex=\"3\">\r\n              <Progress value={(data.attend / data.totalAttend) * 100} colorScheme=\"blue\" />\r\n            </Box>\r\n            <Text flex=\"1\" ml={2} fontSize=\"sm\">\r\n              {data.attend}/{data.totalAttend}\r\n            </Text>\r\n          </Flex>\r\n        </VStack>\r\n      </Flex>\r\n    </Box>\r\n  );\r\n};\r\n\r\nexport default DashHome4;\r\n\r\n\r\n
+===================================================================
+diff --git a/frontend/src/components/dashboard_sections/DashPage4.jsx b/frontend/src/components/dashboard_sections/DashPage4.jsx
+--- a/frontend/src/components/dashboard_sections/DashPage4.jsx	(revision 8cfb9cf19941789ed657d71bc88816a11322ac39)
++++ b/frontend/src/components/dashboard_sections/DashPage4.jsx	(date 1731926746162)
+@@ -1,7 +1,7 @@
+ import React, { useEffect, useState } from 'react';
+ import { Box, Text, Progress, Flex, Avatar, Heading, VStack, HStack } from '@chakra-ui/react';
+-import image1 from '../../../dist/assets/3.jpg';
+-import image2 from '../../../dist/assets/bar1.png';
++// import image1 from '../../../dist/assets/3.jpg';
++// import image2 from '../../../dist/assets/bar1.png';
+ 
+ const DashHome4 = () => {
+   const [data, setData] = useState({
+@@ -45,12 +45,12 @@
+       <Flex gap={5} mb={4} justifyContent="space-between" alignItems="center">
+         {/* Left Section - Bar Graph */}
+         <Box flex="1" display="flex" justifyContent="center" alignItems="center">
+-          <Avatar src={image2} alt="Performance Graph" w="100%" h="250px" borderRadius="lg" />
++          <Avatar  alt="Performance Graph" w="100%" h="250px" borderRadius="lg" />
+         </Box>
+ 
+         {/* Right Section - User Avatar */}
+         <Box flex="1" display="flex" justifyContent="center" alignItems="center">
+-          <Avatar src={image1} alt="User Image" w="100%" h="250px" borderRadius="lg" />
++          <Avatar alt="User Image" w="100%" h="250px" borderRadius="lg" />
+         </Box>
+       </Flex>
+ 
+Index: frontend/src/components/dashboard_sections/DashPage3.jsx
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>import React, { useEffect, useState } from 'react';\r\nimport { Box, Text, Progress, Flex, Avatar, Heading, VStack, HStack } from '@chakra-ui/react';\r\nimport image1 from '../../../dist/assets/3.jpg';\r\nimport image2 from '../../../dist/assets/bar1.png';\r\n\r\nconst DashHome3 = () => {\r\n  const [data, setData] = useState({\r\n    score: 20,\r\n    totalScore: 25,\r\n    attend: 21,\r\n    totalAttend: 25,\r\n    healthStatus: \"Good\",\r\n  });\r\n\r\n  useEffect(() => {\r\n    const fetchData = async () => {\r\n      const backendData = {\r\n        score: 20,\r\n        totalScore: 25,\r\n        attend: 21,\r\n        totalAttend: 25,\r\n        healthStatus: \"Good\",\r\n      };\r\n      setData(backendData);\r\n    };\r\n    fetchData();\r\n  }, []);\r\n\r\n  return (\r\n    <Box p={4} maxW=\"900px\" mx=\"auto\">\r\n      {/* Header */}\r\n      <Heading fontSize=\"md\" textAlign=\"center\" mb={3}>\r\n        PHYSICAL FITNESS\r\n      </Heading>\r\n\r\n      {/* Top Icons Section */}\r\n      <HStack justifyContent=\"center\" spacing={8} mb={5} padding={3} bg=\"gray.100\" borderRadius=\"md\">\r\n        <Box as=\"span\" role=\"img\" fontSize=\"3xl\" color=\"teal.600\">\uD83C\uDFC3</Box>\r\n        <Box as=\"span\" role=\"img\" fontSize=\"3xl\" color=\"orange.600\">\uD83D\uDCAA</Box>\r\n        <Box as=\"span\" role=\"img\" fontSize=\"3xl\" color=\"purple.600\">\uD83E\uDDD8</Box>\r\n        <Box as=\"span\" role=\"img\" fontSize=\"3xl\" color=\"blue.600\">\uD83D\uDEB4</Box>\r\n      </HStack>\r\n\r\n      {/* Images Section */}\r\n      <Flex gap={5} mb={4} justifyContent=\"space-between\" alignItems=\"center\">\r\n        {/* Left Section - Bar Graph */}\r\n        <Box flex=\"1\" display=\"flex\" justifyContent=\"center\" alignItems=\"center\">\r\n          <Avatar src={image2} alt=\"Performance Graph\" w=\"100%\" h=\"250px\" borderRadius=\"lg\" />\r\n        </Box>\r\n\r\n        {/* Right Section - User Avatar */}\r\n        <Box flex=\"1\" display=\"flex\" justifyContent=\"center\" alignItems=\"center\">\r\n          <Avatar src={image1} alt=\"User Image\" w=\"100%\" h=\"250px\" borderRadius=\"lg\" />\r\n        </Box>\r\n      </Flex>\r\n\r\n      {/* Lower Section with Health Status and Solved Questions */}\r\n      <Flex gap={5} mt={4} flexDirection={{ base: \"column\", md: \"row\" }}>\r\n        {/* Health Status Section - Left */}\r\n        <VStack flex=\"1\" align=\"stretch\" p={4} bg=\"gray.50\" borderRadius=\"lg\">\r\n          <Text fontSize=\"lg\" fontWeight=\"bold\" textAlign=\"center\" color=\"blue.500\">\r\n            Fit Status \uD83D\uDD25\r\n          </Text>\r\n          <Text fontSize=\"md\" textAlign=\"center\" color=\"blue.500\">\r\n            Upgrade: {data.healthStatus}\r\n          </Text>\r\n          <Text mt={1} fontSize=\"sm\" textAlign=\"center\" color=\"gray.600\">\r\n            Health & mental insights at a glance\r\n          </Text>\r\n        </VStack>\r\n\r\n        {/* Solved Questions Section - Right */}\r\n        <VStack flex=\"1\" align=\"stretch\" spacing={3}>\r\n          <Text fontSize=\"lg\" fontWeight=\"bold\">\r\n            SOLVED QUESTIONS:\r\n          </Text>\r\n\r\n          {/* Score Progress */}\r\n          <Flex w=\"100%\" align=\"center\">\r\n            <Text flex=\"1\" fontSize=\"sm\">Score</Text>\r\n            <Box flex=\"3\">\r\n              <Progress value={(data.score / data.totalScore) * 100} colorScheme=\"blue\" />\r\n            </Box>\r\n            <Text flex=\"1\" ml={2} fontSize=\"sm\">\r\n              {data.score}/{data.totalScore}\r\n            </Text>\r\n          </Flex>\r\n\r\n          {/* Attendance Progress */}\r\n          <Flex w=\"100%\" align=\"center\">\r\n            <Text flex=\"1\" fontSize=\"sm\">Attend</Text>\r\n            <Box flex=\"3\">\r\n              <Progress value={(data.attend / data.totalAttend) * 100} colorScheme=\"blue\" />\r\n            </Box>\r\n            <Text flex=\"1\" ml={2} fontSize=\"sm\">\r\n              {data.attend}/{data.totalAttend}\r\n            </Text>\r\n          </Flex>\r\n        </VStack>\r\n      </Flex>\r\n    </Box>\r\n  );\r\n};\r\n\r\nexport default DashHome3;\r\n\r\n\r\n
+===================================================================
+diff --git a/frontend/src/components/dashboard_sections/DashPage3.jsx b/frontend/src/components/dashboard_sections/DashPage3.jsx
+--- a/frontend/src/components/dashboard_sections/DashPage3.jsx	(revision 8cfb9cf19941789ed657d71bc88816a11322ac39)
++++ b/frontend/src/components/dashboard_sections/DashPage3.jsx	(date 1731926763058)
+@@ -1,7 +1,7 @@
+ import React, { useEffect, useState } from 'react';
+ import { Box, Text, Progress, Flex, Avatar, Heading, VStack, HStack } from '@chakra-ui/react';
+-import image1 from '../../../dist/assets/3.jpg';
+-import image2 from '../../../dist/assets/bar1.png';
++// import image1 from '../../../dist/assets/3.jpg';
++// import image2 from '../../../dist/assets/bar1.png';
+ 
+ const DashHome3 = () => {
+   const [data, setData] = useState({
+@@ -45,12 +45,12 @@
+       <Flex gap={5} mb={4} justifyContent="space-between" alignItems="center">
+         {/* Left Section - Bar Graph */}
+         <Box flex="1" display="flex" justifyContent="center" alignItems="center">
+-          <Avatar src={image2} alt="Performance Graph" w="100%" h="250px" borderRadius="lg" />
++          <Avatar  alt="Performance Graph" w="100%" h="250px" borderRadius="lg" />
+         </Box>
+ 
+         {/* Right Section - User Avatar */}
+         <Box flex="1" display="flex" justifyContent="center" alignItems="center">
+-          <Avatar src={image1} alt="User Image" w="100%" h="250px" borderRadius="lg" />
++          <Avatar  alt="User Image" w="100%" h="250px" borderRadius="lg" />
+         </Box>
+       </Flex>
+ 
+Index: frontend/src/components/dashboard_sections/DashPage1.jsx
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>import React, { useEffect, useState } from 'react';\r\nimport { Box, Text, Progress, Flex, Avatar, Heading, VStack, HStack } from '@chakra-ui/react';\r\nimport image1 from '../../../dist/assets/3.jpg';\r\nimport image2 from '../../../dist/assets/bar1.png';\r\n\r\nconst DashHome1 = () => {\r\n  const [data, setData] = useState({\r\n    score: 20,\r\n    totalScore: 25,\r\n    attend: 21,\r\n    totalAttend: 25,\r\n    healthStatus: \"Good\",\r\n  });\r\n\r\n  useEffect(() => {\r\n    const fetchData = async () => {\r\n      const backendData = {\r\n        score: 20,\r\n        totalScore: 25,\r\n        attend: 21,\r\n        totalAttend: 25,\r\n        healthStatus: \"Good\",\r\n      };\r\n      setData(backendData);\r\n    };\r\n    fetchData();\r\n  }, []);\r\n\r\n  return (\r\n    <Box p={4} maxW=\"900px\" mx=\"auto\">\r\n      {/* Header */}\r\n      <Heading fontSize=\"md\" textAlign=\"center\" mb={3}>\r\n        PHYSICAL FITNESS\r\n      </Heading>\r\n\r\n      {/* Top Icons Section */}\r\n      <HStack justifyContent=\"center\" spacing={8} mb={5} padding={3} bg=\"gray.100\" borderRadius=\"md\">\r\n        <Box as=\"span\" role=\"img\" fontSize=\"3xl\" color=\"teal.600\">\uD83C\uDFC3</Box>\r\n        <Box as=\"span\" role=\"img\" fontSize=\"3xl\" color=\"orange.600\">\uD83D\uDCAA</Box>\r\n        <Box as=\"span\" role=\"img\" fontSize=\"3xl\" color=\"purple.600\">\uD83E\uDDD8</Box>\r\n        <Box as=\"span\" role=\"img\" fontSize=\"3xl\" color=\"blue.600\">\uD83D\uDEB4</Box>\r\n      </HStack>\r\n\r\n      {/* Images Section */}\r\n      <Flex gap={5} mb={4} justifyContent=\"space-between\" alignItems=\"center\">\r\n        {/* Left Section - Bar Graph */}\r\n        <Box flex=\"1\" display=\"flex\" justifyContent=\"center\" alignItems=\"center\">\r\n          <Avatar src={image2} alt=\"Performance Graph\" w=\"100%\" h=\"250px\" borderRadius=\"lg\" />\r\n        </Box>\r\n\r\n        {/* Right Section - User Avatar */}\r\n        <Box flex=\"1\" display=\"flex\" justifyContent=\"center\" alignItems=\"center\">\r\n          <Avatar src={image1} alt=\"User Image\" w=\"100%\" h=\"250px\" borderRadius=\"lg\" />\r\n        </Box>\r\n      </Flex>\r\n\r\n      {/* Lower Section with Health Status and Solved Questions */}\r\n      <Flex gap={5} mt={4} flexDirection={{ base: \"column\", md: \"row\" }}>\r\n        {/* Health Status Section - Left */}\r\n        <VStack flex=\"1\" align=\"stretch\" p={4} bg=\"gray.50\" borderRadius=\"lg\">\r\n          <Text fontSize=\"lg\" fontWeight=\"bold\" textAlign=\"center\" color=\"blue.500\">\r\n            Fit Status \uD83D\uDD25\r\n          </Text>\r\n          <Text fontSize=\"md\" textAlign=\"center\" color=\"blue.500\">\r\n            Upgrade: {data.healthStatus}\r\n          </Text>\r\n          <Text mt={1} fontSize=\"sm\" textAlign=\"center\" color=\"gray.600\">\r\n            Health & mental insights at a glance\r\n          </Text>\r\n        </VStack>\r\n\r\n        {/* Solved Questions Section - Right */}\r\n        <VStack flex=\"1\" align=\"stretch\" spacing={3}>\r\n          <Text fontSize=\"lg\" fontWeight=\"bold\">\r\n            SOLVED QUESTIONS:\r\n          </Text>\r\n\r\n          {/* Score Progress */}\r\n          <Flex w=\"100%\" align=\"center\">\r\n            <Text flex=\"1\" fontSize=\"sm\">Score</Text>\r\n            <Box flex=\"3\">\r\n              <Progress value={(data.score / data.totalScore) * 100} colorScheme=\"blue\" />\r\n            </Box>\r\n            <Text flex=\"1\" ml={2} fontSize=\"sm\">\r\n              {data.score}/{data.totalScore}\r\n            </Text>\r\n          </Flex>\r\n\r\n          {/* Attendance Progress */}\r\n          <Flex w=\"100%\" align=\"center\">\r\n            <Text flex=\"1\" fontSize=\"sm\">Attend</Text>\r\n            <Box flex=\"3\">\r\n              <Progress value={(data.attend / data.totalAttend) * 100} colorScheme=\"blue\" />\r\n            </Box>\r\n            <Text flex=\"1\" ml={2} fontSize=\"sm\">\r\n              {data.attend}/{data.totalAttend}\r\n            </Text>\r\n          </Flex>\r\n        </VStack>\r\n      </Flex>\r\n    </Box>\r\n  );\r\n};\r\n\r\nexport default DashHome1;\r\n\r\n\r\n
+===================================================================
+diff --git a/frontend/src/components/dashboard_sections/DashPage1.jsx b/frontend/src/components/dashboard_sections/DashPage1.jsx
+--- a/frontend/src/components/dashboard_sections/DashPage1.jsx	(revision 8cfb9cf19941789ed657d71bc88816a11322ac39)
++++ b/frontend/src/components/dashboard_sections/DashPage1.jsx	(date 1731926855598)
+@@ -1,7 +1,7 @@
+ import React, { useEffect, useState } from 'react';
+ import { Box, Text, Progress, Flex, Avatar, Heading, VStack, HStack } from '@chakra-ui/react';
+-import image1 from '../../../dist/assets/3.jpg';
+-import image2 from '../../../dist/assets/bar1.png';
++// import image1 from '../../../dist/assets/3.jpg';
++// import image2 from '../../../dist/assets/bar1.png';
+ 
+ const DashHome1 = () => {
+   const [data, setData] = useState({
+@@ -45,12 +45,12 @@
+       <Flex gap={5} mb={4} justifyContent="space-between" alignItems="center">
+         {/* Left Section - Bar Graph */}
+         <Box flex="1" display="flex" justifyContent="center" alignItems="center">
+-          <Avatar src={image2} alt="Performance Graph" w="100%" h="250px" borderRadius="lg" />
++          <Avatar  alt="Performance Graph" w="100%" h="250px" borderRadius="lg" />
+         </Box>
+ 
+         {/* Right Section - User Avatar */}
+         <Box flex="1" display="flex" justifyContent="center" alignItems="center">
+-          <Avatar src={image1} alt="User Image" w="100%" h="250px" borderRadius="lg" />
++          <Avatar  alt="User Image" w="100%" h="250px" borderRadius="lg" />
+         </Box>
+       </Flex>
+ 

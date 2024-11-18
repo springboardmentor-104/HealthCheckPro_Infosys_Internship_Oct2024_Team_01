@@ -96,25 +96,27 @@ const createAccount = async (req, res) => {
     }
 
     const userExists = await User({ email });
+    // console.log('=== email authentication.controller.js [99] ===', email);
 
-    if(userExists){
-      throw new Error("User already exists");
-    }
+    // if(userExists){
+    //   throw new Error("User already exists");
+    // }
 
 
     const usernameExists = await User({ username });
+    let isTaken = false;
 
     if(usernameExists){
-      throw new Error("Username already taken");
+      isTaken = true;
     }
 
     if (password !== confirmPassword) {
       throw new Error("Passwords do not match");
     }
 
-    if (!validator.isStrongPassword(password)) {
-      throw new Error("Password is not strong enough.\nMust contain at least: \n8 characters \n1 uppercase \n1 lowercase \n1 number  \n1 symbol");
-    }
+    // if (!validator.isStrongPassword(password)) {
+    //   throw new Error("Password is not strong enough.\nMust contain at least: \n8 characters \n1 uppercase \n1 lowercase \n1 number  \n1 symbol");
+    // }
 
     // Check if the email already exists
     const existingUser = await User.findOne({ email });
@@ -128,7 +130,7 @@ const createAccount = async (req, res) => {
 
     const user = await User.create({
       email,
-      username,
+      username: isTaken ? `${username}${Math.floor(1000 + Math.random() * 9000)}` : username,
       gender,
       age,
       password: hashedPassword,

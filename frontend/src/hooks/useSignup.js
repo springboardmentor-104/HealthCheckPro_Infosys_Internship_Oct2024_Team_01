@@ -8,12 +8,16 @@ import { useState } from "react";
 import axios from "axios";
 import { useToast } from "@chakra-ui/react";
 import { useNavigate } from "react-router-dom";
+import useGlobalState from "./useGlobalState";
 
 const useSignup = () => {
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(false);
+
+
     const toast = useToast();
     const navigate = useNavigate();
+    const { setUser } = useGlobalState();
 
     const signup = async ( email, username, age, gender, password, confirmPassword) => {
         setLoading(true);
@@ -28,14 +32,16 @@ const useSignup = () => {
                 if (res.status === 201) {
                     toast({
                         title: "Account Created",
-                        description: "Redirecting to login page",
+                        description: "Redirecting to Dashboard",
                         status: "success",
                         duration: 5000,
                         isClosable: true,
                     });
                     setLoading(false);
                     setError(false);
-                    navigate("/login");
+                    navigate("/dashboard");
+                    localStorage.setItem('user', JSON.stringify(res.data));
+                    setUser(res.data);
                 }
             })
             .catch((error) => {

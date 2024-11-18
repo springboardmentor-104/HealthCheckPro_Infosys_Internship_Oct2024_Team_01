@@ -39,11 +39,11 @@ const Register = () => {
     const [confirmPassword, setConfirmPassword] = useState('');
     const [age, setAge] = useState('');
     const [gender, setGender] = useState('');
-    const [otp, setOTP] = useState('');
+    // const [otp, setOTP] = useState('');
     const { setUser } = useGlobalState();
     const { bodyBg, inputBg, authBg } = useCustomTheme();
     const { isOpen, onOpen, onClose } = useDisclosure();
-    const { sendOTPAction, loading: otpLoading, verifyOTPAction } = useOTP();
+    // const { sendOTPAction, loading: otpLoading, verifyOTPAction } = useOTP();
     const toast = useToast();
     const { signup, loading, error } = useSignup();
     const [emailError, setEmailError] = useState(false);
@@ -77,20 +77,20 @@ const Register = () => {
         const trimmedPassword = password.trim();  // Trim whitespace from both ends
         console.log("Password Length: ", trimmedPassword.length);  // Log the password length
 
-        const passwordValid = trimmedPassword.length >= 8
-            && /[A-Z]/.test(trimmedPassword)  // Check for uppercase letter
-            && /\d/.test(trimmedPassword)     // Check for a digit
-            && /[^\w\s]/.test(trimmedPassword);  // Check for a special character
+        // const passwordValid = trimmedPassword.length >= 8
+        //     && /[A-Z]/.test(trimmedPassword)  // Check for uppercase letter
+        //     && /\d/.test(trimmedPassword)     // Check for a digit
+        //     && /[^\w\s]/.test(trimmedPassword);  // Check for a special character
 
-        if (!passwordValid) {
-            toast({
-                title: "Password must be at least 8 characters long, include an uppercase letter, a number, and a special character.",
-                status: "error",
-                duration: 3000,
-                isClosable: true
-            });
-            return;
-        }
+        // if (!passwordValid) {
+        //     toast({
+        //         title: "Password must be at least 8 characters long, include an uppercase letter, a number, and a special character.",
+        //         status: "error",
+        //         duration: 3000,
+        //         isClosable: true
+        //     });
+        //     return;
+        // }
 
 
 
@@ -118,26 +118,36 @@ const Register = () => {
             return;
         }
 
-        // If all validations pass, send OTP
-        await sendOTPAction(email)
-            .then(() => {
-                onOpen(); // Open OTP modal
-            })
-            .catch((err) => {
-                toast({
-                    title: "Error sending OTP. Please try again.",
-                    status: "error",
-                    duration: 3000,
-                    isClosable: true
-                });
-            });
+        // // If all validations pass, send OTP
+        // await sendOTPAction(email)
+        //     .then(() => {
+        //         onOpen(); // Open OTP modal
+        //     })
+        //     .catch((err) => {
+        //         toast({
+        //             title: "Error sending OTP. Please try again.",
+        //             status: "error",
+        //             duration: 3000,
+        //             isClosable: true
+        //         });
+        //     });
+
+        onOpen();
     };
 
     const handleVerficationRegistration = async () => {
-        await verifyOTPAction(email, otp)
-            .then((res) => {
-                res && signup(email, username, age, gender, password, confirmPassword)
-            })
+               signup(email, username, age, gender, password, confirmPassword)
+    };
+
+    const generateRandomData = () => {
+        const randomEmail = `test${Math.floor(Math.random() * 100000)}@hcpro.com`;
+        const randomUsername = `test${Math.floor(Math.random() * 100000)}`;
+        const randomAge = Math.floor(Math.random() * 80);
+        const randomGender = Math.random() > 0.5 ? "Male":"Female";
+        setEmail(randomEmail);
+        setUsername(randomUsername);
+        setAge(randomAge);
+        setGender(randomGender);
     };
 
     return (
@@ -205,7 +215,11 @@ const Register = () => {
                                 regExp.test(e.target.value) ? setEmailError(true) : setEmailError(false);
                             }}
                         />
-                        {emailError && <FormHelperText textAlign="right">Enter a valid email</FormHelperText>}
+                        <FormHelperText textAlign="right">
+
+                                    <Button onClick={generateRandomData} variant="link" colorScheme="blue" fontSize="sm">Generate Random Data</Button>
+
+                            </FormHelperText>
                     </FormControl>
                     <FormControl id="username" isInvalid={!username && error}>
                         <FormLabel>Username</FormLabel>
@@ -285,7 +299,7 @@ const Register = () => {
                             onChange={(e) => setConfirmPassword(e.target.value)}
                         />
                     </FormControl>
-                    <Button colorScheme="blue" width="full" mt={4} onClick={handleOTPSubmit} isLoading={otpLoading || loading}>
+                    <Button colorScheme="blue" width="full" mt={4} onClick={handleOTPSubmit} isLoading={  loading}>
                         Verify Email
                     </Button>
                 </Stack>
@@ -297,14 +311,18 @@ const Register = () => {
             <Modal isOpen={isOpen} onClose={onClose}>
                 <ModalOverlay />
                 <ModalContent>
-                    <ModalHeader>Verify your Email</ModalHeader>
+                    <ModalHeader>Notice before Registering</ModalHeader>
                     <ModalCloseButton />
                     <ModalBody>
-                        <VerifyOTP setOTP={setOTP} />
+                        {/* <VerifyOTP setOTP={setOTP} /> */}
+                        This is for Data purposes for leaderboard.
+                        You are a good team member and helping to contribute to the leaderboard.
+                        Don't use vulgar language or any kind of abuse.
+
                     </ModalBody>
                     <ModalFooter >
                         <Button colorScheme="blue" mr={3} onClick={handleVerficationRegistration} isLoading={loading}>
-                            Verify & Register
+                            Register
                         </Button>
                     </ModalFooter>
                 </ModalContent>
