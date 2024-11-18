@@ -16,8 +16,6 @@ import UserProfileUI from './UserProfileUI';
 const DashHome = () => {
 
 
-
-
     return (
         <Box mt={20}>
             <UserProfileUI />

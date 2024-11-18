@@ -52,7 +52,7 @@ const DashNavbar = () => {
 
             </HStack>
 
-            <Accordion w="100svw" position="fixed" zIndex={5} bgColor={navBg} allowToggle display={{ base: "block", md: "none" }} p={3} borderColor="gray.100">
+            <Accordion w="100svw" position="fixed" zIndex={9999} bgColor={navBg} allowToggle display={{ base: "block", md: "none" }} p={3} borderColor="gray.100">
                 <AccordionItem w="100%" border="none">
                     <AccordionButton w="100%" display="flex">
                         <HStack>

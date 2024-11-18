@@ -152,7 +152,7 @@ export const fetchUserLatestAssessment = async (req, res) => {
 // Fetch all assessment attempts
 export const fetchUserAssessmentHistory = async (req, res) => {
   try {
-    const userId = req.user._id; // Assuming userId is attached to the req object
+    const userId = req.user._id;
     const allAttempts = await UserAssessmentHistory.find({ userId }).sort({ attemptNumber: -1 });
 
     if (allAttempts && allAttempts.length > 0) {

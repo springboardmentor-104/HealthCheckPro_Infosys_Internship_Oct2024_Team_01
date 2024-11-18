@@ -38,8 +38,8 @@ const useAssessment = () => {
 
     const fetchAssessmentHistory = async () => {
         try {
-            const response = await axiosInstance.get('/api/assessment/history');
-            setAssessmentHistory(response.data.allAttempts);
+            const response = await axiosInstance.get('/api/assessment/all-attempts');
+            return response.data.allAttempts;
         } catch (error) {
             console.error('Error fetching assessment history:', error);
         }
