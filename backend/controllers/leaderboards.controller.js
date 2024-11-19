@@ -31,12 +31,7 @@ export const updateLeaderBoard = async (userId, username, lastAttemptNumber) => 
         const latestAttemptRound = await UserAssessmentHistory.findOne({ userId })
             .sort({ attemptNumber: -1 });
 
-        const overallScore = latestAttemptRound.overallScore;
-
-        const categoryMapping = UserAssessmentHistory.schema.path("assessments").schema.path("categoryId").enumValues.reduce((acc, categoryId) => {
-            acc[categoryId] = UserAssessmentHistory.schema.path("assessments").schema.path("categoryId").enumValues[categoryId];
-            return acc;
-        });
+        console.log("=== latestAttemptRound ===", latestAttemptRound);
 
         if (lastAttemptNumber === 0) {
             await Promise.all(latestAttemptRound.assessments.map(async (assessment) => {
@@ -44,25 +39,18 @@ export const updateLeaderBoard = async (userId, username, lastAttemptNumber) => 
                     userId,
                     username,
                     score: assessment.totalScore,
-                    category: categoryMapping[assessment.categoryId]
+                    category: assessment.categoryId
                 })
                 await newRank.save();
             }))
-
-            const newOverallRank = new LeaderBoard({
-                userId,
-                username,
-                score: overallScore,
-                category: "overall"
-            })
-            const savedRank = await newOverallRank.save()
         } else {
             const leaderboardRanks = await fetchAllLeaderboardRanks(userId);
 
             latestAttemptRound.assessments.forEach(assessment => {
-                const category = categoryMapping[assessment.categoryId];
+                const category = assessment.categoryId;
                 const newScore = assessment.totalScore;
 
+                // If your attempt was the highest it will remain the highest
                 if (leaderboardRanks[category] !== undefined) {
                     if (newScore > leaderboardRanks[category]) {
                         leaderboardRanks[category] = newScore;
@@ -72,13 +60,9 @@ export const updateLeaderBoard = async (userId, username, lastAttemptNumber) => 
                 }
             });
 
-            if (overallScore > (leaderboardRanks["overall"] || 0)) {
-                leaderboardRanks["overall"] = overallScore;
-            }
-
             await Promise.all(Object.keys(leaderboardRanks).map(async (category) => {
                 const score = leaderboardRanks[category];
-                const updatedRank = await LeaderBoard.updateOne(
+                await LeaderBoard.updateOne(
                     { userId, category }, // filter to find the specific leaderboard entry for the user and category.
                     { userId, username, score, category },
                     { upsert: true }

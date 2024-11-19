@@ -65,12 +65,12 @@ const Home = () => {
 
                     {/* Lottie Animation */}
                     <Box flex="1" align="center" display="flex" justifyContent="center" px={4}>
-                        <DotLottieReact
+                        {/* <DotLottieReact
                             src={homePageAnimation}
                             loop
                             autoplay
                             style={{ minWidth: '50svw' }}
-                        />
+                        /> */}
                     </Box>
                 </Flex>
             </Container>

@@ -1,6 +1,7 @@
 import UserAssessmentHistory from "../models/assessment.model.js";
 import Question from "../models/question.model.js";
 import Category from "../models/category.model.js";
+import { updateLeaderBoard } from "./leaderboards.controller.js";
 
 export const checkUserAssessmentStatus = async (req, res) => {
   try {
@@ -110,7 +111,12 @@ export const submitCategoryTest = async (req, res) => {
       currentAttempt.overallScore = currentAttempt.assessments.reduce((sum, assessment) => sum + assessment.totalScore, 0);
     }
 
-    await currentAttempt.save();
+    const isSubmmitted = await currentAttempt.save();
+    if(isSubmmitted) {
+      await updateLeaderBoard(userId, req.user.username, currentAttempt.attemptNumber)
+      .then(() => console.log("Leaderboard updated!"))
+      .catch((error) => console.log("Leaderboard update failed!", error));
+    }
     res.status(200).json({ message: "Category test submitted!", attempt: currentAttempt });
   } catch (error) {
     res.status(500).json({ message: "Server Error", error });

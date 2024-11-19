@@ -31,6 +31,7 @@ const TestPortal = () => {
     const [selectedOptions, setSelectedOptions] = useState({});
     const { fetchCategories, fetchQuestionsByCategory, loadingQuestions, loadingCategories } = useCategory();
     const { submitCategoryAssessment,fetchAssessmentStatus } = useAssessment();
+    const [loading, setLoading] = useState(false);
 
     useEffect(() => {
         const getAssessmentStatus = async () => {
@@ -90,16 +91,16 @@ const TestPortal = () => {
         }
     };
 
-    const handlePreviousQuestion = () => {
-        if (currentQuestionIndex > 0) {
-            setCurrentQuestionIndex(currentQuestionIndex - 1);
-            setSelectedAnswer('');
-        } else if (currentCategoryIndex > 0) {
-            setCurrentCategoryIndex(currentCategoryIndex - 1);
-            setCurrentQuestionIndex(categories[currentCategoryIndex - 1].length - 1);
-            setSelectedAnswer('');
-        }
-    };
+    // const handlePreviousQuestion = () => {
+    //     if (currentQuestionIndex > 0) {
+    //         setCurrentQuestionIndex(currentQuestionIndex - 1);
+    //         setSelectedAnswer('');
+    //     } else if (currentCategoryIndex > 0) {
+    //         setCurrentCategoryIndex(currentCategoryIndex - 1);
+    //         setCurrentQuestionIndex(categories[currentCategoryIndex - 1].length - 1);
+    //         setSelectedAnswer('');
+    //     }
+    // };
 
     const handleOptionSelect = (optionText, questionId) => {
         setSelectedAnswer(optionText);
@@ -110,13 +111,18 @@ const TestPortal = () => {
     };
 
     const handleSubmit = async () => {
+        setLoading(true);
         const categoryId = categories[currentCategoryIndex]._id;
         const categoryName = categories[currentCategoryIndex].categoryName;
         const questionsToSubmit = questions.map((question) => ({
             questionId: question._id,
             selectedOptionId: question.options.find(option => option.optionText === selectedOptions[question._id])._id,
         }));
-        await submitCategoryAssessment(categoryId, categoryName, questionsToSubmit);
+        await submitCategoryAssessment(categoryId, categoryName, questionsToSubmit)
+        .finally(() => {
+            setLoading(false);
+        })
+
     };
 
     const StackComponent = useBreakpointValue({ base: Grid, md: HStack });
@@ -207,7 +213,7 @@ const TestPortal = () => {
                             />
                         </HStack>
                         <HStack justify="flex-end" mt={8} width="100%" display={{ base: "none", md: "flex" }}>
-                            <Button colorScheme="blue" size="lg" onClick={handleNextQuestion} disabled={!selectedAnswer}>
+                            <Button colorScheme="blue" size="lg" onClick={handleNextQuestion} disabled={!selectedAnswer || loading} isLoading={loading}>
                                 {currentCategoryIndex === categories.length - 1 && currentQuestionIndex === questions.length - 1 ? 'Submit' : 'Next'}
                             </Button>
                         </HStack>
