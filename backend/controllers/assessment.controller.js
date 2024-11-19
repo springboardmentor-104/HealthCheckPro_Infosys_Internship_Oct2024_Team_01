@@ -1,6 +1,6 @@
 import UserAssessmentHistory from "../models/assessment.model.js";
-import Question from "../models/question.model.js";
 import Category from "../models/category.model.js";
+import Question from "../models/question.model.js";
 import { updateLeaderBoard } from "./leaderboards.controller.js";
 
 export const checkUserAssessmentStatus = async (req, res) => {
@@ -31,8 +31,9 @@ export const checkUserAssessmentStatus = async (req, res) => {
 export const startNewRound = async (req, res) => {
     try {
         const userId = req.user._id;
-        console.log('=== userId assessment.controller.js [29] ===', userId);
+        // console.log('=== userId assessment.controller.js [29] ===', userId);
         const lastAttempt = await UserAssessmentHistory.findOne({ userId }).sort({ attemptNumber: -1 });
+
         if(lastAttempt && !lastAttempt.isComplete)
           return res.status(400).json({ message: "Finish the current round before starting a new one." });
 
@@ -42,7 +43,9 @@ export const startNewRound = async (req, res) => {
             userId,
             attemptNumber: newAttemptNumber,
             assessments: [],
-            isComplete: false
+            isComplete: false,
+            overallMaxScore: 0,
+            overallScore: 0
         });
 
         await newAttempt.save();
@@ -63,6 +66,7 @@ export const submitCategoryTest = async (req, res) => {
     }
 
     let totalScore = 0;
+    let maxScore = 0;
     const questionsWithScores = [];
 
     for (const question of questions) {
@@ -75,13 +79,16 @@ export const submitCategoryTest = async (req, res) => {
         return res.status(400).json({ message: `Selected option for question ID ${question.questionId} not found` });
       }
       totalScore += selectedOption.score;
+      maxScore += Math.max(...questionDoc.options.map(option => option.score));
+
       questionsWithScores.push({
         ...question,
-        score: selectedOption.score
+        score: selectedOption.score,
       });
     }
 
     const lastAttempt = await UserAssessmentHistory.findOne({ userId }).sort({ attemptNumber: -1 });
+    console.log('=== lastAttempt assessment.controller.js [91] ===', lastAttempt);
 
     let currentAttempt;
     if (!lastAttempt || lastAttempt.isComplete) {
@@ -90,7 +97,7 @@ export const submitCategoryTest = async (req, res) => {
       currentAttempt = new UserAssessmentHistory({
         userId,
         attemptNumber: newAttemptNumber,
-        assessments: [{ categoryId, categoryName, questions: questionsWithScores, totalScore }],
+        assessments: [{ categoryId, categoryName, questions: questionsWithScores, totalScore, maxScore }],
         isComplete: false,
       });
     } else {
@@ -100,22 +107,21 @@ export const submitCategoryTest = async (req, res) => {
         return res.status(400).json({ message: "This category test already submitted in the current round!" });
       }
 
-      currentAttempt.assessments.push({ categoryId, categoryName, questions: questionsWithScores, totalScore });
+      currentAttempt.assessments.push({ categoryId, categoryName, questions: questionsWithScores, totalScore, maxScore });
     }
 
-    // Check if the current attempt is complete
-
-    const categories = await Category.find(); // Assuming you have a Category model to fetch all categories
+    const categories = await Category.find();
     if (currentAttempt.assessments.length === categories.length) {
       currentAttempt.isComplete = true;
       currentAttempt.overallScore = currentAttempt.assessments.reduce((sum, assessment) => sum + assessment.totalScore, 0);
+      currentAttempt.overallMaxScore = currentAttempt.assessments.reduce((sum, assessment) => sum + assessment.maxScore, 0);
     }
 
-    const isSubmmitted = await currentAttempt.save();
-    if(isSubmmitted) {
+    const isSubmitted = await currentAttempt.save();
+    if (isSubmitted) {
       await updateLeaderBoard(userId, req.user.username, currentAttempt.attemptNumber)
-      .then(() => console.log("Leaderboard updated!"))
-      .catch((error) => console.log("Leaderboard update failed!", error));
+        .then(() => console.log("Leaderboard updated!"))
+        .catch((error) => console.log("Leaderboard update failed!", error));
     }
     res.status(200).json({ message: "Category test submitted!", attempt: currentAttempt });
   } catch (error) {
@@ -123,20 +129,20 @@ export const submitCategoryTest = async (req, res) => {
   }
 };
 
-// Fetch the latest assessment attempts
+
 export const fetchUserLatestAssessment = async (req, res) => {
   try {
-    const userId = req.user._id; // Assuming userId is attached to the req object
+    const userId = req.user._id;
     console.log('=== userId assessment.controller.js [119] ===', userId);
     const latestAttempts = await UserAssessmentHistory.find({ userId }).sort({ attemptNumber: -1 }).limit(2);
 
-    // Process the latest attempts to exclude the questions array
+
     const processedAttempts = latestAttempts.map(attempt => {
       const processedAssessments = attempt.assessments.map(assessment => {
-        const { questions, ...rest } = assessment._doc; // Exclude questions array and get the rest of the properties
-        return rest; // Return the new assessment object without the questions array
+        const { questions, ...rest } = assessment._doc;
+        return rest;
       });
-      return { ...attempt._doc, assessments: processedAssessments }; // Return the new attempt object with processed assessments
+      return { ...attempt._doc, assessments: processedAssessments };
     });
 
     const latestCompleteAttempt = processedAttempts.find(attempt => attempt.isComplete);
@@ -145,7 +151,7 @@ export const fetchUserLatestAssessment = async (req, res) => {
     if (latestCompleteAttempt || latestIncompleteAttempt) {
       res.status(200).json({
         latestCompleteAttempt,
-        latestIncompleteAttempt: latestIncompleteAttempt || null // Ensure null if no incomplete attempt
+        latestIncompleteAttempt: latestIncompleteAttempt || null
       });
     } else {
       res.status(200).json({ message: "User has not submitted any tests!" });
@@ -155,7 +161,7 @@ export const fetchUserLatestAssessment = async (req, res) => {
   }
 };
 
-// Fetch all assessment attempts
+
 export const fetchUserAssessmentHistory = async (req, res) => {
   try {
     const userId = req.user._id;
@@ -170,3 +176,4 @@ export const fetchUserAssessmentHistory = async (req, res) => {
     res.status(500).json({ message: "Server error", error });
   }
 };
+

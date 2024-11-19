@@ -9,5 +9,6 @@ router.post("/start-new-round",protect, startNewRound);
 router.patch("/submit", protect, submitCategoryTest);
 router.get("/latest-attempt",protect, fetchUserLatestAssessment);
 router.get("/all-attempts",protect, fetchUserAssessmentHistory);
+// router.patch("/temp", maxAttempScore);
 
 export default router;

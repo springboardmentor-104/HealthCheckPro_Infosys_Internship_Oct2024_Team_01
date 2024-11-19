@@ -40,14 +40,7 @@ const DashNavbar = () => {
                     {/* <Button as={NLink} to="/dashboard/assessment" colorScheme="blue" variant="ghost">Assessment</Button> */}
                     <Button as={NLink} to="/dashboard/" colorScheme="blue" variant="ghost">Dashboard</Button>
                     <Button as={NLink} to="/dashboard/leaderboard" colorScheme="blue" variant="ghost">Leaderboard</Button>
-
-                    <Menu>
-                        <MenuButton as={IconButton} aria-label="Profile" icon={<Avatar size="sm" name={user.username} />} />
-                        <MenuList p={2} as={VStack}>
-                            <Button colorScheme="blue" w="full" as={NLink}>Profile</Button>
-                            <Button variant="outline" colorScheme="red" w="full" onClick={handleLogout}>Logout</Button>
-                        </MenuList>
-                    </Menu>
+                    <Button variant="outline" colorScheme="red" onClick={handleLogout}>Logout</Button>
                 </HStack>
 
             </HStack>

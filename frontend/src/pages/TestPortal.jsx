@@ -118,6 +118,8 @@ const TestPortal = () => {
             questionId: question._id,
             selectedOptionId: question.options.find(option => option.optionText === selectedOptions[question._id])._id,
         }));
+
+        
         await submitCategoryAssessment(categoryId, categoryName, questionsToSubmit)
         .finally(() => {
             setLoading(false);

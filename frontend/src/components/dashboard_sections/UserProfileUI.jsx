@@ -7,6 +7,7 @@ import {
   Heading,
   HStack,
   Progress,
+  Stack,
   Tag,
   Text,
   VStack,
@@ -77,17 +78,20 @@ const UserProfileUI = () => {
           <Heading fontWeight="semibold" color="CaptionText">
             {user.username}
           </Heading>
-          <HStack w={"full"} gap={3} justify="center" mt={6} zIndex={5} >
-            <Tag colorScheme="blue" size="lg">
-              {user.email}
+          <Stack direction={{
+            base: "column",
+            md: "row",
+          }} w={"full"} gap={3} justify="center" mt={6} zIndex={5} >
+            <Tag colorScheme="blue" size="lg" justifyContent="center">
+              Email - {user.email}
             </Tag>
-            {user.age && <Tag colorScheme="blue" size="lg">
-              {user.age}
+            {user.age && <Tag colorScheme="blue" size="lg" justifyContent="center">
+              Age - {user.age}
             </Tag>}
-            {user.gender && <Tag colorScheme="blue" size="lg">
-              {user.gender}
+            {user.gender && <Tag colorScheme="blue" size="lg" justifyContent="center">
+              Gender - {user.gender}
             </Tag>}
-          </HStack>
+          </Stack>
         </Box>
       </Box>
     </Box>

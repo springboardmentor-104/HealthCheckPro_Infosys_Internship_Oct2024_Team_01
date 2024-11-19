@@ -1,22 +1,39 @@
-import React, {useEffect, useState} from 'react';
 import {
-    Box, Flex, Heading, VStack, HStack, Tag, Text, Button, Stack, Td, Th, Tr,
-    Table, Thead, Tbody, Center,useBreakpointValue
+    Box,
+    Button,
+    Center,
+    Flex, Heading,
+    HStack,
+    Progress,
+    Stack,
+    Table,
+    Tag,
+    Tbody,
+    Td,
+    Text,
+    Th,
+    Thead,
+    Tr,
+    useBreakpointValue,
+    VStack,
+    Image
 } from '@chakra-ui/react';
+import React, { useEffect, useState } from 'react';
 
+import { Skeleton } from '@chakra-ui/react';
 import PropTypes from 'prop-types';
-import {Skeleton} from '@chakra-ui/react';
-import {useNavigate} from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
+import { SimpleGrid } from '@chakra-ui/react';
+
 import useAssessment from '../../hooks/useAssessment';
 import useCustomTheme from '../../hooks/useCustomTheme';
 import {
-    BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend,
-    PieChart, Pie, Cell, ResponsiveContainer
-} from 'recharts';
+    PieChart, Pie, Cell, ResponsiveContainer, Tooltip, Legend
+} from 'recharts'
 
+import image from '../../assets/Doctor-removebg-preview_enhanced.png';
 
-
-const PendingAssessment = ({status, latestAttempt, cardBg, history, startNewRound}) => {
+const PendingAssessment = ({ status, latestAttempt, cardBg, history, startNewRound }) => {
 
 
     const handleStartRound = async () => {
@@ -26,9 +43,9 @@ const PendingAssessment = ({status, latestAttempt, cardBg, history, startNewRoun
     if (!status) {
         return (
             <Box bgColor={cardBg} p={5} rounded="md">
-                <Skeleton height="20px" mb={4}/>
-                <Skeleton height="20px" mb={4}/>
-                <Skeleton height="20px" mb={4}/>
+                <Skeleton height="20px" mb={4} />
+                <Skeleton height="20px" mb={4} />
+                <Skeleton height="20px" mb={4} />
             </Box>
         );
     }
@@ -43,11 +60,9 @@ const PendingAssessment = ({status, latestAttempt, cardBg, history, startNewRoun
     return !status.isComplete ? (
         <Box bgColor={cardBg} p={5} rounded="md">
             <Flex justify="space-between">
-                <Heading color='red.600' mb={5}>
-                    Pending Assessment Status
-                </Heading>
-                <HStack gap={5}>
-                    <Text>Attempt Number: {status.attemptNumber}</Text>
+
+                <HStack gap={5} w="full" justify="flex-end">
+                    <Tag colorScheme="red">Attempt Number: {status.attemptNumber}</Tag>
                 </HStack>
             </Flex>
             <VStack mt={5} gap={5} p={5}>
@@ -70,7 +85,7 @@ const PendingAssessment = ({status, latestAttempt, cardBg, history, startNewRoun
                 )}
             </VStack>
         </Box>
-    ) : (<Flex w="100%"  h={"300px"} alignItems="center">
+    ) : (<Flex w="100%" h={"300px"} alignItems="center">
         <Button mt={5} mx="auto" colorScheme="blue" size="lg" onClick={handleStartRound}>
             Start New Round
         </Button>
@@ -78,111 +93,180 @@ const PendingAssessment = ({status, latestAttempt, cardBg, history, startNewRoun
 }
 
 
-const LatestAttemptUI = ({latestCompleteAttempt, cardBg}) => {
+const LatestAttemptUI = ({ latestCompleteAttempt, cardBg }) => {
     if (!latestCompleteAttempt) {
         return null;
     }
 
+    const healthStatus = (score, tot) => {
+        const percentage = Math.floor((score / tot) * 100);
+        let bgColor, emoji, statusText;
+
+        if (percentage >= 90) {
+            bgColor = 'green.100';
+            emoji = '🌟';
+            statusText = 'Outstanding';
+        } else if (percentage >= 75) {
+            bgColor = 'green.200';
+            emoji = '😃';
+            statusText = 'Excellent';
+        } else if (percentage >= 60) {
+            bgColor = 'yellow.100';
+            emoji = '🙂';
+            statusText = 'Good';
+        } else if (percentage >= 40) {
+            bgColor = 'orange.100';
+            emoji = '😐';
+            statusText = 'Fair';
+        } else {
+            bgColor = 'red.100';
+            emoji = '😟';
+            statusText = 'Needs Improvement';
+        }
+
+        return (
+            <VStack
+            bg={bgColor}
+            p={5}
+            rounded="md"
+            justifyContent="center"
+            alignItems="center"
+            w="100%"
+            h="100%"
+            gap={3}
+            mb={5}
+            >
+            <Text fontSize="2xl" fontWeight="bold">
+                {emoji} {statusText}
+            </Text>
+            <Text fontSize="lg">
+                Health Score: {percentage}%
+            </Text>
+            </VStack>
+        );
+    };
+
+    const suggestions = (score, tot) => {
+        const percentage = Math.floor((score / tot) * 100);
+        if (percentage >= 90) {
+            return 'Keep up the good work! You are doing great. Your health is in excellent condition.';
+        } else if (percentage >= 75) {
+            return 'Great job! You are doing well. Keep up the good work.';
+        } else if (percentage >= 60) {
+            return 'Good job! You are doing well. Keep up the good work.';
+        } else if (percentage >= 40) {
+            return 'You are doing well. Keep up the good work.';
+        } else {
+            return 'You need to improve your health. Please consult a doctor for a health checkup.';
+        }
+    };
+
     return (
-        <Box bgColor={cardBg} p={5} rounded="md" mt={5}>
-            <Stack direction={{
-                base: 'column',
-                md: 'row'
-            }} justify="space-between" alignItems="center" gap={3}><Heading color='green.600' mb={5}>
-                Latest Completed Assessment
-            </Heading><HStack gap={3}><Tag colorScheme="blue" variant="solid" size="lg">Attempt
-                Number: {latestCompleteAttempt.attemptNumber}</Tag><Tag size="lg" variant="outline"
-                                                                        colorScheme="blue">Date: {new Date(latestCompleteAttempt.date).toLocaleDateString()}</Tag></HStack>
+        <Box bgColor={cardBg} p={5} rounded="md" mt={5} >
+            <Stack direction={{ base: 'column', md: 'row' }} justify="space-between" alignItems="center" gap={3}>
+                <Heading color="blue.600">
+                    Health Report
+                </Heading>
+                <HStack gap={3}>
+                    <Tag colorScheme="blue" variant="solid" size="lg">
+                        Attempt Number: {latestCompleteAttempt.attemptNumber}
+                    </Tag>
+                    <Tag size="lg" variant="outline" colorScheme="blue">
+                        Date: {new Date(latestCompleteAttempt.date).toLocaleDateString()}
+                    </Tag>
+                </HStack>
             </Stack>
 
+            <Stack direction={{ base: 'column', md: 'row' }}  width="100%" h="100%" flex={1} mt={5} gap={5} p={5}>
+                <SimpleGrid flex={1} position="relative" columns={[1, 2, 3]} gap={6}>
+                    <CategoryCard category={{ categoryName: 'Overall', totalScore: latestCompleteAttempt.overallScore, maxScore: latestCompleteAttempt.overallMaxScore }} />
+                    {latestCompleteAttempt.assessments.map((category, index) => (
+                        <CategoryCard key={index} category={category} />
+                    ))}
+                </SimpleGrid>
+            </Stack>
+
+            <Box mt={10}>
+
+                <Heading mb={5} size="lg" color="blue.600">Report Summary</Heading>
+
+
+                {healthStatus(latestCompleteAttempt.overallScore, latestCompleteAttempt.overallMaxScore)}
+
+                <Stack direction={{
+                    base: 'column', md: 'row'
+                }} p={5} bg="gray.50" rounded="md" boxShadow="md">
+                    <Box flex={1} >
+
+                        <Heading size="md" mb={3}>
+                            Insights
+                        </Heading>
+                        <Text>
+                            {suggestions(latestCompleteAttempt.overallScore, latestCompleteAttempt.overallMaxScore)}
+                        </Text>
+                    </Box>
+                    <Box>
+                        <Image src={image} w="200px" />
+                    </Box>
+                </Stack>
+            </Box>
+        </Box>
+    );
+};
+
+const CategoryCard = ({ category }) => {
+    return (
+        <Box boxShadow="lg" p={5} rounded="md" bg="white" >
+            <Heading size="md" color="blue.600">{category.categoryName}</Heading>
+            <ResponsiveContainer width="100%" height={200}>
+                <PieChart>
+                    <Pie
+                        data={[
+                            { name: 'Score', value: category.totalScore },
+                            { name: 'Total', value: category.maxScore - category.totalScore }
+                        ]}
+                        innerRadius={50}
+                        outerRadius={80}
+                        paddingAngle={5}
+                        dataKey="value"
+                    >
+                        <Cell key={`cell-0`} fill="#3182CE" />
+                        <Cell key={`cell-1`} fill="#E2E8F0" />
+                    </Pie>
+                    <Tooltip />
+                    <Legend />
+                </PieChart>
+            </ResponsiveContainer>
             <Stack direction={{
-                base: 'column',
-                md: 'row'
-            }} justify="center" align="center" mt={5} gap={5} p={5}>
-                <Box overflowX="auto" w={{base: "100%", md: "auto"}}>
-                    <BarChart width={730} height={250} data={
-                        latestCompleteAttempt.assessments.map((assessment) => ({
-                            name: assessment.categoryName,
-                            score: assessment.totalScore,
-
-                        }))
-                    }>
-                        <CartesianGrid strokeDasharray="3 3"/>
-                        <XAxis dataKey="name"/>
-                        <YAxis/>
-                        <Tooltip/>
-                        <Legend/>
-                        <Bar dataKey="score" fill="#8884d8"/>
-
-                    </BarChart></Box>
-                <Box flex={1} h="300px" position="relative" border="1px">
-
-
-                    <Tag>Overall Score: {latestCompleteAttempt.overallScore}</Tag>
-                </Box>
+                base: 'column', md: 'row'
+            }} justifyContent="space-between" mt={5}>
+                <Text color="blue.600">Total Score: {category.totalScore}</Text>
+                <Text color="blue.600">Max Score: {category.maxScore}</Text>
             </Stack>
         </Box>
     );
 };
 
-const AssessmentHistory = ({fetchAssessmentsHistory}) => {
+
+const AssessmentHistory = ({ fetchAssessmentsHistory }) => {
     const [attempts, setAttempts] = useState([]);
-    const {cardBg} = useCustomTheme();
+    const { cardBg } = useCustomTheme();
     const isMobile = useBreakpointValue(
-        {base: true, md: false}
+        { base: true, md: false }
     );
 
     useEffect(() => {
         const fetchHistory = async () => {
             const history = await fetchAssessmentsHistory();
-            setAttempts(history);
+            setAttempts(history.slice(1));
         }
         fetchHistory();
 
     }, []);
 
-    const renderPieChart = (score) => {
-        const data = [
-            {name: 'Score', value: score},
-            {name: 'Remaining', value: 100 - score},
-        ];
-        const COLORS = ['#0088FE', '#00C49F'];
-
-        return (
-            <ResponsiveContainer width="100%" height={isMobile?50:200}>
-                <PieChart>
-                    <Pie
-                        data={data}
-                        cx="50%"
-                        cy="50%"
-                        innerRadius={60}
-                        outerRadius={80}
-                        fill="#8884d8"
-                        paddingAngle={5}
-                        dataKey="value"
-                    >
-                        {data.map((entry, index) => (
-                            <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]}/>
-                        ))}
-                    </Pie>
-                    <text
-                        x="50%"
-                        y="50%"
-                        textAnchor="middle"
-                        dominantBaseline="middle"
-                        fontSize="24px"
-                        fontWeight="bold"
-                    >
-                        {score}
-                    </text>
-                </PieChart>
-            </ResponsiveContainer>
-        );
-    };
-
     return (
         <Box w="100%" h="500px" overflowY="auto" rounded="md" mt={5} p={5} bg={cardBg}>
-            <Heading mb={5}>Assessment History</Heading>
+            <Heading mb={5} color="blue.600">Assessment History</Heading>
             <Table variant="simple">
                 <Thead>
                     <Tr>
@@ -197,7 +281,15 @@ const AssessmentHistory = ({fetchAssessmentsHistory}) => {
                             <Td>{attempt.attemptNumber}</Td>
                             <Td>{new Date(attempt.date).toLocaleDateString()}</Td>
                             <Td>
-                                <Center>{renderPieChart(attempt.overallScore)}</Center>
+                                <Box>
+                                    <Stack direction={{
+                                        base: 'column', md: 'row'
+                                    }} justifyContent="space-between" mb={2}>
+                                        <Text colorScheme="blue">Total - {attempt.overallScore}</Text>
+                                        <Text colorScheme="blue">Max - {attempt.overallMaxScore}</Text>
+                                    </Stack>
+                                    <Progress value={attempt.overallScore} max={attempt.maxOverallScore} />
+                                </Box>
                             </Td>
                         </Tr>
                     ))}
@@ -209,10 +301,10 @@ const AssessmentHistory = ({fetchAssessmentsHistory}) => {
 
 
 const UserStatusUI = () => {
-    const {fetchAssessmentStatus, fetchLatestAssessment, startNewRound, fetchAssessmentHistory} = useAssessment();
+    const { fetchAssessmentStatus, fetchLatestAssessment, startNewRound, fetchAssessmentHistory } = useAssessment();
     const [status, setStatus] = useState(null);
     const [latestAssessment, setLatestAssessment] = useState(null);
-    const {cardBg} = useCustomTheme();
+    const { cardBg } = useCustomTheme();
     const history = useNavigate();
 
 
@@ -242,11 +334,11 @@ const UserStatusUI = () => {
                         latestAssessment?.latestIncompleteAttempt
                     } cardBg={cardBg} history={history} startNewRound={
                         startNewRound
-                    }/>
-                    <LatestAttemptUI latestCompleteAttempt={latestAssessment?.latestCompleteAttempt} cardBg={cardBg}/>
-                    <AssessmentHistory fetchAssessmentsHistory={fetchAssessmentHistory}/>
+                    } />
+                    <LatestAttemptUI latestCompleteAttempt={latestAssessment?.latestCompleteAttempt} cardBg={cardBg} />
+                    <AssessmentHistory fetchAssessmentsHistory={fetchAssessmentHistory} />
                 </>
-            ):(<Flex w="100%"  h={"300px"} alignItems="center">
+            ) : (<Flex w="100%" h={"300px"} alignItems="center">
                 <Button mt={5} mx="auto" colorScheme="blue" size="lg" onClick={startNewRound}>
                     Start New Round
                 </Button>

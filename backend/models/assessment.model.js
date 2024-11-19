@@ -29,6 +29,11 @@ const assessmentScoreSchema = new mongoose.Schema({
     required: true,
     default: 0,
   },
+
+  maxScore: {
+    type: Number,
+    required: true
+  },
   selectedOptionId: optionSchema,
 });
 
@@ -49,6 +54,11 @@ const userAssessmentHistorySchema = new mongoose.Schema(
       required: true,
       default: 0,
     },
+    overallMaxScore: {
+      type: Number,
+      required: true,
+    },
+    
     date: {
       type: Date,
       default: Date.now,

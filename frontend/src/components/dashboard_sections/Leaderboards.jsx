@@ -54,13 +54,13 @@ const Leaderboards = () => {
 
     return (
         <VStack p={{
-            base:1,
-            md:8
+            base: 1,
+            md: 8
         }} mt={{
-            base:40,
-            md:20
+            base: 40,
+            md: 20
         }} minH="100svh" gap={6}>
-            <Heading as="h2" size="lg" color="blue.600" >HealthCheckPro Top Ranking</Heading>
+            <Heading as="h2" size="lg" color="blue.600">HealthCheckPro Top Ranking</Heading>
             <Tabs
                 variant="soft-rounded"
                 index={categories.findIndex(category => category._id === selectedCategory)}
@@ -92,7 +92,7 @@ const Leaderboards = () => {
                                     ))
                                 ) : (
                                     topRanking.length > 0 ? topRanking.map((item, index) => (
-                                        <GridItem  key={index} bg={leaderboardGradients[index] || leaderboardGradients.default} p={6} borderRadius="lg" textAlign="center" boxShadow="lg">
+                                        <GridItem key={index} bg={leaderboardGradients[index] || leaderboardGradients.default} p={6} borderRadius="lg" textAlign="center" boxShadow="lg">
                                             <HStack justifySelf="center" align="center" gap={5}>
                                                 <Badge colorScheme="yellow" variant="solid" rounded="full" p={2} fontSize="1.2em">{item.position}</Badge>
                                                 <Avatar mt={4} mb={2} />
@@ -110,7 +110,7 @@ const Leaderboards = () => {
                                 )}
                             </Grid>
 
-                            <Table variant="simple">
+                            <Table variant="simple" size="sm">
                                 <Thead>
                                     <Tr>
                                         <Th>Place</Th>
@@ -120,7 +120,7 @@ const Leaderboards = () => {
                                 </Thead>
                             </Table>
                             <Box h="500px" overflowY="auto" bg={cardBg} rounded="md">
-                                <Table variant="simple">
+                                <Table variant="simple" size="sm">
                                     <Tbody>
                                         {loadingL ? (
                                             Array.from({ length: 10 }).map((_, index) => (
@@ -135,7 +135,7 @@ const Leaderboards = () => {
                                                 <Tr key={index}>
                                                     <Td>{rank.place}</Td>
                                                     <Td>{rank.user}</Td>
-                                                    <Td>{rank.score}</Td>
+                                                    <Td isNumeric>{rank.score}</Td>
                                                 </Tr>
                                             )) : (
                                                 Array.from({ length: 10 }).map((_, index) => (
