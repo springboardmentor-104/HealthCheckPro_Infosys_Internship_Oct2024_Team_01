@@ -1,20 +1,21 @@
 
 import UserAssessmentHistory from "../models/assessment.model.js";
 import LeaderBoard from "../models/leaderboard.model.js";
+import User from "../models/user.model.js";
 
 export const getLeaderboard = async (req, res) => {
     try {
         const category = req.params.category;
-        const leaderboard = await LeaderBoard.find({category}).sort({score: -1});
-        res.status(200).json({leaderboard});
+        const leaderboard = await LeaderBoard.find({ category }).sort({ score: -1 });
+        res.status(200).json({ leaderboard });
     } catch (error) {
         console.log(error);
-        res.status(500).json({message: "server error", error})
+        res.status(500).json({ message: "server error", error })
     }
 }
 
 const fetchAllLeaderboardRanks = async (userId) => {
-    const allCategoryRanksOfUser = await LeaderBoard.find({userId});
+    const allCategoryRanksOfUser = await LeaderBoard.find({ userId });
 
     const rankMapping = {};
 
@@ -27,17 +28,15 @@ const fetchAllLeaderboardRanks = async (userId) => {
 
 export const updateLeaderBoard = async (userId, username, lastAttemptNumber) => {
     try {
-        const latestAttemptRound = await UserAssessmentHistory.findOne({userId})
-            .sort({attemptNumber: -1});
+        const latestAttemptRound = await UserAssessmentHistory.findOne({ userId })
+            .sort({ attemptNumber: -1 });
 
         const overallScore = latestAttemptRound.overallScore;
 
-        const categoryMapping = {
-            "6720b4b7138ac4c27924dbf2": "physical",
-            "6722653e8aebf1c473d1672b": "mental",
-            "67226bc38dec3d17c5368bd2": "diet",
-            "67226bdf8dec3d17c5368bd5": "lifestyle"
-        };
+        const categoryMapping = UserAssessmentHistory.schema.path("assessments").schema.path("categoryId").enumValues.reduce((acc, categoryId) => {
+            acc[categoryId] = UserAssessmentHistory.schema.path("assessments").schema.path("categoryId").enumValues[categoryId];
+            return acc;
+        });
 
         if (lastAttemptNumber === 0) {
             await Promise.all(latestAttemptRound.assessments.map(async (assessment) => {
@@ -80,13 +79,13 @@ export const updateLeaderBoard = async (userId, username, lastAttemptNumber) => 
             await Promise.all(Object.keys(leaderboardRanks).map(async (category) => {
                 const score = leaderboardRanks[category];
                 const updatedRank = await LeaderBoard.updateOne(
-                    {userId, category}, // filter to find the specific leaderboard entry for the user and category.
-                    {userId, username, score, category},
-                    {upsert: true}
+                    { userId, category }, // filter to find the specific leaderboard entry for the user and category.
+                    { userId, username, score, category },
+                    { upsert: true }
                 );
             }))
         }
     } catch (error) {
-        console.log({error});
+        console.log({ error });
     }
 }

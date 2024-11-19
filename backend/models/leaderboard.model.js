@@ -18,7 +18,6 @@ const LeaderboardSchema = new mongoose.Schema(
         category: {
             type: String,
             required: true,
-            enum: [ "physical", "mental", "diet", "lifestyle", "overall" ]
         }
     },
     { timestamps: true, unique: true }
