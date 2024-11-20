@@ -33,7 +33,7 @@ const ThemeProvider = ({ children }) => {
         footerBg: useColorModeValue('#f0f4ff', '#1a202c'),
         cardBg: useColorModeValue('white', '#2d3748'),
         leaderboardGradients: useColorModeValue(lightGradients, darkGradients),
-        landingBg : useColorModeValue("gray.50", "gray.800"),
+        landingBg : useColorModeValue("gray.10", "gray.800"),
         textColor : useColorModeValue("black", "white"),
         headingColor : useColorModeValue("blue.500", "blue.300"),
         subheadingColor : useColorModeValue("gray.600", "gray.400"),

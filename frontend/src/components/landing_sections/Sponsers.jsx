@@ -1,4 +1,5 @@
-import { Box, Flex, Text, SimpleGrid, Image } from "@chakra-ui/react";
+import { Box, Flex, Image, SimpleGrid, Text } from "@chakra-ui/react";
+import { useMemo, memo } from "react";
 
 // Import logos from assets directory
 import logo1 from '../../assets/logo1.png';
@@ -9,18 +10,19 @@ import logo5 from '../../assets/logo5.svg';
 import logo6 from '../../assets/logo6.svg';
 import useCustomTheme from "../../hooks/useCustomTheme";
 
-// Create an array of objects containing the logo links and alt text
-const logos = [
-    { src: logo1, alt: "Company 1" },
-    { src: logo2, alt: "Company 2" },
-    { src: logo3, alt: "Company 3" },
-    { src: logo4, alt: "Company 4" },
-    { src: logo5, alt: "Company 5" },
-    { src: logo6, alt: "Company 6" },
-];
-
 const Sponsers = () => {
-    const {sponsersBg} = useCustomTheme();
+    const { sponsersBg } = useCustomTheme();
+
+    // Memoize the logos array
+    const logos = useMemo(() => [
+        { src: logo1, alt: "Company 1" },
+        { src: logo2, alt: "Company 2" },
+        { src: logo3, alt: "Company 3" },
+        { src: logo4, alt: "Company 4" },
+        { src: logo5, alt: "Company 5" },
+        { src: logo6, alt: "Company 6" },
+    ], []);
+
     return (
         <Box bg={sponsersBg} py={10} px={6} id="sponsers">
             {/* Heading */}
@@ -41,8 +43,11 @@ const Sponsers = () => {
                     <Image key={index} src={logo.src} alt={logo.alt} maxW="100px" />
                 ))}
             </SimpleGrid>
+            <Text color>
+                This is just for representation purposes. These are not our real sponsers.
+            </Text>
         </Box>
     );
 }
 
-export default Sponsers;
+export default memo(Sponsers);

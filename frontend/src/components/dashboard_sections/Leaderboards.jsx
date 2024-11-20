@@ -1,20 +1,19 @@
-import { useState, useEffect } from "react";
-import { Box, Heading, Table, Tbody, Tr, Td, Text, Thead, Th, HStack, Tabs, TabList, Tab, TabPanels, TabPanel, useToast, Grid, GridItem, Badge, Avatar, Button, VStack,Skeleton } from "@chakra-ui/react";
+import { Avatar, Badge, Box, Grid, GridItem, Heading, HStack, Skeleton, Tab, Table, TabList, TabPanel, TabPanels, Tabs, Tbody, Td, Text, Th, Thead, Tr, VStack } from "@chakra-ui/react";
+import { useEffect, useState } from "react";
+import useCategory from "../../apis/category";
+import useLeaderBoard from "../../apis/leaderboard";
 import useCustomTheme from "../../hooks/useCustomTheme";
-import useLeaderBoard from "../../hooks/useLeaderBoard";
-import useGlobalState from "../../hooks/useGlobalState";
-import useCategory from "../../hooks/useCategory";
+
 
 const Leaderboards = () => {
-    const { user } = useGlobalState();
     const { leaderboardGradients, cardBg } = useCustomTheme();
-    const { getLeaderBoard,loadingL } = useLeaderBoard(user.token);
+    const { getLeaderBoard,loadingL } = useLeaderBoard();
     const { fetchCategories } = useCategory();
     const [categories, setCategories] = useState([]);
     const [selectedCategory, setSelectedCategory] = useState(null);
     const [topRanking, setTopRanking] = useState([]);
     const [leaderboards, setLeaderboards] = useState([]);
-    const toast = useToast();
+
 
     useEffect(() => {
         const fetchCategoriesData = async () => {
@@ -95,7 +94,7 @@ const Leaderboards = () => {
                                         <GridItem key={index} bg={leaderboardGradients[index] || leaderboardGradients.default} p={6} borderRadius="lg" textAlign="center" boxShadow="lg">
                                             <HStack justifySelf="center" align="center" gap={5}>
                                                 <Badge colorScheme="yellow" variant="solid" rounded="full" p={2} fontSize="1.2em">{item.position}</Badge>
-                                                <Avatar mt={4} mb={2} />
+                                                <Avatar mt={4} mb={2} name={item.user}/>
                                             </HStack>
                                             <Text fontWeight="bold" fontSize="1.5em">
                                                 {item.user}

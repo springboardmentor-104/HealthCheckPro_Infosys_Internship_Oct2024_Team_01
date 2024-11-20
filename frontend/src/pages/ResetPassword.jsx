@@ -16,10 +16,10 @@ import { useState } from 'react';
 import { Link as NLink, useParams } from 'react-router-dom';
 import VerifyOTP from '../components/VerifyOTP';
 
+import useOTP from '../apis/otp';
+import useResetPassword from '../apis/resetPassword';
 import useCustomTheme from '../hooks/useCustomTheme';
 import authbg from '/authbg.png';
-import useResetPassword from '../hooks/useResetPassword';
-import useOTP from '../hooks/useOTP';
 
 
 const ResetPassword = () => {

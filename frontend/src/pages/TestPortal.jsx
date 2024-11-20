@@ -1,25 +1,25 @@
-import { useEffect, useState } from 'react';
+import { ArrowForwardIcon, CheckIcon } from '@chakra-ui/icons';
 import {
     Box,
-    Text,
     Button,
-    HStack,
-    Progress,
-    Image,
     Grid,
+    HStack,
+    IconButton,
+    Image,
+    Progress,
+    Skeleton,
+    Text,
     useBreakpointValue,
     VStack,
-    IconButton,
-    Skeleton,
 } from '@chakra-ui/react';
-import { ArrowBackIcon, ArrowForwardIcon, CheckIcon } from '@chakra-ui/icons';
+import { useEffect, useState } from 'react';
 
+import { Link } from 'react-router-dom';
+import useAssessment from '../apis/assessment';
+import useCategory from '../apis/category';
+import { MH2 } from '../assets/illustrations/';
 import questionBg from '../assets/question.png';
 import SectionSteps from '../components/SectionSteps';
-import useCustomTheme from '../hooks/useCustomTheme';
-import useCategory from '../hooks/useCategory';
-import useAssessment from '../hooks/useAssessment';
-import { Link } from 'react-router-dom';
 
 const TestPortal = () => {
     const [currentCategoryIndex, setCurrentCategoryIndex] = useState(0);
@@ -119,7 +119,7 @@ const TestPortal = () => {
             selectedOptionId: question.options.find(option => option.optionText === selectedOptions[question._id])._id,
         }));
 
-        
+
         await submitCategoryAssessment(categoryId, categoryName, questionsToSubmit)
         .finally(() => {
             setLoading(false);
@@ -183,7 +183,7 @@ const TestPortal = () => {
                         <HStack w="100%" gap={10} position="relative">
                             <Box w={{ base: "100%", md: "50%" }} mb={4} display={{ base: "none", md: "flex" }}
                                 justifyContent="center">
-                                <Image src={questionBg} alt="Illustration" width="full" />
+                                <Image src={MH2} alt="Illustration" width="full" />
                             </Box>
                             <Grid h="100%" mt={4} gap={4} w="100%" zIndex={2}>
                                 {currentQuestion && currentQuestion.options.map((option, index) => (

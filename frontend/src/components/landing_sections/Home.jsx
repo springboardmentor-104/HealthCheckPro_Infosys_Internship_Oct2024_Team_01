@@ -1,11 +1,11 @@
-import { Box, Button, Container, Flex, Heading, Icon, Text, useColorModeValue } from "@chakra-ui/react";
 import { ExternalLinkIcon } from "@chakra-ui/icons";
+import { Box, Button, Container, Flex, Heading, Icon, Text, useColorModeValue } from "@chakra-ui/react";
+import Lottie from "lottie-react";
 import { AiFillHeart } from "react-icons/ai";
 import { Link as NLink } from "react-router-dom";
-
+import homePageAnimation from '../../assets/illustrations/consultation.json';
 import useCustomTheme from "../../hooks/useCustomTheme";
-import { DotLottieReact } from '@lottiefiles/dotlottie-react';
-import homePageAnimation from '../../assets/homePage.lottie';
+import { memo } from "react";
 
 
 const Home = () => {
@@ -65,12 +65,7 @@ const Home = () => {
 
                     {/* Lottie Animation */}
                     <Box flex="1" align="center" display="flex" justifyContent="center" px={4}>
-                        {/* <DotLottieReact
-                            src={homePageAnimation}
-                            loop
-                            autoplay
-                            style={{ minWidth: '50svw' }}
-                        /> */}
+                        <Lottie animationData={homePageAnimation} />
                     </Box>
                 </Flex>
             </Container>
@@ -79,4 +74,4 @@ const Home = () => {
     );
 }
 
-export default Home;
+export default memo(Home);

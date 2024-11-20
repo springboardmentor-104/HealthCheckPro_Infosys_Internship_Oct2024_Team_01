@@ -1,20 +1,21 @@
 import {
-    Avatar, Heading, HStack, Button,
-    Accordion, AccordionItem, AccordionButton, AccordionPanel, AccordionIcon, VStack,
-    IconButton,
-    Menu,
-    MenuButton,
-    MenuList,
-    MenuItem
+    Accordion,
+    AccordionButton,
+    AccordionIcon,
+    AccordionItem,
+    AccordionPanel,
+    Avatar,
+    Button,
+    Heading, HStack,
+    VStack
 } from "@chakra-ui/react";
 import useCustomTheme from "../hooks/useCustomTheme";
 
-import { Link as NLink } from "react-router-dom";
-import { useNavigate, useLocation } from "react-router-dom";
+import { Link as NLink, useLocation, useNavigate } from "react-router-dom";
 import useGlobalState from "../hooks/useGlobalState";
 
 const DashNavbar = () => {
-    const { setUser, user } = useGlobalState();
+    const { setUser } = useGlobalState();
     const navigate = useNavigate();
     const handleLogout = () => {
         setUser(null);
@@ -30,14 +31,15 @@ const DashNavbar = () => {
                 md: "flex"
             }}
                 bgColor={navBg}
-                zIndex={3} py={3} px={10} w="100%" justify="space-between" position="fixed" top={0}  >
+                zIndex={9999} py={3} px={10} w="100%" justify="space-between" position="fixed" top={0}  >
 
-                <HStack><Heading size={"md"} color={"blue.600"}>
-                    HealthCheckPro
-                </Heading></HStack>
+                <HStack>
+                    <Heading size={"md"} color={"blue.600"}>
+                        HealthCheckPro
+                    </Heading>
+                </HStack>
                 <Button colorScheme="blue" variant="ghost"></Button>
                 <HStack>
-                    {/* <Button as={NLink} to="/dashboard/assessment" colorScheme="blue" variant="ghost">Assessment</Button> */}
                     <Button as={NLink} to="/dashboard/" colorScheme="blue" variant="ghost">Dashboard</Button>
                     <Button as={NLink} to="/dashboard/leaderboard" colorScheme="blue" variant="ghost">Leaderboard</Button>
                     <Button variant="outline" colorScheme="red" onClick={handleLogout}>Logout</Button>

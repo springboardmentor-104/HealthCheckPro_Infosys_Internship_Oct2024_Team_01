@@ -1,4 +1,4 @@
-import DashHome from "./DashHome";
+import DashHome from "./DashHome/DashHome";
 import LeaderBoards from "./Leaderboards"
 
 

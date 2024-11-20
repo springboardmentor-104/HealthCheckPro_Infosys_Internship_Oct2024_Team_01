@@ -1,28 +1,29 @@
 import { Box, Flex, Icon, Stack, Text } from "@chakra-ui/react";
 import { FaFire, FaHeartbeat, FaHourglassHalf } from "react-icons/fa";
+import { useMemo, memo } from "react";
 import useCustomTheme from "../../hooks/useCustomTheme";
 
-const features = [
-  {
-    icon: FaHeartbeat,
-    title: "Monitor Health Status",
-    description: "Track your health metrics in real-time for a healthier, balanced life."
-  },
-  {
-    icon: FaHeartbeat,
-    title: "Diet Plan",
-    description: "Create a personalized diet plan tailored to your unique health needs and goals."
-  },
-  {
-    icon: FaHeartbeat,
-    title: "Health Lifecycle Insights",
-    description: "Optimize every stage of your health journey with comprehensive lifecycle insights."
-  }
-];
-
-
 const Features = () => {
-  const { featuresBg,cardBg } = useCustomTheme();
+  const { featuresBg, cardBg } = useCustomTheme();
+
+  const features = useMemo(() => [
+    {
+      icon: FaHeartbeat,
+      title: "Monitor Health Status",
+      description: "Track your health metrics in real-time for a healthier, balanced life."
+    },
+    {
+      icon: FaHeartbeat,
+      title: "Diet Plan",
+      description: "Create a personalized diet plan tailored to your unique health needs and goals."
+    },
+    {
+      icon: FaHeartbeat,
+      title: "Health Lifecycle Insights",
+      description: "Optimize every stage of your health journey with comprehensive lifecycle insights."
+    }
+  ], []);
+
   return (
     <Flex bg={featuresBg} py={10} px={6} justify="space-between" align="center" id="features" flexDirection={{
       base: "column",
@@ -36,13 +37,13 @@ const Features = () => {
           </Text>
           <Text textAlign="center" fontSize={{ base: "2xl", md: "3xl" }} fontWeight="bold" color="blue.700">Health Upgrade</Text>
         </Stack>
-        <Text fontSize="md" textAlign="center" >
+        <Text fontSize="md" textAlign="center">
           Online solution looks at your physical health & Mental Health
         </Text>
       </Flex>
 
       {/* Features */}
-      <Flex gap={5} flexWrap={{base:"wrap",lg:"nowrap"}} p={{
+      <Flex gap={5} flexWrap={{ base: "wrap", lg: "nowrap" }} p={{
         base: 5,
         md: ""
       }} w={{ base: "100%", md: "60%" }} overflowX={{
@@ -66,7 +67,7 @@ const Features = () => {
                 {feature.title}
               </Text>
             </Flex>
-            <Text >
+            <Text>
               {feature.description}
             </Text>
           </Box>
@@ -76,4 +77,4 @@ const Features = () => {
   );
 }
 
-export default Features;
+export default memo(Features);

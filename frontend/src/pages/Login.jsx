@@ -1,7 +1,9 @@
 import {
   Box, Button, FormControl,
   FormHelperText,
-  FormLabel, Heading, Image, Input,
+  FormLabel, Heading,
+  IconButton,
+  Image, Input,
   Popover,
   PopoverArrow,
   PopoverBody,
@@ -11,17 +13,17 @@ import {
   PopoverTrigger,
   Stack, Text,
   useDisclosure,
-  VStack, IconButton
+  VStack
 } from "@chakra-ui/react";
 import { useState } from "react";
-import { Link as NLink, useNavigate } from "react-router-dom";
 import { FaEye, FaEyeSlash } from "react-icons/fa"; // Eye icons for showing/hiding password
+import { Link as NLink, useNavigate } from "react-router-dom";
 
 import { useEffect } from "react";
+import useLogin from "../apis/login";
+import useOTP from "../apis/otp";
 import useCustomTheme from "../hooks/useCustomTheme";
 import useGlobalState from "../hooks/useGlobalState";
-import useLogin from "../hooks/useLogin";
-import useOTP from "../hooks/useOTP";
 import authbg from "/authbg.png";
 
 const Login = () => {

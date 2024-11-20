@@ -2,35 +2,35 @@ import {
     Box,
     Button,
     FormControl,
+    FormHelperText,
     FormLabel,
     Heading,
+    HStack,
     Image,
     Input,
-    Stack,
-    Text,
-    VStack,
-    HStack,
-    Select,
     Modal,
-    ModalOverlay,
-    ModalContent,
-    ModalHeader,
-    ModalFooter,
     ModalBody,
     ModalCloseButton,
+    ModalContent,
+    ModalFooter,
+    ModalHeader,
+    ModalOverlay,
+    Select,
+    Stack,
+    Text,
     useDisclosure,
     useToast,
-    FormHelperText
+    VStack
 } from '@chakra-ui/react';
 import { useState } from 'react';
 import { Link as NLink } from 'react-router-dom';
-import useGlobalState from '../hooks/useGlobalState';
-import useSignup from '../hooks/useSignup';
-import authbg from '/authbg.png';
-import useCustomTheme from '../hooks/useCustomTheme';
-import VerifyOTP from '../components/VerifyOTP';
-import useOTP from '../hooks/useOTP';
 import validator from 'validator';
+import useOTP from '../apis/otp';
+import useSignup from '../apis/signup';
+import VerifyOTP from '../components/VerifyOTP';
+import useCustomTheme from '../hooks/useCustomTheme';
+import useGlobalState from '../hooks/useGlobalState';
+import authbg from '/authbg.png';
 
 const Register = () => {
     const [email, setEmail] = useState('');
