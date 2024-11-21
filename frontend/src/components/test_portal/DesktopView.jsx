@@ -14,7 +14,7 @@ import { useEffect, useState } from 'react';
 
 import SectionSteps from '../SectionSteps';
 
-import { MH2, N1, P1, P2,L1,BM1,BM2 } from '../../assets/illustrations';
+
 
 const DesktopView = ({
     currentQuestionIndex,
@@ -31,7 +31,7 @@ const DesktopView = ({
     images
 }) => {
 
-    
+
 
     return (
         <Box w="100%" minH="100svh">
