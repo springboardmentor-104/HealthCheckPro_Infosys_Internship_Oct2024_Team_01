@@ -28,6 +28,9 @@ import useAssessment from '../../../apis/assessment';
 import image from '../../../assets/doctor.png';
 import useCustomTheme from '../../../hooks/useCustomTheme';
 
+import NWImg from '../../../assets/banner-nr1.gif';
+import NewLoginLogo from '../../../assets/illustrations/newl-3.gif';
+
 import { Link as ScrollLink } from 'react-scroll';
 
 
@@ -215,16 +218,19 @@ const UserStatusUI = () => {
                         </Box>
                     ) : (
 
-                        <Box w="100%" p={5} bg={cardBg} rounded="md" boxShadow="lg" textAlign="center" mt={5}>
-                            <Heading size="lg" color="blue.600" mb={3}>
-                                Ready for a New Challenge?
-                            </Heading>
-                            <Text fontSize="md" mb={5}>
-                                Start a new round to continue improving your health and track your progress.
-                            </Text>
-                            <Button colorScheme="blue" size="lg" onClick={handleStartRound}>
-                                Start New Round
-                            </Button>
+                        <Box  w="100%" overflow="hidden"  bg={cardBg} rounded="md" boxShadow="lg" textAlign="center"  bgImage={NWImg} bgSize="cover" bgRepeat="no-repeat" >
+
+                                <Box p="80px" bgColor="rgb(0,0,0,.1)">
+                                    <Heading size="lg" mb={3}>
+                                        Ready for a New Challenge?
+                                    </Heading>
+                                    <Text fontSize="md" mb={5} color="white">
+                                        Start a new round to continue improving your health and track your progress.
+                                    </Text>
+                                    <Button colorScheme="blue" size="lg" onClick={handleStartRound}>
+                                        Start New Round
+                                    </Button>
+                                </Box>
                         </Box>
                     )}
 
@@ -309,7 +315,7 @@ const UserStatusUI = () => {
             ) : (
                 <Flex w="100%" h="100vh" alignItems="center" justifyContent="center" bg={cardBg} p={5}>
                     <VStack spacing={8} textAlign="center">
-                        <Image src={appLogo} alt="Welcome" boxSize="200px" />
+                        <Image src={NewLoginLogo} alt="Welcome" boxSize="300px" />
                         <Box>
                             <Text fontSize="3xl" fontWeight="bold" color="blue.600">
                                 Welcome to HealthCheckPro!

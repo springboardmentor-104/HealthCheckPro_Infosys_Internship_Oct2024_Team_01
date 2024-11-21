@@ -7,7 +7,7 @@ import {
   Tag
 } from '@chakra-ui/react';
 
-import banner from '../../../assets/banner.jpg';
+import banner from '../../../assets/banner4.gif';
 
 import useGlobalState from '../../../hooks/useGlobalState';
 
@@ -27,7 +27,7 @@ const UserProfileUI = () => {
           position="relative"
           // overflow="hidden"
           bgImage={banner}
-          bgSize="cover"
+          bgSize='contain'
           bgPos="center"
           mb={8}
           shadow="md"

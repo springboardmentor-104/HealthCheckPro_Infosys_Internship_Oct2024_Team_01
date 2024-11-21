@@ -26,6 +26,7 @@ const MobileView = ({
     currentQuestion,
     handleOptionSelect,
     loading,
+    images
 }) => {
     return (
         <Box w="100%" minH="100vh" overflow="hidden">
@@ -67,7 +68,7 @@ const MobileView = ({
                                 ))}
                             </Grid>
                             <Image
-                                src={MH2}
+                                src={images[currentCategoryIndex]}
                                 alt="Illustration"
                                 position="absolute"
                                 top="50%"

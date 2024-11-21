@@ -6,6 +6,11 @@ import useAssessment from '../apis/assessment';
 import useCategory from '../apis/category';
 import DesktopView from '../components/test_portal/DesktopView';
 import MobileView from '../components/test_portal/MobileView';
+import { MH2,N1,
+    P1,
+    L1,
+    BM1
+ } from '../assets/illustrations';
 
 const TestPortal = () => {
     const [currentCategoryIndex, setCurrentCategoryIndex] = useState(0);
@@ -18,6 +23,7 @@ const TestPortal = () => {
     const { fetchCategories, fetchQuestionsByCategory, loadingQuestions, loadingCategories } = useCategory();
     const { submitCategoryAssessment, fetchAssessmentStatus } = useAssessment();
     const [loading, setLoading] = useState(false);
+    const images = [MH2, N1,P1,L1,BM1]; // Add more images as needed
 
     useEffect(() => {
         const getAssessmentStatus = async () => {
@@ -124,6 +130,7 @@ const TestPortal = () => {
             currentQuestion={currentQuestion}
             handleOptionSelect={handleOptionSelect}
             loading={loading}
+            images={images}
         />
     ) : (
         <DesktopView
@@ -138,6 +145,7 @@ const TestPortal = () => {
             currentQuestion={currentQuestion}
             handleOptionSelect={handleOptionSelect}
             loading={loading}
+            images={images}
         />
     );
 };

@@ -1,4 +1,3 @@
-
 import {
     Box,
     Button,
@@ -9,12 +8,13 @@ import {
     Text,
     VStack,
     Grid,
-    
 } from '@chakra-ui/react';
+
+import { useEffect, useState } from 'react';
 
 import SectionSteps from '../SectionSteps';
 
-import {MH2} from '../../assets/illustrations';
+import { MH2, N1, P1, P2,L1,BM1,BM2 } from '../../assets/illustrations';
 
 const DesktopView = ({
     currentQuestionIndex,
@@ -28,7 +28,11 @@ const DesktopView = ({
     currentQuestion,
     handleOptionSelect,
     loading,
+    images
 }) => {
+
+    
+
     return (
         <Box w="100%" minH="100svh">
             <Progress colorScheme="blue" size="md" w="100%" value={(currentQuestionIndex + 1) / questions.length * 100} />
@@ -51,7 +55,7 @@ const DesktopView = ({
                         </Skeleton>
                         <HStack w="100%" gap={10} position="relative">
                             <Box w="50%" mb={4} display="flex" justifyContent="center">
-                                <Image src={MH2} alt="Illustration" width="full" />
+                                <Image src={images[currentCategoryIndex]} alt="Illustration" width="full" />
                             </Box>
                             <Grid h="100%" mt={4} gap={4} w="100%" zIndex={2}>
                                 {currentQuestion && currentQuestion.options.map((option, index) => (
@@ -70,17 +74,7 @@ const DesktopView = ({
                                     </Skeleton>
                                 ))}
                             </Grid>
-                            <Image
-                                src={MH2}
-                                alt="Illustration"
-                                position="absolute"
-                                top="50%"
-                                left="50%"
-                                transform="translate(-50%, -50%)"
-                                width="80%"
-                                opacity={0.1}
-                                display={{ base: "block", md: "none" }}
-                            />
+
                         </HStack>
                         <HStack justify="flex-end" mt={8} width="100%">
                             <Button colorScheme="blue" size="lg" onClick={handleNextQuestion} disabled={!selectedAnswer || loading} isLoading={loading}>
