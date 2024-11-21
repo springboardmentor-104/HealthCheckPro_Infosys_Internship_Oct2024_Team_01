@@ -60,9 +60,7 @@ const Navbar = () => {
             }} py={3} px={10} justify="space-between" align="center" position="fixed" zIndex={5} bg={
                 navBg
             } left={0} right={0}>
-                <Heading size={"md"} color={"blue.600"}>
-                    HealthCheckPro
-                </Heading>
+                <Image src={appLogo} boxSize={70}/>
                 <HStack display={{ base: "none", md: "flex" }} gap={10}>
                     <ScrollLink to="home" smooth={true} duration={500} style={{ textDecoration: 'none' }}>
                         <span style={{ textDecoration: 'underline', textDecorationColor: activeSection === 'home' ? 'blue' : 'transparent', textUnderlineOffset: '4px', transition: 'text-decoration-color 0.3s', fontWeight: activeSection === 'home' ? 'bold' : 'normal' }}>Home</span>

@@ -7,21 +7,15 @@ import {
     Progress,
     Skeleton,
     Stack,
-    Table,
     Tag,
-    Tbody,
-    Td,
     Text,
-    Th,
-    Thead,
-    Tr,
     VStack
 } from '@chakra-ui/react';
 import { useEffect, useState, memo } from 'react';
 
 import { SimpleGrid } from '@chakra-ui/react';
 import PropTypes from 'prop-types';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 
 import {
     Cell,
@@ -34,6 +28,7 @@ import useAssessment from '../../../apis/assessment';
 import image from '../../../assets/doctor.png';
 import useCustomTheme from '../../../hooks/useCustomTheme';
 
+import { Link as ScrollLink } from 'react-scroll';
 
 
 const UserStatusUI = () => {
@@ -48,7 +43,7 @@ const UserStatusUI = () => {
                         <Pie
                             data={[
                                 { name: 'Score', value: category.totalScore },
-                                { name: 'Total', value: category.maxScore - category.totalScore }
+                                { name: 'Remaining', value: category.maxScore - category.totalScore }
                             ]}
                             innerRadius={50}
                             outerRadius={80}
@@ -86,7 +81,7 @@ const UserStatusUI = () => {
     const [latestAssessment, setLatestAssessment] = useState(null);
     const [attempts, setAttempts] = useState([]);
     const [loading, setLoading] = useState(true);
-    const { cardBg } = useCustomTheme();
+    const { cardBg, appLogo } = useCustomTheme();
     const history = useNavigate();
 
     // Fetch data on component mount
@@ -239,14 +234,17 @@ const UserStatusUI = () => {
                                 <Heading color="blue.600">
                                     Health Report
                                 </Heading>
-                                <HStack gap={3}>
+                                <Stack direction={{ base: 'column', md: 'row' }} gap={3}>
+
+                                    <Button as={ScrollLink} to='report' smooth={true} duration={500} variant="ghost" size="sm" colorScheme="blue">View Suggestions</Button>
+
                                     <Tag colorScheme="blue" variant="solid" size="lg">
                                         Attempt Number: {latestAssessment.latestCompleteAttempt.attemptNumber}
                                     </Tag>
                                     <Tag size="lg" variant="outline" colorScheme="blue">
                                         Date: {new Date(latestAssessment.latestCompleteAttempt.date).toLocaleDateString()}
                                     </Tag>
-                                </HStack>
+                                </Stack>
                             </Stack>
 
                             <Stack direction={{ base: 'column', md: 'row' }} width="100%" h="100%" flex={1} mt={5} gap={5} >
@@ -262,7 +260,7 @@ const UserStatusUI = () => {
                                 </SimpleGrid>
                             </Stack>
 
-                            <Box mt={10}>
+                            <Box mt={10} id='report'>
                                 <Skeleton isLoaded={!loading}>
                                     <Heading mb={5} size="lg" color="blue.600">Report Summary</Heading>
                                     {healthStatus(latestAssessment.latestCompleteAttempt.overallScore, latestAssessment.latestCompleteAttempt.overallMaxScore)}
@@ -290,7 +288,7 @@ const UserStatusUI = () => {
                         <SimpleGrid columns={{ base: 1, md: 2, lg: 3 }} spacing={5}>
                             {attempts.map((attempt) => (
                                 <Skeleton key={attempt._id} isLoaded={!loading}>
-                                    <Box p={5} bg="white" boxShadow="md" rounded="md">
+                                    <Box p={5} bg={cardBg} boxShadow="md" rounded="md">
                                         <Heading size="md" color="blue.600" mb={3}>
                                             Attempt {attempt.attemptNumber}
                                         </Heading>
@@ -309,10 +307,21 @@ const UserStatusUI = () => {
 
                 </>
             ) : (
-                <Flex w="100%" h={"300px"} alignItems="center">
-                    <Button mt={5} mx="auto" colorScheme="blue" size="lg" onClick={startNewRound}>
-                        Start New Round
-                    </Button>
+                <Flex w="100%" h="100vh" alignItems="center" justifyContent="center" bg={cardBg} p={5}>
+                    <VStack spacing={8} textAlign="center">
+                        <Image src={appLogo} alt="Welcome" boxSize="200px" />
+                        <Box>
+                            <Text fontSize="3xl" fontWeight="bold" color="blue.600">
+                                Welcome to HealthCheckPro!
+                            </Text>
+                            <Text fontSize="lg" color="gray.600" mt={3}>
+                                We're excited to have you here. Let's get started on your journey to better health.
+                            </Text>
+                        </Box>
+                        <Button mt={5} colorScheme="blue" size="lg" onClick={startNewRound}>
+                            Start Your First Health Assessment
+                        </Button>
+                    </VStack>
                 </Flex>
             )}
 

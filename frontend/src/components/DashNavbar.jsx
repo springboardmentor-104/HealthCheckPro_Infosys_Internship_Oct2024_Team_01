@@ -7,7 +7,8 @@ import {
     Avatar,
     Button,
     Heading, HStack,
-    VStack
+    VStack,
+    Image
 } from "@chakra-ui/react";
 import useCustomTheme from "../hooks/useCustomTheme";
 
@@ -23,7 +24,7 @@ const DashNavbar = () => {
         navigate('/');
     }
     const location = useLocation();
-    const { navBg } = useCustomTheme();
+    const { navBg,appLogo } = useCustomTheme();
     return (
         <>
             <HStack display={{
@@ -34,9 +35,7 @@ const DashNavbar = () => {
                 zIndex={9999} py={3} px={10} w="100%" justify="space-between" position="fixed" top={0}  >
 
                 <HStack>
-                    <Heading size={"md"} color={"blue.600"}>
-                        HealthCheckPro
-                    </Heading>
+                <Image src={appLogo} boxSize={70}/>
                 </HStack>
                 <Button colorScheme="blue" variant="ghost"></Button>
                 <HStack>
