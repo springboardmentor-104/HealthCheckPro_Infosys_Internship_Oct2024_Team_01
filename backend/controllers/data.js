@@ -85,6 +85,7 @@ export default [
                     },
                     {
                         "optionId": "3C",
+                    },
                     {
                         "optionId": "3D",
                         "optionText": "8-10 cups",

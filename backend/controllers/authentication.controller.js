@@ -1,11 +1,30 @@
-import User, {
-  verifiedEmails,
-  otpStore
-} from "../models/user.model.js";
+import User, { verifiedEmails, otpStore } from "../models/user.model.js";
 import generateToken from "../helpers/generateToken.js";
 import validator from "validator";
 import bcrypt from "bcryptjs";
 import nodemailer from "nodemailer";
+
+// Helper function for error responses
+const handleError = (res, message, statusCode = 400) => {
+  if (!res.headersSent) {
+    res.status(statusCode).json({ message });
+  }
+};
+
+// Helper function to validate email format
+const validateEmail = (email) => {
+  if (!email) throw new Error("Email is required");
+  if (!validator.isEmail(email)) throw new Error("Invalid email format");
+};
+
+// Configure nodemailer transporter
+const transporter = nodemailer.createTransport({
+  service: "gmail",
+  auth: {
+    user: process.env.EMAIL,
+    pass: process.env.EMAIL_PASSWORD,
+  },
+});
 
 const sendOTP = async (req, res) => {
   try {
@@ -19,7 +38,7 @@ const sendOTP = async (req, res) => {
       throw new Error("Email is not valid. Please enter a valid email");
     }
 
-    // Send an email with the OTP code
+    // Set up nodemailer transporter
     const transporter = nodemailer.createTransport({
       service: "gmail",
       auth: {
@@ -28,7 +47,7 @@ const sendOTP = async (req, res) => {
       },
     });
 
-    // Generates a 6-digit OTP
+    // Generate a 6-digit OTP
     const otp = Math.floor(100000 + Math.random() * 900000).toString();
 
     // Save the OTP in the temporary store
@@ -41,45 +60,38 @@ const sendOTP = async (req, res) => {
       text: `Your OTP code is ${otp}`,
     };
 
-    const emailRes = await transporter.sendMail(mailOptions)
-      .catch((err) => {
-        return res.status(400).json({ message: err.message });
-      });
-
+    // Attempt to send email
+    const emailRes = await transporter.sendMail(mailOptions);
+    
     if (emailRes) {
-      verifiedEmails[email] = otp;
-      // console.log('=== verifiedEmails authentication.controller.js [51] ===', verifiedEmails,otpStore);
+      verifiedEmails[email] = otp; // Store verified emails
+      return res.status(201).json({ message: "OTP sent to your mail" });
     }
-
-    return res.status(201).json({ message: "OTP sent to your mail" });
   } catch (err) {
-    return res.status(400).json({ message: err.message });
+    if (!res.headersSent) { // Ensure response is not sent twice
+      return res.status(400).json({ message: err.message });
+    }
   }
 };
+
 
 const verifyOTP = async (req, res) => {
   try {
     const { email, otp } = req.body;
-    // console.log('=== email,otp authentication.controller.js [63] ===', email,otp);
+    validateEmail(email);
 
-    if (!email || !otp) {
-      throw new Error("Please fill all the fields");
-    }
+    if (!otp) throw new Error("OTP is required");
 
-    if (!validator.isEmail(email)) {
-      throw new Error("Email is not valid. Please enter a valid email");
-    }
-
-    if(otpStore[email] !== otp){
-      throw new Error("OTP not verified");
+    if (otpStore[email]?.otp !== otp) {
+      throw new Error("Invalid OTP");
     }
 
     verifiedEmails[email] = true;
     delete otpStore[email];
 
-    res.status(200).json({ message: "Email verified successfully!" });
+    return res.status(200).json({ message: "Email verified successfully!" });
   } catch (err) {
-    res.status(400).json({ message: err.message });
+    handleError(res, err.message);
   }
 };
 
@@ -87,24 +99,20 @@ const createAccount = async (req, res) => {
   try {
     const { email, password, username, gender, age, confirmPassword } = req.body;
 
-    if (!email || !password || !username || !age || !gender) {
-      throw new Error("Please fill all the fields");
+    if (!username || !age || !gender) {
+      throw new Error("All fields are required");
     }
-
-    if (!validator.isEmail(email)) {
-      throw new Error("Email is not valid. Please enter a valid email");
-    }
+    validateEmail(email);
 
     if (password !== confirmPassword) {
       throw new Error("Passwords do not match");
     }
 
     if (!validator.isStrongPassword(password)) {
-      throw new Error("Password is not strong enough.\nMust contain at least: \n8 characters \n1 uppercase \n1 lowercase \n1 number  \n1 symbol");
+      throw new Error("Password is not strong enough");
     }
 
-    const genSalt = await bcrypt.genSalt(10);
-    const hashedPassword = await bcrypt.hash(password, genSalt);
+    const hashedPassword = await bcrypt.hash(password, 10);
 
     const user = await User.create({
       email,
@@ -112,95 +120,67 @@ const createAccount = async (req, res) => {
       gender,
       age,
       password: hashedPassword,
-      profilePic: ""
-    })
-
-    user.save();
+      profilePic: "",
+    });
 
     const token = generateToken(user._id);
-    return res.status(201).json({
-      token,
-      email,
-      username,
-      profilePic: ""
-    });
+    return res.status(201).json({ token, email, username, profilePic: "" });
   } catch (err) {
-    return res.status(400).json({ message: err.message });
+    handleError(res, err.message);
   }
 };
 
 const loginUser = async (req, res) => {
   try {
     const { email, password } = req.body;
+    validateEmail(email);
 
-    if (!email || !password) {
-      throw new Error("Please fill all the fields");
-    }
-
-    if (!validator.isEmail(email)) {
-      throw new Error("Email is not valid");
-    }
+    if (!password) throw new Error("Password is required");
 
     const user = await User.findOne({ email });
+    if (!user) throw new Error("User does not exist");
 
-    if (!user) {
-      throw new Error("User does not exist");
-    }
-
-    const match = await bcrypt.compare(password, user.password);
-
-    if (!match) {
-      throw new Error("Wrong password");
-    }
+    const isMatch = await bcrypt.compare(password, user.password);
+    if (!isMatch) throw new Error("Incorrect password");
 
     const token = generateToken(user._id);
-    res.status(201).json({
-      token,
-      username: user.username,
-      email,
-    });
+    return res.status(200).json({ token, username: user.username, email });
   } catch (err) {
-    res.status(400).json({ message: err.message });
+    handleError(res, err.message);
   }
 };
 
 const resetPassword = async (req, res) => {
-  const { email, password,confirmPassword } = req.body;
-
   try {
-    const user = await User.findOne({ email });
-    if (!user) {
-      throw new Error("User does not exist");
-    }
+    const { email, password, confirmPassword } = req.body;
+    validateEmail(email);
 
     if (password !== confirmPassword) {
       throw new Error("Passwords do not match");
     }
 
     if (!validator.isStrongPassword(password)) {
-      throw new Error("Password is not strong enough.\nMust contain at least: \n8 characters \n1 uppercase \n1 lowercase \n1 number  \n1 symbol");
+      throw new Error("Password is not strong enough");
     }
 
-    const salt = await bcrypt.genSalt(10);
-    const hashedPassword = await bcrypt.hash(password, salt);
+    const user = await User.findOne({ email });
+    if (!user) throw new Error("User does not exist");
 
-    user.password = hashedPassword;
+    user.password = await bcrypt.hash(password, 10);
     await user.save();
 
     delete otpStore[email];
 
-    res.status(200).json({ message: "Password reset successfully!" });
-  } catch (error) {
-    console.log(error);
-    res.status(500).json({ error: error.message });
+    return res.status(200).json({ message: "Password reset successfully!" });
+  } catch (err) {
+    handleError(res, err.message);
   }
 };
-
 
 export {
   createAccount,
   loginUser,
   resetPassword,
   sendOTP,
-  verifyOTP
+  verifyOTP,
 };
