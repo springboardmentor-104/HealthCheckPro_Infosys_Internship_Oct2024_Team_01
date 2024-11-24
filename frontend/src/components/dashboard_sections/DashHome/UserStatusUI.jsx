@@ -167,19 +167,33 @@ const UserStatusUI = () => {
     };
 
     // Provide suggestions based on health score
-    const suggestions = (score, tot) => {
-        const percentage = Math.floor((score / tot) * 100);
-        if (percentage >= 90) {
-            return 'Keep up the good work! You are doing great. Your health is in excellent condition.';
-        } else if (percentage >= 75) {
-            return 'Great job! You are doing well. Keep up the good work.';
-        } else if (percentage >= 60) {
-            return 'Good job! You are doing well. Keep up the good work.';
-        } else if (percentage >= 40) {
-            return 'You are doing well. Keep up the good work.';
-        } else {
-            return 'You need to improve your health. Please consult a doctor for a health checkup.';
-        }
+    const suggestions = (assessments) => {
+        return (
+            <VStack align="start" spacing={3}>
+                {assessments.map((category, index) => {
+                    const percentage = Math.floor((category.totalScore / category.maxScore) * 100);
+                    let categoryFeedback;
+
+                    if (percentage >= 90) {
+                        categoryFeedback = `Excellent job in ${category.categoryName}! Keep up the great work.`;
+                    } else if (percentage >= 75) {
+                        categoryFeedback = `Good job in ${category.categoryName}. You're doing well, but there's room for improvement.`;
+                    } else if (percentage >= 60) {
+                        categoryFeedback = `Fair performance in ${category.categoryName}. Consider focusing more on this area.`;
+                    } else if (percentage >= 40) {
+                        categoryFeedback = `Needs improvement in ${category.categoryName}. Try to work harder in this category.`;
+                    } else {
+                        categoryFeedback = `Poor performance in ${category.categoryName}. It's important to pay more attention to this area.`;
+                    }
+
+                    return (
+                        <Box key={index} rounded="md" w="100%">
+                            <Text>{categoryFeedback}</Text>
+                        </Box>
+                    );
+                })}
+            </VStack>
+        );
     };
 
     // Category card component
@@ -285,7 +299,7 @@ const UserStatusUI = () => {
                                                 Insights
                                             </Heading>
                                             <Text>
-                                                {suggestions(latestAssessment.latestCompleteAttempt.overallScore, latestAssessment.latestCompleteAttempt.overallMaxScore)}
+                                                {suggestions(latestAssessment.latestCompleteAttempt.assessments)}
                                             </Text>
                                         </Box>
                                         <Box>
