@@ -11,6 +11,8 @@ import { MH2,N1,
     L1,
     BM1
  } from '../assets/illustrations';
+import { Image } from '@chakra-ui/react';
+import bg from '../../public/authbg.png';
 
 const TestPortal = () => {
     const [currentCategoryIndex, setCurrentCategoryIndex] = useState(0);
@@ -108,9 +110,24 @@ const TestPortal = () => {
 
     if (isQuizCompleted) {
         return (
-            <Box mt={20} w="100%" minH="100vh" p={6} display="flex" justifyContent="center" alignItems="center">
-                <Text fontSize="2xl" fontWeight="bold">Quiz Completed! Thank you for participating.</Text>
-                <Button as={Link} to="/dashboard">Go to Dashboard</Button>
+            <Box
+                mt={20}
+                w="100%"
+                minH="100vh"
+                p={6}
+                display="flex"
+                flexDirection="column"
+                justifyContent="center"
+                alignItems="center"
+                textAlign="center"
+            >
+                <Image src={bg} alt="Quiz Completed" position="fixed" mx="auto"   zIndex={-1} opacity={.1}/>
+                <Text fontSize="2xl" fontWeight="bold" mb={4}>
+                    Quiz Completed! Thank you for participating.
+                </Text>
+                <Button as={Link} to="/dashboard" colorScheme="blue">
+                    Go to Dashboard
+                </Button>
             </Box>
         );
     }
