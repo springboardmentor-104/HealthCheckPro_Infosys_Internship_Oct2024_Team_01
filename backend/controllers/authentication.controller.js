@@ -95,15 +95,13 @@ const createAccount = async (req, res) => {
       throw new Error("Email is not valid. Please enter a valid email");
     }
 
-    const userExists = await User({ email });
-
-    if(userExists){
-      throw new Error("User already exists");
+    // Check if the email already exists
+    const existingUser = await User.findOne({ email });
+    if (existingUser) {
+      return res.status(400).json({ message: "Email is already registered. Please use a different email." });
     }
 
-
-    const usernameExists = await User({ username });
-
+    const usernameExists = await User.findOne({ username });
     if(usernameExists){
       throw new Error("Username already taken");
     }
@@ -116,11 +114,6 @@ const createAccount = async (req, res) => {
       throw new Error("Password is not strong enough.\nMust contain at least: \n8 characters \n1 uppercase \n1 lowercase \n1 number  \n1 symbol");
     }
 
-    // Check if the email already exists
-    const existingUser = await User.findOne({ email });
-    if (existingUser) {
-      return res.status(400).json({ message: "Email is already registered. Please use a different email." });
-    }
 
     // Hash the password and create the user
     const genSalt = await bcrypt.genSalt(10);

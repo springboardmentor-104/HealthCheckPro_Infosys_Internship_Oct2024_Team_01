@@ -26,18 +26,15 @@ const userSchema = new Schema({
     required: true,
     min: 18,
     max: 99,
-    default: 18,
   },
   gender: {
     type: String,
     required: true,
     enum: ['Male', 'Female', 'Other'],
-    default: 'Male',
     trim: true,
   },
   password: {
     type: String,
-    default: "password",
     required: true,
   },
   profilePic: {
