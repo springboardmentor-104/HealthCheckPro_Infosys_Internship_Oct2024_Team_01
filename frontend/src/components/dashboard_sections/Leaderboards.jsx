@@ -19,7 +19,7 @@ const Leaderboards = () => {
         const fetchCategoriesData = async () => {
             const res = await fetchCategories();
             if (res) {
-                setCategories(res);
+                setCategories([{ _id: "6742d99bd5a7739799bfce47", categoryName: "Overall" },...res]);
                 if (res.length > 0) {
                     handleCategoryClick(res[0]._id);
                 }

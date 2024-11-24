@@ -2,12 +2,27 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <link id="favicon" rel="icon" type="image/svg+xml" href="/logo-light.svg" sizes="any"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Health Check Pro</title>
+    <title>HealthCheckPro</title>
   </head>
   <body>
     <div id="root"></div>
     <script type="module" src="/src/main.jsx"></script>
+    <script>
+      const favicon = document.getElementById('favicon');
+      const darkThemeMediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
+
+      function updateFavicon() {
+        if (darkThemeMediaQuery.matches) {
+          favicon.href = '/logo-dark.svg';
+        } else {
+          favicon.href = '/logo-light.svg';
+        }
+      }
+
+      darkThemeMediaQuery.addEventListener('change', updateFavicon);
+      updateFavicon();
+    </script>
   </body>
 </html>

@@ -14,6 +14,7 @@ import useCustomTheme from "../hooks/useCustomTheme";
 
 import { Link as NLink, useLocation, useNavigate } from "react-router-dom";
 import useGlobalState from "../hooks/useGlobalState";
+import ChangeTheme from "./ChangeTheme";
 
 const DashNavbar = () => {
     const { setUser } = useGlobalState();
@@ -35,13 +36,18 @@ const DashNavbar = () => {
                 zIndex={9999} py={3} px={10} w="100%" justify="space-between" position="fixed" top={0}  >
 
                 <HStack>
-                <Image src={appLogo} boxSize={70}/>
+                <Button variant="link" onClick={()=>{
+                    navigate('/')
+                }}>
+                    <Image src={appLogo} boxSize={70}/>
+                </Button>
                 </HStack>
                 <Button colorScheme="blue" variant="ghost"></Button>
                 <HStack>
                     <Button as={NLink} to="/dashboard/" colorScheme="blue" variant="ghost">Dashboard</Button>
                     <Button as={NLink} to="/dashboard/leaderboard" colorScheme="blue" variant="ghost">Leaderboard</Button>
                     <Button variant="outline" colorScheme="red" onClick={handleLogout}>Logout</Button>
+                    <ChangeTheme />
                 </HStack>
 
             </HStack>
@@ -63,8 +69,9 @@ const DashNavbar = () => {
                     </AccordionButton>
                     <AccordionPanel px={3} as={VStack} flex={1} w="100%">
                         <HStack display="flex" flex={1} w="full">
-                            <Button as={NLink} to="/dashboard/" colorScheme="blue" variant="outline">Overview</Button>
-                            <Button as={NLink} to="/dashboard/leaderboard" colorScheme="blue" variant="outline">Leaderboards</Button>
+                            <Button as={NLink} flex={1}  to="/dashboard/" colorScheme="blue" variant="outline">Dashboard</Button>
+                            <Button as={NLink} flex={1}  to="/dashboard/leaderboard" colorScheme="blue" variant="outline">Leaderboards</Button>
+                            <ChangeTheme   />
                         </HStack>
                         <Button w="100%" as={NLink} onClick={handleLogout} colorScheme="red" variant="solid">Logout</Button>
                     </AccordionPanel>

@@ -31,6 +31,7 @@ const Navbar = () => {
 
     useEffect(() => {
         const sections = document.querySelectorAll('section');
+        console.log('=== sections Navbar.jsx [34] ===', sections);
         const observer = new IntersectionObserver(
             (entries) => {
                 entries.forEach(entry => {
@@ -62,18 +63,20 @@ const Navbar = () => {
             } left={0} right={0}>
                 <Image src={appLogo} boxSize={70}/>
                 <HStack display={{ base: "none", md: "flex" }} gap={10}>
-                    <ScrollLink to="home" smooth={true} duration={500} style={{ textDecoration: 'none' }}>
-                        <span style={{ textDecoration: 'underline', textDecorationColor: activeSection === 'home' ? 'blue' : 'transparent', textUnderlineOffset: '4px', transition: 'text-decoration-color 0.3s', fontWeight: activeSection === 'home' ? 'bold' : 'normal' }}>Home</span>
-                    </ScrollLink>
-                    <ScrollLink to="features" smooth={true} duration={500} style={{ textDecoration: 'none' }} className={activeSection === 'features' ? 'active' : ''}>
-                        <span style={{ textDecoration: 'underline', textDecorationColor: activeSection === 'features' ? 'blue' : 'transparent', textUnderlineOffset: '4px', transition: 'text-decoration-color 0.3s', fontWeight: activeSection === 'features' ? 'bold' : 'normal' }}>Features</span>
-                    </ScrollLink>
-                    <ScrollLink to="contact" smooth={true} duration={500} style={{ textDecoration: 'none' }} className={activeSection === 'contact' ? 'active' : ''}>
-                        <span style={{ textDecoration: 'underline', textDecorationColor: activeSection === 'contact' ? 'blue' : 'transparent', textUnderlineOffset: '4px', transition: 'text-decoration-color 0.3s', fontWeight: activeSection === 'contact' ? 'bold' : 'normal' }}>Contact</span>
-                    </ScrollLink>
-                    <ScrollLink to="about" smooth={true} duration={500} style={{ textDecoration: 'none' }} className={activeSection === 'about' ? 'active' : ''}>
-                        <span style={{ textDecoration: 'underline', textDecorationColor: activeSection === 'about' ? 'blue' : 'transparent', textUnderlineOffset: '4px', transition: 'text-decoration-color 0.3s', fontWeight: activeSection === 'about' ? 'bold' : 'normal' }}>About</span>
-                    </ScrollLink>
+                    <Button as={ScrollLink} to="home" smooth={true} duration={500} variant="link" transition={{
+
+                    }} isActive={activeSection === 'home'} fontWeight={activeSection === 'home' ? 'bold' : 'normal'}>
+                        Home
+                    </Button>
+                    <Button as={ScrollLink} to="features" smooth={true} duration={500} variant="link" isActive={activeSection === 'features'} fontWeight={activeSection === 'features' ? 'bold' : 'normal'}>
+                        Features
+                    </Button>
+                    <Button as={ScrollLink} to="about" smooth={true} duration={500} variant="link" isActive={activeSection === 'about'} fontWeight={activeSection === 'about' ? 'bold' : 'normal'}>
+                        About
+                    </Button>
+                    <Button as={ScrollLink} to="contact" smooth={true} duration={500} variant="link" isActive={activeSection === 'contact'} fontWeight={activeSection === 'contact' ? 'bold' : 'normal'}>
+                        Contact
+                    </Button>
                     {user ? (
                         <HStack>
                             <Menu>
@@ -99,26 +102,22 @@ const Navbar = () => {
                 </HStack>
             </Flex>
 
-            <Accordion w="100svw" position="fixed" zIndex={5} bgColor={navBg} allowToggle display={{ base: "block", md: "none" }} p={3}>
+            <Accordion w="100svw" position="fixed" zIndex={5} bgColor={navBg} allowToggle display={{ base: "block", md: "none" }} >
                 <AccordionItem w="100%" border="none">
                     {({ isExpanded }) => (<>
                         <HStack pr={3}>
                             <AccordionButton w="100%" display="flex" justifyContent="space-between" >
                                 <Image src={appLogo} boxSize="80px" alt="Logo" /> {/* Mobile logo */}
-                                {/* <Heading size={"md"} color={"blue.600"} p={3}>
-                                HealthCheckPro
-                                </Heading> */}
-                                <IconButton colorScheme="blue" size="lg">{isExpanded ? <CloseIcon /> : <HamburgerIcon />}</IconButton>
-
+                                <IconButton variant="ghost" colorScheme="blue" size="lg">{isExpanded ? <CloseIcon /> : <HamburgerIcon />}</IconButton>
                             </AccordionButton>
-                            <ChangeTheme />
+
                         </HStack>
                         <AccordionPanel px={3} flex={1} as={VStack} w="100%">
                             <HStack display="flex"  w="100%" >
-                                <Button flex={1} as={ScrollLink} colorScheme="blue" variant="outline" to="home" smooth={true} duration={500} style={{ textDecoration: 'none' }} >Home</Button>
-                                <Button flex={1} as={ScrollLink} colorScheme="blue" variant="outline" to="about" smooth={true} duration={500} style={{ textDecoration: 'none' }} >About</Button>
-                                <Button flex={1} as={ScrollLink} colorScheme="blue" variant="outline" to="features" smooth={true} duration={500} style={{ textDecoration: 'none' }} >Features</Button>
-                                <Button flex={1} as={ScrollLink} colorScheme="blue" variant="outline" to="contact" smooth={true} duration={500} style={{ textDecoration: 'none' }} >Contact</Button>
+                                <Button flex={1} as={ScrollLink} colorScheme="blue" variant="outline" to="home" smooth={true} duration={500} isActive={activeSection === 'home'} fontWeight={activeSection === 'home' ? 'bold' : 'normal'}>Home</Button>
+                                <Button flex={1} as={ScrollLink} colorScheme="blue" variant="outline" to="about" smooth={true} duration={500} isActive={activeSection === 'about'} fontWeight={activeSection === 'about' ? 'bold' : 'normal'}>About</Button>
+                                <Button flex={1} as={ScrollLink} colorScheme="blue" variant="outline" to="features" smooth={true} duration={500} isActive={activeSection === 'features'} fontWeight={activeSection === 'features' ? 'bold' : 'normal'}>Features</Button>
+                                <Button flex={1} as={ScrollLink} colorScheme="blue" variant="outline" to="contact" smooth={true} duration={500} isActive={activeSection === 'contact'} fontWeight={activeSection === 'contact' ? 'bold' : 'normal'}>Contact</Button>
                             </HStack>
 
                             {user ? (
@@ -129,6 +128,8 @@ const Navbar = () => {
                                     <Button width="100%" colorScheme="blue" as={Link} to="/register" >Register</Button>
                                 </VStack>
                             )}
+
+                            <ChangeTheme />
                         </AccordionPanel></>)}
                 </AccordionItem>
             </Accordion>

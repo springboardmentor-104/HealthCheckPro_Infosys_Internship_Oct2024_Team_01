@@ -25,7 +25,7 @@ const Features = () => {
   ], []);
 
   return (
-    <Flex bg={featuresBg} py={10} px={6} justify="space-between" align="center" id="features" flexDirection={{
+    <Flex as="section" bg={featuresBg} py={10} px={6} justify="space-between" align="center" id="features" flexDirection={{
       base: "column",
       md: "row"
     }}>

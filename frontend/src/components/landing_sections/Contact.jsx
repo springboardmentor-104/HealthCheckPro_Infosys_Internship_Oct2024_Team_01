@@ -30,7 +30,7 @@ const Contact = () => {
     ], []);
 
     return (
-        <Box bg={footerBg} borderTop="2px" p={{ base: 5, md: 10 }} id="contact">
+        <Box as='section' bg={footerBg}  p={{ base: 5, md: 10 }} id="contact">
             <HStack justify="space-between">
                 <VStack width="40%" align="center" gap={5} display={{ base: "none", md: "flex" }}>
                     <Heading size="xl">HealthCheckPro</Heading>

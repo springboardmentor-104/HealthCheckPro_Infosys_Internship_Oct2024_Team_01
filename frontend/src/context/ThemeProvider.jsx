@@ -32,13 +32,14 @@ const ThemeProvider = ({ children }) => {
         sponsersBg: useColorModeValue('gray.100', 'gray.500'),
         aboutBg: useColorModeValue('blue.50', 'gray.900'),
         featuresBg: useColorModeValue('gray.50', '#1a202c'),
-        footerBg: useColorModeValue('#f0f4ff', '#1a202c'),
+        footerBg: useColorModeValue('#FFFFFF', '#000000'),
         cardBg: useColorModeValue('white', '#2d3748'),
         leaderboardGradients: useColorModeValue(lightGradients, darkGradients),
         landingBg : useColorModeValue("gray.10", "gray.800"),
         textColor : useColorModeValue("black", "white"),
         headingColor : useColorModeValue("blue.500", "blue.300"),
         subheadingColor : useColorModeValue("gray.600", "gray.400"),
+        bgOverlay: useColorModeValue("rgba(0, 0, 0, 0.2)", "rgba(0, 0, 0, 0.7)"),
     };
 
     const appLogo = useColorModeValue(logoLight, logoDark);

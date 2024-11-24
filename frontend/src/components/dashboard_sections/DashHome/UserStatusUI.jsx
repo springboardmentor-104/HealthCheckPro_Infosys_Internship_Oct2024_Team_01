@@ -84,7 +84,7 @@ const UserStatusUI = () => {
     const [latestAssessment, setLatestAssessment] = useState(null);
     const [attempts, setAttempts] = useState([]);
     const [loading, setLoading] = useState(true);
-    const { cardBg, appLogo } = useCustomTheme();
+    const { cardBg, bgOverlay } = useCustomTheme();
     const history = useNavigate();
 
     // Fetch data on component mount
@@ -218,9 +218,12 @@ const UserStatusUI = () => {
                         </Box>
                     ) : (
 
-                        <Box  w="100%" overflow="hidden"  bg={cardBg} rounded="md" boxShadow="lg" textAlign="center"  bgImage={NWImg} bgSize="cover" bgRepeat="no-repeat" >
+                        <Box  w="100%" overflow="hidden"  bg={cardBg} rounded={{
+                            base: 'none',
+                            md: 'md'
+                        }} boxShadow="lg" textAlign="center"  bgImage={NWImg} bgSize="cover" bgRepeat="no-repeat" >
 
-                                <Box p="80px" bgColor="rgb(0,0,0,.1)">
+                                <Box p="80px" bgColor={bgOverlay}>
                                     <Heading size="lg" mb={3}>
                                         Ready for a New Challenge?
                                     </Heading>
@@ -237,7 +240,10 @@ const UserStatusUI = () => {
                     {latestAssessment?.latestCompleteAttempt && (
                         <Box p={5} rounded="md" mt={5} >
                             <Stack direction={{ base: 'column', md: 'row' }} justify="space-between" alignItems="center" gap={3}>
-                                <Heading color="blue.600">
+                                <Heading color="blue.600" textAlign={{
+                                    base: 'center',
+                                    md: 'left'
+                                }}>
                                     Health Report
                                 </Heading>
                                 <Stack direction={{ base: 'column', md: 'row' }} gap={3}>
@@ -268,7 +274,10 @@ const UserStatusUI = () => {
 
                             <Box mt={10} id='report'>
                                 <Skeleton isLoaded={!loading}>
-                                    <Heading mb={5} size="lg" color="blue.600">Report Summary</Heading>
+                                    <Heading mb={5} size="lg" color="blue.600" textAlign={{
+                                    base: 'center',
+                                    md: 'left'
+                                }}>Report Summary</Heading>
                                     {healthStatus(latestAssessment.latestCompleteAttempt.overallScore, latestAssessment.latestCompleteAttempt.overallMaxScore)}
                                     <Stack direction={{ base: 'column', md: 'row' }} p={5} bg={cardBg} rounded="md" boxShadow="md">
                                         <Box flex={1}>
@@ -289,7 +298,10 @@ const UserStatusUI = () => {
                     )}
 
 
-                    <Heading mb={5} color="blue.600">Assessment History</Heading>
+                    <Heading textAlign={{
+                                    base: 'center',
+                                    md: 'left'
+                                }} mb={5} color="blue.600">Assessment History</Heading>
                     <Box w="100%" h="500px" rounded="md" mt={5} p={5} overflowY="auto">
                         <SimpleGrid columns={{ base: 1, md: 2, lg: 3 }} spacing={5}>
                             {attempts.map((attempt) => (

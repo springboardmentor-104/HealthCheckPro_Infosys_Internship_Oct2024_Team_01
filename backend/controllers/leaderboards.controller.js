@@ -1,10 +1,12 @@
 
 import UserAssessmentHistory from "../models/assessment.model.js";
 import LeaderBoard from "../models/leaderboard.model.js";
+import User from "../models/user.model.js";
 
 export const getLeaderboard = async (req, res) => {
     try {
         const category = req.params.category;
+        
         const leaderboard = await LeaderBoard.find({ category }).sort({ score: -1 });
         res.status(200).json({ leaderboard });
     } catch (error) {
@@ -13,17 +15,7 @@ export const getLeaderboard = async (req, res) => {
     }
 }
 
-const fetchAllLeaderboardRanks = async (userId) => {
-    const allCategoryRanksOfUser = await LeaderBoard.find({ userId });
 
-    const rankMapping = {};
-
-    allCategoryRanksOfUser.forEach(categoryRank => {
-        rankMapping[categoryRank.category] = categoryRank.score;
-    })
-
-    return rankMapping;
-}
 
 export const updateLeaderBoard = async (userId, username, lastAttemptNumber) => {
     try {
@@ -42,6 +34,7 @@ export const updateLeaderBoard = async (userId, username, lastAttemptNumber) => 
                 })
                 await newRank.save();
             }))
+
         } else {
             const leaderboardRanks = await fetchAllLeaderboardRanks(userId);
 

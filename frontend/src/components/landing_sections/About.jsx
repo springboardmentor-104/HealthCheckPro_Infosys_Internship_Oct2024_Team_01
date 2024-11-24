@@ -29,7 +29,7 @@ const About = () => {
     const { aboutBg, cardBg } = useCustomTheme();
 
     return (
-        <Box p={5} bgColor={aboutBg} id='about'>
+        <Box as='section' p={5} bgColor={aboutBg} id='about'>
             <Flex align="center" p={5} direction={{
                 base: "column",
                 md: "row"
@@ -43,7 +43,9 @@ const About = () => {
                     </Text>
                 </Box>
                 <Grid width="30%" placeItems="center">
-                    <Button width="fit-content" size="lg" colorScheme="blue" rightIcon={<ExternalLinkIcon />}>
+                    <Button width="fit-content" size="lg" colorScheme="blue" rightIcon={<ExternalLinkIcon />} onClick={()=>{
+                        window.open('https://infosys-team1-work-tracker.netlify.app/')
+                    }}>
                         Learn More
                     </Button>
                 </Grid>
