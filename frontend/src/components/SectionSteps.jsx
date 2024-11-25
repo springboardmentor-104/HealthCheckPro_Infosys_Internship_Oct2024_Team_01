@@ -32,7 +32,9 @@ const SectionSteps = ({ loadingCategories, currentCategoryIndex, categories }) =
     const activeStepText = categories[activeStep]?.categoryName;
 
     return (
-        <Box width="100%" p={4}>
+        <Skeleton isLoaded={
+            !loadingCategories
+        } width="100%" p={4}>
             <Stepper
                 size='md'
                 minWidth={orientation === 'horizontal' ? 'auto' : '200px'}
@@ -60,7 +62,7 @@ const SectionSteps = ({ loadingCategories, currentCategoryIndex, categories }) =
                     {activeStepText}
                 </Heading>
             )}
-        </Box>
+        </Skeleton>
     );
 };
 

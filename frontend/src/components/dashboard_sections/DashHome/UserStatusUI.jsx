@@ -1,6 +1,8 @@
 import {
     Box,
     Button,
+    CircularProgress,
+    CircularProgressLabel,
     Flex, Heading,
     HStack,
     Image,
@@ -32,7 +34,15 @@ import NWImg from '../../../assets/banner-nr1.gif';
 import NewLoginLogo from '../../../assets/illustrations/newl-3.gif';
 
 import { Link as ScrollLink } from 'react-scroll';
+import {
 
+    Table,
+    Tbody,
+    Td,
+    Th,
+    Thead,
+    Tr,
+} from '@chakra-ui/react';
 
 const UserStatusUI = () => {
 
@@ -232,22 +242,22 @@ const UserStatusUI = () => {
                         </Box>
                     ) : (
 
-                        <Box  w="100%" overflow="hidden"  bg={cardBg} rounded={{
+                        <Box w="100%" overflow="hidden" bg={cardBg} rounded={{
                             base: 'none',
                             md: 'md'
-                        }} boxShadow="lg" textAlign="center"  bgImage={NWImg} bgSize="cover" bgRepeat="no-repeat" >
+                        }} boxShadow="lg" textAlign="center" bgImage={NWImg} bgSize="cover" bgRepeat="no-repeat" >
 
-                                <Box p="80px" bgColor={bgOverlay}>
-                                    <Heading size="lg" mb={3}>
-                                        Ready for a New Challenge?
-                                    </Heading>
-                                    <Text fontSize="md" mb={5} color="white">
-                                        Start a new round to continue improving your health and track your progress.
-                                    </Text>
-                                    <Button colorScheme="blue" size="lg" onClick={handleStartRound}>
-                                        Start New Round
-                                    </Button>
-                                </Box>
+                            <Box p="80px" bgColor={bgOverlay}>
+                                <Heading size="lg" mb={3}>
+                                    Ready for a New Challenge?
+                                </Heading>
+                                <Text fontSize="md" mb={5} color="white">
+                                    Start a new round to continue improving your health and track your progress.
+                                </Text>
+                                <Button colorScheme="blue" size="lg" onClick={handleStartRound}>
+                                    Start New Round
+                                </Button>
+                            </Box>
                         </Box>
                     )}
 
@@ -289,9 +299,9 @@ const UserStatusUI = () => {
                             <Box mt={10} id='report'>
                                 <Skeleton isLoaded={!loading}>
                                     <Heading mb={5} size="lg" color="blue.600" textAlign={{
-                                    base: 'center',
-                                    md: 'left'
-                                }}>Report Summary</Heading>
+                                        base: 'center',
+                                        md: 'left'
+                                    }}>Report Summary</Heading>
                                     {healthStatus(latestAssessment.latestCompleteAttempt.overallScore, latestAssessment.latestCompleteAttempt.overallMaxScore)}
                                     <Stack direction={{ base: 'column', md: 'row' }} p={5} bg={cardBg} rounded="md" boxShadow="md">
                                         <Box flex={1}>
@@ -313,28 +323,53 @@ const UserStatusUI = () => {
 
 
                     <Heading textAlign={{
-                                    base: 'center',
-                                    md: 'left'
-                                }} mb={5} color="blue.600">Assessment History</Heading>
+                        base: 'center',
+                        md: 'left'
+                    }} mb={5} color="blue.600">Assessment History</Heading>
                     <Box w="100%" h="500px" rounded="md" mt={5} p={5} overflowY="auto">
-                        <SimpleGrid columns={{ base: 1, md: 2, lg: 3 }} spacing={5}>
-                            {attempts.map((attempt) => (
-                                <Skeleton key={attempt._id} isLoaded={!loading}>
-                                    <Box p={5} bg={cardBg} boxShadow="md" rounded="md">
-                                        <Heading size="md" color="blue.600" mb={3}>
-                                            Attempt {attempt.attemptNumber}
-                                        </Heading>
-                                        <Text mb={2}>
-                                            Date: {new Date(attempt.date).toLocaleDateString()}
-                                        </Text>
-                                        <Text mb={2}>
-                                            Overall Score: {attempt.overallScore} / {attempt.overallMaxScore}
-                                        </Text>
-                                        <Progress value={attempt.overallScore} max={attempt.overallMaxScore} />
-                                    </Box>
-                                </Skeleton>
-                            ))}
-                        </SimpleGrid>
+                        <Skeleton isLoaded={!loading}>
+                            <Table variant="simple" size="md">
+                                <Thead>
+                                    <Tr>
+                                        <Th>Attempt Number</Th>
+                                        <Th>Date</Th>
+                                        <Th>Overall Score</Th>
+                                        <Th>Report</Th>
+                                    </Tr>
+                                </Thead>
+                                <Tbody>
+                                    {attempts.map((attempt) => (
+                                        <Tr key={attempt._id}>
+                                            <Td>
+                                                <Text fontWeight="bold" color="blue.600">
+                                                    {attempt.attemptNumber}
+                                                </Text>
+                                            </Td>
+                                            <Td>
+                                                <Text>
+                                                    {new Date(attempt.date).toLocaleDateString()}
+                                                </Text>
+                                            </Td>
+                                            <Td>
+                                                <HStack align="center">
+                                                    <CircularProgress value={attempt.overallScore} max={attempt.overallMaxScore} mt={2} >
+                                                        <CircularProgressLabel>{
+                                                            Math.floor((attempt.overallScore / attempt.overallMaxScore) * 100)
+                                                        }%</CircularProgressLabel>
+                                                    </CircularProgress>
+                                                    <Text>
+                                                        {attempt.overallScore}/{attempt.overallMaxScore}
+                                                    </Text>
+                                                </HStack>
+                                            </Td>
+                                            <Td>
+                                                <Button w="full">View Report</Button>
+                                            </Td>
+                                        </Tr>
+                                    ))}
+                                </Tbody>
+                            </Table>
+                        </Skeleton>
                     </Box>
 
                 </>

@@ -1,20 +1,16 @@
 import {
     Box,
     Button,
+    Grid,
     HStack,
     Image,
     Progress,
     Skeleton,
     Text,
     VStack,
-    Grid,
 } from '@chakra-ui/react';
 
-import { useEffect, useState } from 'react';
-
 import SectionSteps from '../SectionSteps';
-
-
 
 const DesktopView = ({
     currentQuestionIndex,
@@ -30,13 +26,12 @@ const DesktopView = ({
     loading,
     images
 }) => {
-
-
-
     return (
-        <Box w="100%" minH="100svh">
-            <Progress colorScheme="blue" size="md" w="100%" value={(currentQuestionIndex + 1) / questions.length * 100} />
-            <Box mx="auto" w="80%" display="flex" justifyContent="center" h="100svh">
+        <Box w="100%" minH="100vh">
+            <Skeleton isLoaded={!loadingCategories}>
+                <Progress colorScheme="blue" size="md" w="100%" value={(currentQuestionIndex + 1) / questions.length * 100} />
+            </Skeleton>
+            <Box mx="auto" w="80%" display="flex" justifyContent="center" h="100vh">
                 <HStack borderRadius="md" p={6} position="relative">
                     <Box>
                         <SectionSteps loadingCategories={loadingCategories} currentCategoryIndex={currentCategoryIndex} categories={categories} />
@@ -44,9 +39,11 @@ const DesktopView = ({
 
                     <VStack>
                         <HStack w="100%" gap={20}>
-                            <Text w="100%" color="blue.500" fontSize="lg" fontWeight="bold" textAlign="right">
-                                QUESTION {currentQuestionIndex + 1}/{questions.length}
-                            </Text>
+                            <Skeleton isLoaded={!loadingQuestions}>
+                                <Text w="100%" color="blue.500" fontSize="lg" fontWeight="bold" textAlign="right">
+                                    QUESTION {currentQuestionIndex + 1}/{questions.length}
+                                </Text>
+                            </Skeleton>
                         </HStack>
                         <Skeleton isLoaded={!loadingQuestions}>
                             <Text w="100%" textAlign="left" fontSize="2xl" fontWeight="bold" my={6}>
@@ -55,7 +52,9 @@ const DesktopView = ({
                         </Skeleton>
                         <HStack w="100%" gap={10} position="relative">
                             <Box w="50%" mb={4} display="flex" justifyContent="center">
-                                <Image src={images[currentCategoryIndex]} alt="Illustration" width="full" />
+                                <Skeleton isLoaded={!loadingQuestions}>
+                                    <Image src={images[currentCategoryIndex]} alt="Illustration" width="full" />
+                                </Skeleton>
                             </Box>
                             <Grid h="100%" mt={4} gap={4} w="100%" zIndex={2}>
                                 {currentQuestion && currentQuestion.options.map((option, index) => (
@@ -74,7 +73,6 @@ const DesktopView = ({
                                     </Skeleton>
                                 ))}
                             </Grid>
-
                         </HStack>
                         <HStack justify="flex-end" mt={8} width="100%">
                             <Button colorScheme="blue" size="lg" onClick={handleNextQuestion} disabled={!selectedAnswer || loading} isLoading={loading}>

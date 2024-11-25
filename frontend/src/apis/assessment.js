@@ -78,12 +78,7 @@ const useAssessment = () => {
     const submitCategoryAssessment = async (categoryId,categoryName, questions) => {
         try {
             const response = await axiosInstance.patch('/api/assessment/submit', { categoryId,categoryName, questions });
-            response && toast({
-                title: 'Assessment submitted successfully!',
-                status: 'success',
-                duration: 3000,
-                isClosable: true,
-            });
+            
             return response.data;
         } catch (error) {
             toast({
