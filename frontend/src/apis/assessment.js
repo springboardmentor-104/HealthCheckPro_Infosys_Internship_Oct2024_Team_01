@@ -78,7 +78,7 @@ const useAssessment = () => {
     const submitCategoryAssessment = async (categoryId,categoryName, questions) => {
         try {
             const response = await axiosInstance.patch('/api/assessment/submit', { categoryId,categoryName, questions });
-            
+
             return response.data;
         } catch (error) {
             toast({
@@ -92,6 +92,26 @@ const useAssessment = () => {
         }
     };
 
+    const fetchAttemptById = async (attemptId) => {
+        try {
+            const response = await axiosInstance.get(`/api/assessment/attempt/${attemptId}`);
+            return response.data;
+        } catch (error) {
+            console.error('Error fetching attempt by id:', error);
+        }
+    };
+
+
+    const fetchCategoryByAttempt = async (attemptId,categoryId) => {
+        try {
+            const response = await axiosInstance.get(`/api/assessment/attempt/${attemptId}/${categoryId}`);
+            return response.data;
+        } catch (error) {
+            console.error('Error fetching attempt by category:', error);
+        }
+    }
+
+
 
     return {
 
@@ -100,6 +120,8 @@ const useAssessment = () => {
         fetchLatestAssessment,
         startNewRound,
         submitCategoryAssessment,
+        fetchAttemptById,
+        fetchCategoryByAttempt
     };
 };
 

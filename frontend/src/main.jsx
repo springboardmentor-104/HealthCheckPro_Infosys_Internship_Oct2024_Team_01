@@ -11,7 +11,7 @@ import { LandingPage, Login, Register, ResetPassword,Dashboard,TestPortal } from
 import GlobalProvider from './context/GlobalProvider'
 import ThemeProvider from './context/ThemeProvider'
 import {DashHome,LeaderBoards} from './components/dashboard_sections'
-
+import Report from './components/dashboard_sections/DashHome/Report.jsx'
 
 
 
@@ -57,6 +57,10 @@ const router = createBrowserRouter([
     path: '/assessment/attempt/:id',
     element: <TestPortal/>
   },
+{
+  path: '/test',
+  element: <Report />,
+}
 
 ])
 

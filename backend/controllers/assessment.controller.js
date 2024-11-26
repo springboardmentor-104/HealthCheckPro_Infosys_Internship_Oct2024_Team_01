@@ -177,3 +177,77 @@ export const fetchUserAssessmentHistory = async (req, res) => {
   }
 };
 
+export const getAttemptById = async(req, res) => {
+  try {
+    const attemptId = req.params.attemptId;
+    const attemptDoc = await UserAssessmentHistory.findOne({ _id: attemptId });
+
+    if(!attemptDoc)
+      return res.status(404).json({ message: "Attempt Not Found" });
+
+    res.status(200).json({ attempt: attemptDoc });
+
+  } catch(error) {
+    res.status(500).json({ message: "Server Error", error });
+  }
+}
+
+
+export const getAssessmentFromAttempt = async (req, res) => {
+  try {
+
+    const { attemptId, categoryId } = req.params;
+
+
+    const assessmentDoc = await UserAssessmentHistory.findOne({ _id: attemptId });
+
+
+    if(!assessmentDoc)
+      return res.status(404).json({ message: "Attempt Not Found" });
+
+    // ****************|||||||||||||||||||||
+    // if(assessmentDoc.userId.toString() !== userId.toString()) // toString() is used to conver ObjectId into string for comparison
+    //   return res.status(403).json({ message: "Unauthorized Access!" });
+
+    const categoryAssessment = assessmentDoc.assessments.find(assessment => assessment.categoryId.toString() === categoryId);
+
+    const userResponse = {
+      categoryId,
+      questions: [],
+      totalScore: categoryAssessment.totalScore
+    };
+
+    for (const question of categoryAssessment.questions) {
+      const questionDoc = await Question.findOne({ _id: question.questionId });
+      const qscore = question.score;
+      const questionText = questionDoc.questionText;
+
+      // Find the selected option based on the score
+      const selectedOption = questionDoc.options.find(
+          (option) => option.score === qscore
+      );
+
+
+
+      if (!selectedOption) {
+          throw new Error(`Option with score ${qscore} not found for question ${question.questionId}`);
+      }
+
+      const selectedOptionText = selectedOption.optionText;
+      const selectedOptionAdvice = selectedOption.suggestion;
+
+
+      userResponse.questions.push({
+          questionText,
+          selectedOptionText,
+          _id: questionDoc._id,
+          advice: selectedOptionAdvice,
+      });
+  }
+    res.status(200).json({ userResponse });
+
+  } catch(error) {
+    console.log('=== error assessment.controller.js [247] ===', error);
+    res.status(500).json({ message: "Server Error!", error });
+  }
+}
