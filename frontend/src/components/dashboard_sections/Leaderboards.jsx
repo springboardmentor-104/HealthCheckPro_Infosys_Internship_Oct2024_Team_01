@@ -73,7 +73,7 @@ const Leaderboards = () => {
     };
 
     return (
-        <VStack p={{ base: 1, md: 8 }} mt={{ base: 40, md: 20 }} minH="100svh" gap={6}>
+        <VStack p={{ base: 1, md: 8 }} mt={{ base: 40, md: 20 }} minH="100svh"  gap={6}>
             <Heading as="h2" size="lg" color="blue.600">HealthCheckPro Top Ranking</Heading>
             <Tabs
                 variant="soft-rounded"
@@ -140,8 +140,8 @@ const Leaderboards = () => {
                                     </Tr>
                                 </Thead>
                             </Table>
-                            <Box h="500px" overflowY="auto" bg={cardBg} rounded="md">
-                                <Table variant="simple" size="sm">
+                            <Box h="500px" overflowY="auto"  rounded="md">
+                                <Table variant="simple" size="md" bg="Background">
                                     <Tbody>
                                         {loadingL ? (
                                             Array.from({ length: 10 }).map((_, index) => (

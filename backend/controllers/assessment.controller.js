@@ -205,10 +205,6 @@ export const getAssessmentFromAttempt = async (req, res) => {
     if(!assessmentDoc)
       return res.status(404).json({ message: "Attempt Not Found" });
 
-    // ****************|||||||||||||||||||||
-    // if(assessmentDoc.userId.toString() !== userId.toString()) // toString() is used to conver ObjectId into string for comparison
-    //   return res.status(403).json({ message: "Unauthorized Access!" });
-
     const categoryAssessment = assessmentDoc.assessments.find(assessment => assessment.categoryId.toString() === categoryId);
 
     const userResponse = {

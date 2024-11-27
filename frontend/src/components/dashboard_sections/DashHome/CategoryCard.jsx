@@ -18,9 +18,10 @@ const CategoryCard = ({ category }) => {
                             { name: 'Remaining', value: category.maxScore - category.totalScore }
                         ]}
                         innerRadius={50}
-                        outerRadius={80}
-                        paddingAngle={5}
+                        outerRadius={70}
+                        paddingAngle={0}
                         dataKey="value"
+                   
                     >
                         <Cell key={`cell-0`} fill="#3182CE" />
                         <Cell key={`cell-1`} fill="#E2E8F0" />

@@ -23,7 +23,7 @@ import {
 import { useEffect, useState } from 'react';
 
 import PropTypes from 'prop-types';
-import { useNavigate } from 'react-router-dom';
+
 
 import useAssessment from '../../../apis/assessment';
 
@@ -31,9 +31,9 @@ import useCustomTheme from '../../../hooks/useCustomTheme';
 
 import NWImg from '../../../assets/banner-nr1.gif';
 import NewLoginLogo from '../../../assets/illustrations/newl-3.gif';
+import { useNavigate } from 'react-router-dom';
 
 import {
-
     Table,
     Tbody,
     Td,
@@ -55,7 +55,7 @@ const UserStatusUI = () => {
     const { cardBg, bgOverlay, bodyBg } = useCustomTheme();
     const { isOpen, onOpen, onClose } = useDisclosure();
     const [modalProps, setModalProps] = useState(null);
-
+    const navigate = useNavigate();
 
 
     useEffect(() => {
@@ -83,8 +83,9 @@ const UserStatusUI = () => {
 
     // Handle redirect to assessment attempt
     const handleRedirect = () => {
-
+        navigate(`/assessment/attempt/${latestAssessment?.latestIncompleteAttempt._id}`);
     }
+
 
 
     const handleViewReport = async (id) => {

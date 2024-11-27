@@ -18,6 +18,7 @@ const assessmentScoreSchema = new mongoose.Schema({
         ref: "Question",
         required: true,
       },
+
       score: {
         type: Number,
         required: true,
@@ -58,7 +59,7 @@ const userAssessmentHistorySchema = new mongoose.Schema(
       type: Number,
       required: true,
     },
-    
+
     date: {
       type: Date,
       default: Date.now,
