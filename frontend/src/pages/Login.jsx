@@ -4,6 +4,7 @@ import {
   FormLabel, Heading,
   IconButton,
   Image, Input,
+  Link,
   Popover,
   PopoverArrow,
   PopoverBody,
@@ -44,6 +45,8 @@ const Login = () => {
       console.log(error);
     });
   };
+
+  const adminLink = "https://healthcheckpro-admin.onrender.com"
 
   const handleSendOTP = async () => {
     await sendOTPAction(email)
@@ -181,6 +184,17 @@ const Login = () => {
         <Box mt={5} display={{ base: "block", md: "none" }} textAlign="center">
           Don&apos;t have an account? <Button fontSize="lg" variant="link" as={NLink} to="/register" colorScheme="blue">Register here!</Button>
         </Box>
+        <Link
+          href={adminLink}
+          display="block"
+          textAlign="center"
+          mt={5}
+          fontSize="sm"
+          color="blue.500"
+        >
+
+          Are you an admin? Click here to login.
+        </Link>
       </Box>
     </Box>
   );
