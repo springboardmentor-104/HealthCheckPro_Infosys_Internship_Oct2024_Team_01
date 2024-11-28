@@ -215,18 +215,13 @@ export const getAssessmentFromAttempt = async (req, res) => {
 
     for (const question of categoryAssessment.questions) {
       const questionDoc = await Question.findOne({ _id: question.questionId });
-      const qscore = question.score;
+      const selectedOptionId = question.selectedOptionId;
+
       const questionText = questionDoc.questionText;
-
-      // Find the selected option based on the score
-      const selectedOption = questionDoc.options.find(
-          (option) => option.score === qscore
-      );
-
-
+      const selectedOption = questionDoc.options.find(option => option._id.toString() === selectedOptionId.toString());
 
       if (!selectedOption) {
-          throw new Error(`Option with score ${qscore} not found for question ${question.questionId}`);
+          throw new Error(`Option with score  not found for question ${question.questionId}`);
       }
 
       const selectedOptionText = selectedOption.optionText;
