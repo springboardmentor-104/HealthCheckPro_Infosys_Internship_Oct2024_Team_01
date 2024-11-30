@@ -59,19 +59,8 @@ const Navbar = () => {
                 base: "none", md: "flex"
             }} py={1} px={10} justify="space-between" align="center" zIndex={5} bg={navBg} left={0} right={0}>
                 <Image src={appLogo} boxSize={70} />
-                <HStack display={{ base: "none", md: "flex" }} gap={10}>
-                    <Button flex={1} as={ScrollLink} to="home" smooth={true} duration={500} variant="link" isActive={activeSection === 'home'} fontWeight={activeSection === 'home' ? 'bold' : 'normal'}>
-                        Home
-                    </Button>
-                    <Button flex={1} as={ScrollLink} to="features" smooth={true} duration={500} variant="link" isActive={activeSection === 'features'} fontWeight={activeSection === 'features' ? 'bold' : 'normal'}>
-                        Features
-                    </Button>
-                    <Button flex={1} as={ScrollLink} to="about" smooth={true} duration={500} variant="link" isActive={activeSection === 'about'} fontWeight={activeSection === 'about' ? 'bold' : 'normal'}>
-                        About
-                    </Button>
-                    <Button flex={1} as={ScrollLink} to="contact" smooth={true} duration={500} variant="link" isActive={activeSection === 'contact'} fontWeight={activeSection === 'contact' ? 'bold' : 'normal'}>
-                        Contact
-                    </Button>
+                <HStack display={{ base: "none", md: "flex" }} gap={3}>
+
                     {user ? (
                         <Tag rounded="full" colorScheme="red">
                             <Avatar name={user.username} size="sm" />
@@ -98,18 +87,7 @@ const Navbar = () => {
                             </AccordionButton>
                         </HStack>
                         <AccordionPanel px={3} flex={1} as={VStack} w="100%">
-                            <HStack py={3} w="full"><Button flex={1} as={ScrollLink} to="home" smooth={true} duration={500} variant="link" isActive={activeSection === 'home'} fontWeight={activeSection === 'home' ? 'bold' : 'normal'}>
-                                Home
-                            </Button>
-                                <Button flex={1} as={ScrollLink} to="features" smooth={true} duration={500} variant="link" isActive={activeSection === 'features'} fontWeight={activeSection === 'features' ? 'bold' : 'normal'}>
-                                    Features
-                                </Button>
-                                <Button flex={1} as={ScrollLink} to="about" smooth={true} duration={500} variant="link" isActive={activeSection === 'about'} fontWeight={activeSection === 'about' ? 'bold' : 'normal'}>
-                                    About
-                                </Button>
-                                <Button flex={1} as={ScrollLink} to="contact" smooth={true} duration={500} variant="link" isActive={activeSection === 'contact'} fontWeight={activeSection === 'contact' ? 'bold' : 'normal'}>
-                                    Contact
-                                </Button></HStack>
+
                             {user ? (
                                 <HStack><Tag rounded="full" colorScheme="red">
                                     <Avatar name={user.username} size="sm" />
@@ -122,6 +100,7 @@ const Navbar = () => {
                                 <HStack width="100%">
                                     <Button flex={1} width="100%" colorScheme="blue" variant="outline" as={Link} to="/login">Login</Button>
                                     <Button flex={1} width="100%" colorScheme="blue" as={Link} to="/register">Register</Button>
+                                    <ChangeTheme />
                                 </HStack>
                             )}
 
