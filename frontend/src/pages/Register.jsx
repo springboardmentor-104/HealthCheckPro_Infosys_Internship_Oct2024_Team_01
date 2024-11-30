@@ -270,6 +270,11 @@ const Register = () => {
                             boxShadow="0 0 5px rgba(0, 0, 0, 0.2)"
                             onChange={(e) => setPassword(e.target.value)}
                         />
+                        {
+                            password && !validator.isStrongPassword(password) && <FormHelperText color="red.500">
+                                Password must contain at least 8 characters, one uppercase letter, one number and one special character
+                            </FormHelperText>}
+
                     </FormControl>
                     <FormControl id="confirmPassword" isInvalid={!confirmPassword && error}>
                         <FormLabel>Confirm Password</FormLabel>
@@ -284,8 +289,17 @@ const Register = () => {
                             boxShadow="0 0 5px rgba(0, 0, 0, 0.2)"
                             onChange={(e) => setConfirmPassword(e.target.value)}
                         />
+                        {
+                            password && confirmPassword && password !== confirmPassword && <FormHelperText color="red.500" textAlign="right">
+                                Passwords do not match
+                            </FormHelperText>
+                        }
+
                     </FormControl>
-                    <Button colorScheme="blue" width="full" mt={4} onClick={handleOTPSubmit} isLoading={otpLoading || loading}>
+                    <Button colorScheme="blue" width="full" mt={4} onClick={handleOTPSubmit} isLoading={otpLoading || loading}
+                    isDisabled={
+                        !validator.isEmail(email) || confirmPassword !== password || !validator.isStrongPassword(password) || !age || !username
+                    }>
                         Verify Email
                     </Button>
                 </Stack>
@@ -304,6 +318,7 @@ const Register = () => {
                     </ModalBody>
                     <ModalFooter >
                         <Button colorScheme="blue" mr={3} onClick={handleVerficationRegistration} isLoading={loading}>
+
                             Verify & Register
                         </Button>
                     </ModalFooter>
