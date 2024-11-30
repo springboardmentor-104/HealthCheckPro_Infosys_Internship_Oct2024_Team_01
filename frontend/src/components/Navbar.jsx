@@ -1,9 +1,8 @@
-import { useToast, Heading, Flex, HStack, IconButton, Divider, Button, VStack, Accordion, AccordionItem, Avatar, AccordionButton, AccordionPanel, Image, Menu, MenuButton, MenuItem, MenuList, Tag } from "@chakra-ui/react";
+import { useToast, Flex, HStack, IconButton, Divider, Button, VStack, Accordion, AccordionItem, Avatar, AccordionButton, AccordionPanel, Image, Menu, MenuButton, MenuItem, MenuList, Tag } from "@chakra-ui/react";
 import { useNavigate, Link } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { Link as ScrollLink } from 'react-scroll';
 import useGlobalState from "../hooks/useGlobalState";
-import Profile from "./Profile";
 import ChangeTheme from "./ChangeTheme";
 import useCustomTheme from "../hooks/useCustomTheme";
 import { IoPersonAdd } from "react-icons/io5";
