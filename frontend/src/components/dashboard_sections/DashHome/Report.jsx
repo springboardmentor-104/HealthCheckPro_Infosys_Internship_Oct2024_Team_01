@@ -70,9 +70,6 @@ const Report = ({
                     Health Report
                 </Heading>
                 <Stack direction={{ base: 'column', md: 'row' }} gap={3}>
-
-                    <Button as={ScrollLink} to='report' smooth={true} duration={500} variant="ghost" size="sm" colorScheme="blue">View Suggestions</Button>
-
                     <Tag colorScheme="blue" variant="solid" size="lg">
                         Attempt Number: {attempt.attemptNumber}
                     </Tag>
