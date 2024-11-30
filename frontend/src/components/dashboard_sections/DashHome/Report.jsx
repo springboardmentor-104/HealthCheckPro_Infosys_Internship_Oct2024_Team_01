@@ -1,5 +1,5 @@
 
-import { useEffect,useState } from 'react';
+import { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { Box, Heading, Text, Stack, SimpleGrid, Button, Tag, HStack, Image, Accordion, AccordionItem, AccordionButton, AccordionPanel, AccordionIcon, Skeleton } from '@chakra-ui/react';
 import { Link as ScrollLink } from 'react-scroll';
@@ -9,6 +9,7 @@ import useAssessment from '../../../apis/assessment';
 import HealthStatus from './HealthStatus';
 import CategoryCard from './CategoryCard';
 import Suggesstions from './Suggesstions';
+import { useLocation, useNavigate } from 'react-router-dom';
 
 
 const Report = ({
@@ -23,13 +24,20 @@ const Report = ({
     const [userResponses, setUserResponses] = useState([]);
     const { fetchCategoryByAttempt } = useAssessment();
     const { cardBg } = useCustomTheme();
+    const location = useLocation();
+    const navigate = useNavigate();
+
+
+    if (!attempt && location.state) {
+        attempt = location.state.attempt;
+    }
 
     // Handle category click
     const handleCategoryClick = async (categoryId) => {
         setResLoading(true);
         setSelectedCategory(categoryId);
         const responses = await fetchCategoryByAttempt(attempt._id, categoryId)
-        .finally(() => setResLoading(false));
+            .finally(() => setResLoading(false));
         responses && setUserResponses(responses.userResponse.questions);
     }
 
@@ -50,7 +58,10 @@ const Report = ({
 
 
     return (
-        <Box p={5} rounded="md" mt={5} >
+        <Box p={{
+            base: 5,
+            md: 10
+        }} rounded="md"  >
             <Stack direction={{ base: 'column', md: 'row' }} justify="space-between" alignItems="center" gap={3}>
                 <Heading color="blue.600" textAlign={{
                     base: 'center',
@@ -150,7 +161,14 @@ const Report = ({
                     </Box>
                 </Box>
             </Box>
-
+            {
+                location.state && location.state.attempt && (
+                    <HStack justify="center" mt={5}>
+                        <Button colorScheme='blue' onClick={() => navigate('/dashboard')}>
+                            Go back to Dashboard
+                        </Button>
+                    </HStack>)
+            }
         </Box>
     )
 }

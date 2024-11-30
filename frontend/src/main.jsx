@@ -51,16 +51,16 @@ const router = createBrowserRouter([
         path:'leaderboard',
         element:<LeaderBoards/>
       },
+      {
+        path:'report/:id',
+        element:<Report/>
+      }
     ]
   },
   {
     path: '/assessment/attempt/:id',
     element: <TestPortal/>
   },
-{
-  path: '/test',
-  element: <Report />,
-}
 
 ])
 
