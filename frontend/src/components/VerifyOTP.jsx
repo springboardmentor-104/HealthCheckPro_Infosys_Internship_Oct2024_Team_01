@@ -9,14 +9,14 @@ const VerifyOTP = ({ setOTP }) => {
     return (
         <FormControl>
             <FormLabel textAlign="center">Enter OTP sent to your email</FormLabel>
-            <HStack  bgColor={inputBg} p={2} rounded="md" justify="center">
+            <HStack   p={2} rounded="md" justify="center">
                 <PinInput onChange={(value) => setOTP(value)}>
-                    <PinInputField boxShadow="md" />
-                    <PinInputField boxShadow="md" />
-                    <PinInputField boxShadow="md" />
-                    <PinInputField boxShadow="md" />
-                    <PinInputField boxShadow="md" />
-                    <PinInputField boxShadow="md" />
+                    <PinInputField bgColor={inputBg}  />
+                    <PinInputField bgColor={inputBg}  />
+                    <PinInputField bgColor={inputBg}  />
+                    <PinInputField bgColor={inputBg}  />
+                    <PinInputField bgColor={inputBg}  />
+                    <PinInputField bgColor={inputBg}  />
                 </PinInput>
             </HStack>
         </FormControl>

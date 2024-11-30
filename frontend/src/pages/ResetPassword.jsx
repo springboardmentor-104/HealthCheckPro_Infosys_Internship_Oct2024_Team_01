@@ -4,6 +4,7 @@ import {
     Button,
     Flex,
     FormControl,
+    FormHelperText,
     FormLabel,
     Heading,
     Image,
@@ -20,6 +21,7 @@ import useOTP from '../apis/otp';
 import useResetPassword from '../apis/resetPassword';
 import useCustomTheme from '../hooks/useCustomTheme';
 import authbg from '/authbg.png';
+import validator from 'validator';
 
 
 const ResetPassword = () => {
@@ -29,16 +31,18 @@ const ResetPassword = () => {
 
     const { bodyBg, inputBg, authBg } = useCustomTheme();
     const { email } = useParams();
-    const { resetPassword, error,loading } = useResetPassword();
-    const { verifyOTPAction,loading:otpLoading } = useOTP();
+    const { resetPassword, error, loading } = useResetPassword();
+    const { verifyOTPAction, loading: otpLoading } = useOTP();
 
 
     const handleSubmit = async () => {
+
+
         await verifyOTPAction(email, otp)
-        .then((res) => {
-            res && resetPassword(email, password, confirmPassword);
-        }
-        );
+            .then((res) => {
+                res && resetPassword(email, password, confirmPassword);
+            }
+            );
     };
 
     return (
@@ -98,10 +102,8 @@ const ResetPassword = () => {
                 borderRadius="md"
                 zIndex={3}
             >
-                <Stack maxWidth="100%" minWidth="200px" spacing={4} p={3} rounded="md" bgColor={{
-                    base: "transparent", md: `${authBg}80`
-                }}>
-                    <VerifyOTP setOTP={setOTP}/>
+                <Stack maxWidth="100%" minWidth="200px" spacing={4} p={3} >
+                    <VerifyOTP setOTP={setOTP} />
                     <FormControl id="password" isInvalid={!password && error}>
                         <FormLabel>Password</FormLabel>
                         <Input
@@ -114,6 +116,15 @@ const ResetPassword = () => {
                             value={password}
                             onChange={(e) => setPassword(e.target.value)}
                         />
+                        {
+                            password && !validator.isStrongPassword(password) && <FormHelperText
+                                color="red.500"
+
+                            >
+                                Password must contain at least 8 characters, one uppercase letter, one lowercase letter, one number and one special character
+                            </FormHelperText>
+
+                        }
                     </FormControl>
                     <FormControl id="confirmPassword" isInvalid={!confirmPassword && error}>
                         <FormLabel>Confirm Password</FormLabel>
@@ -126,9 +137,19 @@ const ResetPassword = () => {
                             placeholder="********"
                             value={confirmPassword}
                             onChange={(e) => setConfirmPassword(e.target.value)}
+
                         />
+                        {
+                            password && confirmPassword && password !== confirmPassword && <FormHelperText
+                                color="red.500"
+                                textAlign="right"
+                            >
+                                Passwords do not match
+                            </FormHelperText>}
                     </FormControl>
-                    <Button colorScheme="blue" width="full" mt={4} onClick={handleSubmit} isLoading={loading || otpLoading}>
+                    <Button isDisabled={
+                          !validator.isStrongPassword(password) || password !== confirmPassword
+                    } colorScheme="blue" width="full" mt={4} onClick={handleSubmit} isLoading={loading || otpLoading}>
                         Reset Password
                     </Button>
                 </Stack>
