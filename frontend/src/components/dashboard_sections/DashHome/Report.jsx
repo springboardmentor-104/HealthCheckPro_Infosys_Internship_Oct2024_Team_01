@@ -2,7 +2,7 @@
 import { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { Box, Heading, Text, Stack, SimpleGrid, Button, Tag, HStack, Image, Accordion, AccordionItem, AccordionButton, AccordionPanel, AccordionIcon, Skeleton } from '@chakra-ui/react';
-import { Link as ScrollLink } from 'react-scroll';
+// import { Link as ScrollLink } from 'react-scroll';
 import useCustomTheme from '../../../hooks/useCustomTheme';
 import image from '../../../assets/doctor.png';
 import useAssessment from '../../../apis/assessment';

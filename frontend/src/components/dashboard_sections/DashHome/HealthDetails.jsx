@@ -17,7 +17,7 @@ import NWImg from '../../../assets/banner-nr1.gif';
 import NewLoginLogo from '../../../assets/illustrations/newl-3.gif';
 import { useNavigate } from 'react-router-dom';
 import Report from './Report';
-import AssessmentHistory from './AssessmentHistory';
+import AttemptHistory from './AttemptHistory';
 
 
 const HealthDetails = () => {
@@ -119,7 +119,7 @@ const HealthDetails = () => {
                             />
                         )}
 
-                        {attempts.length > 0 && <AssessmentHistory attempts={attempts} loading={loading} />}
+                        {attempts.length > 0 && <AttemptHistory attempts={attempts} loading={loading} />}
 
                     </>
                 ) : (

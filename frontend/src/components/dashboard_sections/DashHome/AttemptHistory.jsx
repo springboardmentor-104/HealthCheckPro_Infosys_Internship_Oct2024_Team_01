@@ -5,7 +5,7 @@ import useAssessment from "../../../apis/assessment";
 import { useState } from "react";
 import { useNavigate } from 'react-router-dom';
 
-const AssessmentHistory = ({
+const AttemptHistory = ({
     loading,
     attempts,
 }) => {
@@ -23,7 +23,7 @@ const AssessmentHistory = ({
             base: 5,
             md: 10
         }}>
-            <Heading textAlign={{ base: 'center', md: 'left' }} mb={5} color="blue.600">Assessment History</Heading>
+            <Heading textAlign={{ base: 'center', md: 'left' }} mb={5} color="blue.600">Attempt History</Heading>
             <Box w="100%" h="500px" rounded="md" mt={5} p={5} overflowY="auto" bg={cardBg} shadow="md">
                 <Skeleton isLoaded={!loading}>
                     <Table variant="simple" size="md">
@@ -73,9 +73,9 @@ const AssessmentHistory = ({
     )
 }
 
-AssessmentHistory.propTypes = {
+AttemptHistory.propTypes = {
     loading: PropTypes.bool,
     attempts: PropTypes.array
 }
 
-export default AssessmentHistory;
+export default AttemptHistory;
