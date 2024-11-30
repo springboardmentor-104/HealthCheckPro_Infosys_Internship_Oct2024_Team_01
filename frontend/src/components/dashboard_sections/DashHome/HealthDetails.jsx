@@ -123,7 +123,7 @@ const HealthDetails = () => {
 
                     </>
                 ) : (
-                    <Flex w="100%" h="100vh" alignItems="center" justifyContent="center" bg={cardBg} p={5}>
+                    <Flex w="100%" h="100vh" alignItems="center" justifyContent="center"  p={5}>
                         <VStack spacing={8} textAlign="center">
                             <Image src={NewLoginLogo} alt="Welcome" boxSize="300px" />
                             <Box>
