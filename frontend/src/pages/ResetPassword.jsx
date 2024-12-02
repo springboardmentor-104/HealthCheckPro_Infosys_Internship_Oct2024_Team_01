@@ -1,4 +1,4 @@
-import { ExternalLinkIcon } from '@chakra-ui/icons';
+import { ExternalLinkIcon, ViewIcon, ViewOffIcon } from '@chakra-ui/icons';
 import {
     Box,
     Button,
@@ -7,8 +7,11 @@ import {
     FormHelperText,
     FormLabel,
     Heading,
+    IconButton,
     Image,
     Input,
+    InputGroup,
+    InputRightElement,
     Stack,
     Text,
     VStack
@@ -28,21 +31,19 @@ const ResetPassword = () => {
     const [otp, setOTP] = useState('');
     const [password, setPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
+    const [showPassword, setShowPassword] = useState(false);
+    const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
     const { bodyBg, inputBg, authBg } = useCustomTheme();
     const { email } = useParams();
     const { resetPassword, error, loading } = useResetPassword();
     const { verifyOTPAction, loading: otpLoading } = useOTP();
 
-
     const handleSubmit = async () => {
-
-
         await verifyOTPAction(email, otp)
             .then((res) => {
                 res && resetPassword(email, password, confirmPassword);
-            }
-            );
+            });
     };
 
     return (
@@ -106,46 +107,64 @@ const ResetPassword = () => {
                     <VerifyOTP setOTP={setOTP} />
                     <FormControl id="password" isInvalid={!password && error}>
                         <FormLabel>Password</FormLabel>
-                        <Input
-                            width="full"
-                            minW="150px"
-                            bgColor={{ base: "transparent", md: inputBg }}
-                            backdropFilter={{ base: "blur(10px)", md: "none" }}
-                            type="password"
-                            placeholder="********"
-                            value={password}
-                            onChange={(e) => setPassword(e.target.value)}
-                        />
+                        <InputGroup>
+                            <Input
+                                width="full"
+                                minW="150px"
+                                bgColor={{ base: "transparent", md: inputBg }}
+                                backdropFilter={{ base: "blur(10px)", md: "none" }}
+                                type={showPassword ? "text" : "password"}
+                                placeholder="********"
+                                value={password}
+                                onChange={(e) => setPassword(e.target.value)}
+                            />
+                            <InputRightElement>
+                                <IconButton
+                                    variant="ghost"
+                                    onClick={() => setShowPassword(!showPassword)}
+                                    icon={showPassword ? <ViewOffIcon /> : <ViewIcon />}
+                                    colorScheme='blue'
+                                />
+                            </InputRightElement>
+                        </InputGroup>
                         {
                             password && !validator.isStrongPassword(password) && <FormHelperText
                                 color="red.500"
-
                             >
                                 Password must contain at least 8 characters, one uppercase letter, one lowercase letter, one number and one special character
                             </FormHelperText>
-
                         }
                     </FormControl>
                     <FormControl id="confirmPassword" isInvalid={!confirmPassword && error}>
                         <FormLabel>Confirm Password</FormLabel>
-                        <Input
-                            width="full"
-                            minW="150px"
-                            bgColor={{ base: "transparent", md: inputBg }}
-                            backdropFilter={{ base: "blur(10px)", md: "none" }}
-                            type="password"
-                            placeholder="********"
-                            value={confirmPassword}
-                            onChange={(e) => setConfirmPassword(e.target.value)}
-
-                        />
+                        <InputGroup>
+                            <Input
+                                width="full"
+                                minW="150px"
+                                bgColor={{ base: "transparent", md: inputBg }}
+                                backdropFilter={{ base: "blur(10px)", md: "none" }}
+                                type={showConfirmPassword ? "text" : "password"}
+                                placeholder="********"
+                                value={confirmPassword}
+                                onChange={(e) => setConfirmPassword(e.target.value)}
+                            />
+                            <InputRightElement>
+                                <IconButton
+                                    variant="ghost"
+                                    onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+                                    icon={showConfirmPassword ? <ViewOffIcon /> : <ViewIcon />}
+                                    colorScheme='blue'
+                                />
+                            </InputRightElement>
+                        </InputGroup>
                         {
                             password && confirmPassword && password !== confirmPassword && <FormHelperText
                                 color="red.500"
                                 textAlign="right"
                             >
                                 Passwords do not match
-                            </FormHelperText>}
+                            </FormHelperText>
+                        }
                     </FormControl>
                     <Button isDisabled={
                           !validator.isStrongPassword(password) || password !== confirmPassword

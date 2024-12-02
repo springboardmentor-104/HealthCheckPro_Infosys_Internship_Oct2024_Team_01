@@ -7,7 +7,8 @@ import {
     Heading, HStack,
     VStack,
     Image,
-    Box
+    Box,
+    useToast
 } from "@chakra-ui/react";
 import useCustomTheme from "../hooks/useCustomTheme";
 
@@ -19,10 +20,17 @@ import { CloseIcon, HamburgerIcon } from "@chakra-ui/icons";
 const DashNavbar = () => {
     const { setUser } = useGlobalState();
     const navigate = useNavigate();
+    const toast = useToast();
     const handleLogout = () => {
         setUser(null);
         localStorage.removeItem('user');
         navigate('/');
+        toast({
+            title: "Logged out successfully",
+            duration:1000,
+            isClosable: true,
+            status: "success"
+        });
     }
     const location = useLocation();
     const { navBg,appLogo } = useCustomTheme();

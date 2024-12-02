@@ -2,6 +2,7 @@ import {
   Box, Button, FormControl,
   FormHelperText,
   FormLabel, Heading,
+  HStack,
   IconButton,
   Image, Input,
   Link,
@@ -129,7 +130,7 @@ const Login = () => {
           </FormControl>
           <FormControl id="password" isInvalid={!password && error}>
             <FormLabel>Password</FormLabel>
-            <Box position="relative">
+            <HStack gap={2}>
               <Input
                 width="full"
                 minW="150px"
@@ -144,14 +145,10 @@ const Login = () => {
               <IconButton
                 icon={showPassword ? <FaEyeSlash /> : <FaEye />}
                 onClick={() => setShowPassword(!showPassword)} // Toggle the password visibility
-                position="absolute"
-                top="50%"
-                right={4}
-                transform="translateY(-50%)"
-                variant="link"
+                colorScheme="blue"
                 aria-label="Toggle password visibility"
               />
-            </Box>
+            </HStack>
           </FormControl>
 
           <Popover isOpen={isOpen} onOpen={onOpen} onClose={onClose} closeOnBlur={false}>
