@@ -33,7 +33,7 @@ const useResetPassword = () => {
                 .catch((err) => {
                     toast({
                         title: 'Password Reset Failed',
-                        description: err.response.data.message,
+                        description: err.response.data.error,
                         status: 'error',
                         duration: 5000,
                         isClosable: true

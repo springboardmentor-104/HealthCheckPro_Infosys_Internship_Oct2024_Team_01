@@ -1,28 +1,36 @@
 import {
     Accordion,
     AccordionButton,
-    AccordionIcon,
     AccordionItem,
     AccordionPanel,
-    Avatar,
     Button,
     Heading, HStack,
     VStack,
-    Image
+    Image,
+    Box,
+    useToast
 } from "@chakra-ui/react";
 import useCustomTheme from "../hooks/useCustomTheme";
 
 import { Link as NLink, useLocation, useNavigate } from "react-router-dom";
 import useGlobalState from "../hooks/useGlobalState";
 import ChangeTheme from "./ChangeTheme";
+import { CloseIcon, HamburgerIcon } from "@chakra-ui/icons";
 
 const DashNavbar = () => {
     const { setUser } = useGlobalState();
     const navigate = useNavigate();
+    const toast = useToast();
     const handleLogout = () => {
         setUser(null);
         localStorage.removeItem('user');
         navigate('/');
+        toast({
+            title: "Logged out successfully",
+            duration:1000,
+            isClosable: true,
+            status: "success"
+        });
     }
     const location = useLocation();
     const { navBg,appLogo } = useCustomTheme();
@@ -33,14 +41,14 @@ const DashNavbar = () => {
                 md: "flex"
             }}
                 bgColor={navBg}
-                zIndex={9999} py={3} px={10} w="100%" justify="space-between" position="fixed" top={0}  >
+                zIndex={9999}  px={10} w="100%" justify="space-between" top={0}  >
 
                 <HStack>
-                <Button variant="link" onClick={()=>{
-                    navigate('/')
-                }}>
-                    <Image src={appLogo} boxSize={70}/>
-                </Button>
+                    <Button variant="link" onClick={() => {
+                        navigate('/')
+                    }}>
+                        <Image src={appLogo} boxSize={70} />
+                    </Button>
                 </HStack>
                 <Button colorScheme="blue" variant="ghost"></Button>
                 <HStack>
@@ -52,29 +60,40 @@ const DashNavbar = () => {
 
             </HStack>
 
-            <Accordion w="100svw" position="fixed" zIndex={9999} bgColor={navBg} allowToggle display={{ base: "block", md: "none" }} p={3} borderColor="gray.100">
+            <Accordion w="100svw" zIndex={9999} bgColor={navBg} allowToggle display={{ base: "block", md: "none" }}  borderColor="gray.100">
                 <AccordionItem w="100%" border="none">
-                    <AccordionButton w="100%" display="flex">
-                        <HStack>
-                            <Avatar size="md" />
-                            <Heading size="md" color="blue.600" p={3}>
-                                {
-                                    location.pathname === "/dashboard/" ? "Overview" :
-                                        location.pathname === "/dashboard/assessment" ? "Assessment" :
-                                            location.pathname === "/dashboard/leaderboard" ? "Leaderboard" : "Dashboard"
-                                }
-                            </Heading>
-                        </HStack>
-                        <AccordionIcon ml="auto" />
-                    </AccordionButton>
-                    <AccordionPanel px={3} as={VStack} flex={1} w="100%">
-                        <HStack display="flex" flex={1} w="full">
-                            <Button as={NLink} flex={1}  to="/dashboard/" colorScheme="blue" variant="outline">Dashboard</Button>
-                            <Button as={NLink} flex={1}  to="/dashboard/leaderboard" colorScheme="blue" variant="outline">Leaderboards</Button>
-                            <ChangeTheme   />
-                        </HStack>
-                        <Button w="100%" as={NLink} onClick={handleLogout} colorScheme="red" variant="solid">Logout</Button>
-                    </AccordionPanel>
+                    {({ isExpanded }) => (
+                        <>
+                            <AccordionButton w="100%" display="flex">
+                                <HStack flex={1}>
+                                    <Image src={appLogo} boxSize={70} />
+                                    <Heading size="md" color="blue.600" p={3}>
+                                        {
+                                            location.pathname === "/dashboard/" ? "Dashboard" :
+                                                location.pathname === "/dashboard/assessment" ? "Assessment" :
+                                                    location.pathname === "/dashboard/leaderboard" ? "Leaderboard" : "Dashboard"
+                                        }
+                                    </Heading>
+                                </HStack>
+
+                                <Box  color="blue.500" fontSize="2xl" mr={3} fontWeight="900">
+                                    {isExpanded ? (
+                                        <CloseIcon />
+                                    ) : (
+                                        <HamburgerIcon  />
+                                    )}
+                                </Box>
+                            </AccordionButton>
+                            <AccordionPanel px={3} as={VStack} flex={1} w="100%">
+                                <HStack display="flex" flex={1} w="full">
+                                    <Button as={NLink} flex={1} to="/dashboard/" colorScheme="blue" variant="outline">Dashboard</Button>
+                                    <Button as={NLink} flex={1} to="/dashboard/leaderboard" colorScheme="blue" variant="outline">Leaderboards</Button>
+                                    <ChangeTheme />
+                                </HStack>
+                                <Button w="100%" as={NLink} onClick={handleLogout} colorScheme="red" variant="solid">Logout</Button>
+                            </AccordionPanel>
+                        </>
+                    )}
                 </AccordionItem>
             </Accordion>
         </>

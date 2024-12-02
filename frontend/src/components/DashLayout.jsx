@@ -1,4 +1,4 @@
-import { VStack, Box } from "@chakra-ui/react";
+import { Grid, GridItem, Box } from "@chakra-ui/react";
 import DashNavbar from "./DashNavbar";
 import useCustomTheme from "../hooks/useCustomTheme";
 import PropTypes from 'prop-types';
@@ -6,21 +6,27 @@ import PropTypes from 'prop-types';
 const DashLayout = ({ children }) => {
     const { bodyBg } = useCustomTheme();
     return (
-        <VStack w="100%"  bgColor={bodyBg}>
-            <DashNavbar />
+        <Grid
+            templateRows="auto 1fr"
+            templateColumns="1fr"
+            w="100%"
+            bgColor={bodyBg}
+            h="100vh"
+        >
+            <GridItem>
+                <DashNavbar />
+            </GridItem>
+            <GridItem width="100%"
+                    mx="auto"
+                    h="100%"
+                    overflowY="auto"
+                    >
 
-            <Box width={
-                {
-                    base: "100%",
-                    md: "90%"
-                }
+                    {children}
 
-            }
-
-            >{children}</Box>
-
-        </VStack>
-    )
+            </GridItem>
+        </Grid>
+    );
 }
 
 DashLayout.propTypes = {

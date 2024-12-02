@@ -20,7 +20,8 @@ import {
     Text,
     useDisclosure,
     useToast,
-    VStack
+    VStack,
+    IconButton
 } from '@chakra-ui/react';
 import { useState } from 'react';
 import { Link as NLink } from 'react-router-dom';
@@ -31,6 +32,7 @@ import VerifyOTP from '../components/VerifyOTP';
 import useCustomTheme from '../hooks/useCustomTheme';
 import useGlobalState from '../hooks/useGlobalState';
 import authbg from '/authbg.png';
+import { FaEye, FaEyeSlash } from 'react-icons/fa';
 
 const Register = () => {
     const [email, setEmail] = useState('');
@@ -48,6 +50,7 @@ const Register = () => {
     const { signup, loading, error } = useSignup();
     const [emailError, setEmailError] = useState(false);
     const [ageError, setAgeError] = useState(false);
+    const [showPassword, setShowPassword] = useState(false);
 
     const handleOTPSubmit = async () => {
         // Check if all fields are filled
@@ -259,17 +262,29 @@ const Register = () => {
                     </HStack>
                     <FormControl id="password" isInvalid={!password && error}>
                         <FormLabel>Password</FormLabel>
-                        <Input
-                            width="full"
-                            minW="150px"
-                            bgColor={{ base: "transparent", md: inputBg }}
-                            backdropFilter={{ base: "blur(10px)", md: "none" }}
-                            type="password"
-                            placeholder="********"
-                            value={password}
-                            boxShadow="0 0 5px rgba(0, 0, 0, 0.2)"
-                            onChange={(e) => setPassword(e.target.value)}
-                        />
+                        <HStack gap={2}>
+                            <Input
+                                width="full"
+                                minW="150px"
+                                bgColor={{ base: "transparent", md: inputBg }}
+                                backdropFilter={{ base: "blur(10px)", md: "none" }}
+                                type={showPassword ? "text" : "password"} // Toggle the password visibility
+                                placeholder="********"
+                                value={password}
+                                onChange={(e) => setPassword(e.target.value)}
+                                boxShadow="md"
+                            />
+                            <IconButton
+                                icon={showPassword ? <FaEyeSlash /> : <FaEye />}
+                                onClick={() => setShowPassword(!showPassword)} // Toggle the password visibility
+                                colorScheme="blue"
+                                aria-label="Toggle password visibility"
+                            />
+                        </HStack>
+                        {
+                            password && !validator.isStrongPassword(password) && <FormHelperText color="red.500">
+                                Password must contain at least 8 characters, one uppercase letter, one number and one special character
+                            </FormHelperText>}
                     </FormControl>
                     <FormControl id="confirmPassword" isInvalid={!confirmPassword && error}>
                         <FormLabel>Confirm Password</FormLabel>
@@ -284,8 +299,16 @@ const Register = () => {
                             boxShadow="0 0 5px rgba(0, 0, 0, 0.2)"
                             onChange={(e) => setConfirmPassword(e.target.value)}
                         />
+                        {
+                            password && confirmPassword && password !== confirmPassword && <FormHelperText color="red.500" textAlign="right">
+                                Passwords do not match
+                            </FormHelperText>
+                        }
                     </FormControl>
-                    <Button colorScheme="blue" width="full" mt={4} onClick={handleOTPSubmit} isLoading={otpLoading || loading}>
+                    <Button colorScheme="blue" width="full" mt={4} onClick={handleOTPSubmit} isLoading={otpLoading || loading}
+                    isDisabled={
+                        !validator.isEmail(email) || confirmPassword !== password || !validator.isStrongPassword(password) || !age || !username
+                    }>
                         Verify Email
                     </Button>
                 </Stack>

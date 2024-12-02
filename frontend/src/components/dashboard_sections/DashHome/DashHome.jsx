@@ -3,8 +3,8 @@ import {
 } from '@chakra-ui/react';
 
 
-import UserStatusUI from './UserStatusUI';
-import UserProfileUI from './UserProfileUI';
+import DashProfile from './DashProfile';
+import HealthDetails from './HealthDetails';
 
 
 const DashHome = () => {
@@ -12,8 +12,8 @@ const DashHome = () => {
 
     return (
         <Box mt={20} minH="100svh">
-            <UserProfileUI />
-            <UserStatusUI />
+            <DashProfile />
+            <HealthDetails />
         </Box>
     );
 };

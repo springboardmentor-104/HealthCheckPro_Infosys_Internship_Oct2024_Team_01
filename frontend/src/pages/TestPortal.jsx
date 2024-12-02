@@ -1,4 +1,4 @@
-import { useBreakpointValue } from '@chakra-ui/react';
+
 import {
     Box, Button, Text, Progress, HStack, VStack, Grid, Skeleton, Image, CircularProgress,
     Alert, AlertTitle
@@ -14,7 +14,7 @@ import {
     L1,
     BM1
 } from '../assets/illustrations';
-import bg from '../../public/authbg.png';
+import bg from '/authbg.png';
 import SectionSteps from '../components/SectionSteps';
 
 const TestPortal = () => {

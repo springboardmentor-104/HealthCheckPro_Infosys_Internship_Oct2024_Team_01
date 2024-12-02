@@ -35,7 +35,7 @@ const Leaderboards = () => {
         const res = await getLeaderBoard(categoryId);
         if (res.leaderboard.length) {
             const top3 = res.leaderboard.slice(0, 3).map((item, index) => ({
-                position: ["First", "Second", "Third"][index],
+                position: ["1st", "2nd", "3rd"][index],
                 user: item.username,
                 score: item.score,
             }));
@@ -56,7 +56,7 @@ const Leaderboards = () => {
         const res = await getOverallLeaderBoard();
         if (res.leaderboard.length) {
             const top3 = res.leaderboard.slice(0, 3).map((item, index) => ({
-                position: ["First", "Second", "Third"][index],
+                position: ["1st", "2nd", "3rd"][index],
                 user: item.username,
                 score: item.score,
             }));
@@ -73,7 +73,7 @@ const Leaderboards = () => {
     };
 
     return (
-        <VStack p={{ base: 1, md: 8 }} mt={{ base: 40, md: 20 }} minH="100svh"  gap={6}>
+        <VStack p={{ base: 0, md: 8 }} mt={5} minH="100svh" gap={6}>
             <Heading as="h2" size="lg" color="blue.600">HealthCheckPro Top Ranking</Heading>
             <Tabs
                 variant="soft-rounded"
@@ -89,9 +89,8 @@ const Leaderboards = () => {
                 h="100%"
                 display="flex"
                 flexDirection="column"
-                p={5}
             >
-                <TabList p={3} rounded="full" flexWrap="wrap">
+                <TabList p={3} rounded="full" flexWrap="wrap" justifyContent="center">
                     {categories.length > 0 ? categories.map((category) => (
                         <Tab key={category._id}>
                             {category.categoryName}
@@ -115,8 +114,8 @@ const Leaderboards = () => {
                                     topRanking.length > 0 ? topRanking.map((item, index) => (
                                         <GridItem key={index} bg={leaderboardGradients[index] || leaderboardGradients.default} p={6} borderRadius="lg" textAlign="center" boxShadow="lg">
                                             <HStack justifySelf="center" align="center" gap={5}>
-                                                <Badge colorScheme="yellow" variant="solid" rounded="full" p={2} fontSize="1.2em">{item.position}</Badge>
-                                                <Avatar mt={4} mb={2} name={item.user}/>
+                                                <Badge colorScheme="blue" variant="solid" rounded="full" p={2} fontSize="1.2em">{item.position}</Badge>
+                                                <Avatar mt={4} mb={2} name={item.user} />
                                             </HStack>
                                             <Text fontWeight="bold" fontSize="1.5em">
                                                 {item.user}
@@ -140,7 +139,7 @@ const Leaderboards = () => {
                                     </Tr>
                                 </Thead>
                             </Table>
-                            <Box h="500px" overflowY="auto"  rounded="md">
+                            <Box h="500px" overflowY="auto" >
                                 <Table variant="simple" size="md" bg="Background">
                                     <Tbody>
                                         {loadingL ? (
@@ -190,7 +189,7 @@ const Leaderboards = () => {
                                     <GridItem key={index} bg={leaderboardGradients[index] || leaderboardGradients.default} p={6} borderRadius="lg" textAlign="center" boxShadow="lg">
                                         <HStack justifySelf="center" align="center" gap={5}>
                                             <Badge colorScheme="yellow" variant="solid" rounded="full" p={2} fontSize="1.2em">{item.position}</Badge>
-                                            <Avatar mt={4} mb={2} name={item.user}/>
+                                            <Avatar mt={4} mb={2} name={item.user} />
                                         </HStack>
                                         <Text fontWeight="bold" fontSize="1.5em">
                                             {item.user}
@@ -214,8 +213,8 @@ const Leaderboards = () => {
                                 </Tr>
                             </Thead>
                         </Table>
-                        <Box h="500px" overflowY="auto" bg={cardBg} rounded="md">
-                            <Table variant="simple" size="sm">
+                        <Box h="500px" overflowY="auto"  >
+                            <Table variant="simple" size="md" bg="Background">
                                 <Tbody>
                                     {loadingL ? (
                                         Array.from({ length: 10 }).map((_, index) => (

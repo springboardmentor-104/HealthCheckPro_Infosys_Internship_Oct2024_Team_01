@@ -18,9 +18,13 @@ const assessmentScoreSchema = new mongoose.Schema({
         ref: "Question",
         required: true,
       },
-
       score: {
         type: Number,
+        required: true,
+      },
+      selectedOptionId: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Option",
         required: true,
       },
     },
@@ -35,7 +39,7 @@ const assessmentScoreSchema = new mongoose.Schema({
     type: Number,
     required: true
   },
-  selectedOptionId: optionSchema,
+
 });
 
 const userAssessmentHistorySchema = new mongoose.Schema(

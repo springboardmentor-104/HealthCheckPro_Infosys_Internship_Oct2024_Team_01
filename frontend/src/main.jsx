@@ -51,16 +51,16 @@ const router = createBrowserRouter([
         path:'leaderboard',
         element:<LeaderBoards/>
       },
+      {
+        path:'report/:id',
+        element:<Report/>
+      }
     ]
   },
   {
     path: '/assessment/attempt/:id',
     element: <TestPortal/>
   },
-{
-  path: '/test',
-  element: <Report />,
-}
 
 ])
 
@@ -69,7 +69,7 @@ const router = createBrowserRouter([
 createRoot(document.getElementById('root')).render(
   <StrictMode>
     <ColorModeScript initialColorMode={theme.config.initialColorMode} />
-    <ChakraProvider>
+    <ChakraProvider toastOptions={{ defaultOptions: { position: 'top-right' } }}>
       <ThemeProvider>
         <GlobalProvider>
           <RouterProvider router={router} />

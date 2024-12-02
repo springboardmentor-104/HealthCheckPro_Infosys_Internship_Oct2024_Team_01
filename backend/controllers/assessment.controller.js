@@ -3,6 +3,7 @@ import Category from "../models/category.model.js";
 import Question from "../models/question.model.js";
 import { updateLeaderBoard } from "./leaderboards.controller.js";
 
+
 export const checkUserAssessmentStatus = async (req, res) => {
   try {
     const userId = req.user._id;
@@ -59,7 +60,7 @@ export const submitCategoryTest = async (req, res) => {
   try {
     const userId = req.user._id;
     const { categoryId, categoryName, questions } = req.body;
-    console.log('=== req.body assessment.controller.js [42] ===', req.body);
+    // console.log('=== req.body assessment.controller.js [42] ===', req.body);
 
     if (!categoryId || !categoryName || questions.length === 0) {
       return res.status(400).json({ message: "Invalid submission! Please provide category ID, category name, and answer all the questions." });
@@ -215,18 +216,13 @@ export const getAssessmentFromAttempt = async (req, res) => {
 
     for (const question of categoryAssessment.questions) {
       const questionDoc = await Question.findOne({ _id: question.questionId });
-      const qscore = question.score;
+      const selectedOptionId = question.selectedOptionId;
+
       const questionText = questionDoc.questionText;
-
-      // Find the selected option based on the score
-      const selectedOption = questionDoc.options.find(
-          (option) => option.score === qscore
-      );
-
-
+      const selectedOption = questionDoc.options.find(option => option._id.toString() === selectedOptionId.toString());
 
       if (!selectedOption) {
-          throw new Error(`Option with score ${qscore} not found for question ${question.questionId}`);
+          throw new Error(`Option with score  not found for question ${question.questionId}`);
       }
 
       const selectedOptionText = selectedOption.optionText;

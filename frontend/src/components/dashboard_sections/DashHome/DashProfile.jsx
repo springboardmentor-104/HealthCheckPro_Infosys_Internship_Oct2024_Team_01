@@ -11,13 +11,13 @@ import banner from '../../../assets/banner4.gif';
 
 import useGlobalState from '../../../hooks/useGlobalState';
 
-const UserProfileUI = () => {
+const DashProfile = () => {
 
 
   const { user } = useGlobalState();
 
   return (
-    <Box mt={20}>
+    <Box >
       <Box p={6} w="100%" mx="auto" mt={4}>
         {/* Header */}
         <Flex
@@ -74,4 +74,4 @@ const UserProfileUI = () => {
   );
 };
 
-export default UserProfileUI;
+export default DashProfile;

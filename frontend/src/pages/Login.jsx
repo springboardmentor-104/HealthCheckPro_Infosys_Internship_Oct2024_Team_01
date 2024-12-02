@@ -2,6 +2,7 @@ import {
   Box, Button, FormControl,
   FormHelperText,
   FormLabel, Heading,
+  HStack,
   IconButton,
   Image, Input,
   Link,
@@ -46,7 +47,7 @@ const Login = () => {
     });
   };
 
-  const adminLink = "https://healthcheckpro-admin.onrender.com"
+  // const adminLink = "https://healthcheckpro-admin.onrender.com"
 
   const handleSendOTP = async () => {
     await sendOTPAction(email)
@@ -129,7 +130,7 @@ const Login = () => {
           </FormControl>
           <FormControl id="password" isInvalid={!password && error}>
             <FormLabel>Password</FormLabel>
-            <Box position="relative">
+            <HStack gap={2}>
               <Input
                 width="full"
                 minW="150px"
@@ -144,14 +145,10 @@ const Login = () => {
               <IconButton
                 icon={showPassword ? <FaEyeSlash /> : <FaEye />}
                 onClick={() => setShowPassword(!showPassword)} // Toggle the password visibility
-                position="absolute"
-                top="50%"
-                right={4}
-                transform="translateY(-50%)"
-                variant="link"
+                colorScheme="blue"
                 aria-label="Toggle password visibility"
               />
-            </Box>
+            </HStack>
           </FormControl>
 
           <Popover isOpen={isOpen} onOpen={onOpen} onClose={onClose} closeOnBlur={false}>
@@ -184,7 +181,7 @@ const Login = () => {
         <Box mt={5} display={{ base: "block", md: "none" }} textAlign="center">
           Don&apos;t have an account? <Button fontSize="lg" variant="link" as={NLink} to="/register" colorScheme="blue">Register here!</Button>
         </Box>
-        <Link
+        {/* <Link
           href={adminLink}
           display="block"
           textAlign="center"
@@ -194,7 +191,7 @@ const Login = () => {
         >
 
           Are you an admin? Click here to login.
-        </Link>
+        </Link> */}
       </Box>
     </Box>
   );

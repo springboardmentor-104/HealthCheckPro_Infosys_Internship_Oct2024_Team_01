@@ -15,7 +15,7 @@ const Home = () => {
 
     const buttonColor = useColorModeValue("gray", "whiteAlpha.300");
 
-    return (<Box as="section" id="home" bg={landingBg} minH="100vh" display="flex" alignItems="center" py={10}>
+    return (<Box as="section" id="home" bg={landingBg} minH="100vh" display="flex" alignItems="center" pb={10}>
         <Container maxW="90%">
             {/* Main Content */}
             <Flex
@@ -23,7 +23,7 @@ const Home = () => {
                 align="center"
                 justify="center"
                 gap={8}
-                py={10}
+
                 mt={{
                     base: 20,
                     md: 0
